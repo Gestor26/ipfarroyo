@@ -186,7 +186,7 @@ footer p{margin:0 0 4px;max-width:70ch}
       <div class="fact"><dt>Planes</dt><dd>3, 6 y 12 cuotas</dd></div>
       <div class="fact"><dt>Requisito</dt><dd>DNI, sujeto a aprobación</dd></div>
       <div class="fact"><dt>Dólar de referencia</dt><dd id="dolar">Cargando…</dd></div>
-      <div class="fact"><dt>Stock actualizado</dt><dd id="actualizado">Cargando…</dd></div>
+      <div class="fact" style="display:none"><dt>Stock actualizado</dt><dd id="actualizado"></dd></div>
     </dl>
   </div>
 </section>
@@ -480,7 +480,7 @@ function enTope(c){
 const topeTxt = () => S.moneda === 'USD' ? 'USD ' + S.tope : '$ ' + S.tope;
 
 function renderActualizado(){
-  const el = $('#actualizado');
+  const el = $('#actualizado'); el.parentElement.hidden = true; return;
   if (!S.actualizado){ el.parentElement.hidden = true; return; }
   const d = new Date(S.actualizado), hoy = new Date();
   const dia = new Date(d.getFullYear(), d.getMonth(), d.getDate());
