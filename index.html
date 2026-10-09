@@ -232,7 +232,9 @@ const CONFIG = {
   DOLAR_FIJO: null,                      // forzar una cotización (ej: 1600). null = automático
   DOLAR_RESPALDO: 1566,                  // solo si falla todo lo demás
   REDONDEO_PESOS: 100,                   // redondea los pesos hacia arriba a múltiplos de esto
-  ORDEN_CATEGORIAS: ['iPhone','MacBook','iPad','AirPods','Apple Watch','Otros'],
+  ORDEN_CATEGORIAS: ['iPhone Nuevo Sellado','iPhone Nuevo Open Box','iPhone Usados','MacBook','iPad','AirPods','Apple Watch','Otros'],
+  // Los iPhone se separan en una pestaña por condición
+  PESTANAS_IPHONE: {'Sellado':'iPhone Nuevo Sellado','Open box':'iPhone Nuevo Open Box','Usado':'iPhone Usados'},
   // Categorías que se muestran en la página (vacío = todas)
   CATEGORIAS_VISIBLES: ['iPhone','MacBook','iPad']
 };
@@ -648,6 +650,7 @@ function showLoader(msg){
 
 function mostrar(items){
   if (CONFIG.CATEGORIAS_VISIBLES.length) items = items.filter(it => CONFIG.CATEGORIAS_VISIBLES.includes(it.cat));
+  items = items.map(it => it.cat === 'iPhone' && CONFIG.PESTANAS_IPHONE[it.cond] ? {...it, cat: CONFIG.PESTANAS_IPHONE[it.cond]} : it);
   if (!items.length){ showLoader('No se encontraron equipos publicables en la planilla. Revisá que tenga modelo y precio.'); return; }
   S.items = items; $('#state').innerHTML = ''; renderDolar(); renderActualizado(); renderAll();
 }
