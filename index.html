@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Farroyo | Financiación con DNI</title>
-<meta name="description" content="Planes de financiación con DNI en 3, 6 y 12 cuotas para iPhone, MacBook, iPad, AirPods y Apple Watch.">
+<meta name="description" content="Planes de financiación con DNI en 3, 6 y 12 cuotas para iPhone sellados, open box y usados.">
 <meta name="theme-color" content="#FFFFFF">
 <link rel="icon" type="image/png" sizes="48x48" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Farroyo">
 <meta property="og:title" content="Farroyo | Financiación con DNI">
-<meta property="og:description" content="Planes en 3, 6 y 12 cuotas con DNI para iPhone, MacBook, iPad, AirPods y Apple Watch.">
+<meta property="og:description" content="iPhone en 3, 6 y 12 cuotas con DNI: sellados, open box y usados.">
 <meta property="og:url" content="https://ipfarroyo.com/">
 <meta property="og:image" content="https://ipfarroyo.com/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -60,6 +60,7 @@ button{cursor:pointer}
   border-bottom:1px solid var(--linea);padding-top:env(safe-area-inset-top,0px)}
 .tabs{display:flex;gap:28px;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
+.tabs[hidden]{display:none}
 .tab{flex:0 0 auto;border:0;background:none;padding:14px 0 12px;font-weight:600;font-size:15px;color:var(--gris);border-bottom:2px solid transparent;margin-bottom:-1px}
 .tab[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--navy)}
 .tools{display:flex;gap:12px;align-items:center;padding:12px 0;flex-wrap:wrap}
@@ -231,7 +232,9 @@ const CONFIG = {
   DOLAR_FIJO: null,                      // forzar una cotización (ej: 1600). null = automático
   DOLAR_RESPALDO: 1566,                  // solo si falla todo lo demás
   REDONDEO_PESOS: 100,                   // redondea los pesos hacia arriba a múltiplos de esto
-  ORDEN_CATEGORIAS: ['iPhone','MacBook','iPad','AirPods','Apple Watch','Otros']
+  ORDEN_CATEGORIAS: ['iPhone','MacBook','iPad','AirPods','Apple Watch','Otros'],
+  // Categorías que se muestran en la página (vacío = todas)
+  CATEGORIAS_VISIBLES: ['iPhone']
 };
 
 /* ============================================================
@@ -516,6 +519,7 @@ function renderCats(){
   S.items.forEach(it => counts[it.cat] = (counts[it.cat] || 0) + 1);
   const cats = CONFIG.ORDEN_CATEGORIAS.filter(c => counts[c]).concat(Object.keys(counts).filter(c => !CONFIG.ORDEN_CATEGORIAS.includes(c)));
   if (!S.cat || !counts[S.cat]) S.cat = cats[0];
+  $('#cats').hidden = cats.length < 2;
   $('#cats').innerHTML = cats.map(c =>
     `<button class="tab" role="tab" aria-selected="${c===S.cat}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
 }
@@ -643,6 +647,7 @@ function showLoader(msg){
 }
 
 function mostrar(items){
+  if (CONFIG.CATEGORIAS_VISIBLES.length) items = items.filter(it => CONFIG.CATEGORIAS_VISIBLES.includes(it.cat));
   if (!items.length){ showLoader('No se encontraron equipos publicables en la planilla. Revisá que tenga modelo y precio.'); return; }
   S.items = items; $('#state').innerHTML = ''; renderDolar(); renderActualizado(); renderAll();
 }
