@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link rel="preconnect" href="https://api.ipfarroyo.com" crossorigin>
 <style>
 :root{
   --navy:#0B2A5B; --azul:#1565D8; --celeste:#EEF5FD;
@@ -223,7 +223,8 @@ footer p{margin:0 0 4px;max-width:70ch}
 const CONFIG = {
   // Pegá acá la URL de la aplicación web de Google Apps Script (termina en /exec).
   // Si queda vacío, la página lee stock.xlsx de la misma carpeta.
-  API_URL: 'https://script.google.com/macros/s/AKfycbx4GT_AVI-xSRIeH6J1kE8Xkh-GlWKFW5ezCuZVDJhohtVFFW9XjQW8GH9iQWiYAO-zSg/exec',
+  // Copia rápida del stock en Cloudflare (se alimenta de Google Apps Script)
+  API_URL: 'https://api.ipfarroyo.com/',
   ARCHIVO_EXCEL: 'stock.xlsx',
   WHATSAPP: '5493413105554',             // sin +, sin espacios
   NOMBRE: 'Farroyo',
@@ -644,7 +645,7 @@ function showLoader(msg){
   </div>`;
   $('#file').addEventListener('change', async e => {
     const f = e.target.files[0]; if (!f) return;
-    mostrar(parseWorkbook(XLSX.read(await f.arrayBuffer(), {type:'array'})));
+    await cargarXLSX(); mostrar(parseWorkbook(XLSX.read(await f.arrayBuffer(), {type:'array'})));
   });
 }
 
@@ -655,10 +656,30 @@ function mostrar(items){
   S.items = items; $('#state').innerHTML = ''; renderDolar(); renderActualizado(); renderAll();
 }
 
+// La librería de Excel se descarga solo si hace falta (respaldo)
+function cargarXLSX(){
+  if (window.XLSX) return Promise.resolve();
+  return new Promise((ok, mal) => { const sc = document.createElement('script');
+    sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; sc.onload = ok; sc.onerror = mal; document.head.appendChild(sc); });
+}
+
+const COPIA = 'farroyo_stock_v1';
+function leerCopia(){ try{ const c = JSON.parse(localStorage.getItem(COPIA) || 'null'); return c && c.items && c.items.length && Date.now() - c.t < 3*864e5 ? c : null; }catch(e){ return null; } }
+function guardarCopia(j){ try{ localStorage.setItem(COPIA, JSON.stringify({t: Date.now(), items: j.items, dolar: j.dolar, actualizado: j.actualizado})); }catch(e){} }
+
+async function aplicar(j){
+  S.actualizado = j.actualizado;
+  S.dolar = CONFIG.DOLAR_FIJO ? {valor: CONFIG.DOLAR_FIJO, fuente: 'fijo'}
+    : j.dolar && j.dolar.valor ? {valor: j.dolar.valor, fuente: 'rosario', hora: hhmm(j.dolar.t)}
+    : await getDolar();
+  return j.items;
+}
+
 async function desdeAppsScript(){
   const r = await withTimeout(fetch(CONFIG.API_URL), 20000);
   const j = await r.json();
   if (!j.items || !j.items.length) throw new Error('sin datos');
+  guardarCopia(j);
   S.actualizado = j.actualizado;
   S.dolar = CONFIG.DOLAR_FIJO ? {valor: CONFIG.DOLAR_FIJO, fuente: 'fijo'}
     : j.dolar && j.dolar.valor ? {valor: j.dolar.valor, fuente: 'rosario', hora: hhmm(j.dolar.t)}
@@ -671,6 +692,7 @@ async function desdeExcel(){
   const r = await fetch(CONFIG.ARCHIVO_EXCEL + '?v=' + Date.now(), {cache:'no-store'});
   if (!r.ok) throw new Error(r.status);
   S.actualizado = r.headers.get('Last-Modified');
+  await cargarXLSX();
   return parseWorkbook(XLSX.read(await r.arrayBuffer(), {type:'array'}));
 }
 
@@ -678,7 +700,13 @@ async function desdeExcel(){
   $('#state').innerHTML = '<div class="empty">Cargando equipos…</div>';
   try{ if (!sessionStorage.getItem('farroyo_visita')){ sessionStorage.setItem('farroyo_visita', '1'); track('visita'); } }catch(e){}
   let items = null;
-  if (CONFIG.API_URL){ try{ items = await desdeAppsScript(); }catch(e){ console.warn('Apps Script', e); } }
+  // 1) Muestra al instante la última copia guardada en este celular, si hay
+  const copia = leerCopia(), firmaCopia = copia && JSON.stringify([copia.items, copia.actualizado]);
+  if (copia){ try{ mostrar(await aplicar(copia)); }catch(e){} }
+  // 2) Trae el stock actualizado y solo redibuja si cambió algo
+  if (CONFIG.API_URL){ try{ items = await desdeAppsScript(); }catch(e){ console.warn('Stock', e); } }
+  if (items && copia && JSON.stringify([items, S.actualizado]) === firmaCopia){ renderDolar(); renderFooter(); return; }
+  if (!items && copia) return;
   if (!items){ try{ items = await desdeExcel(); }catch(e){} }
   if (!S.dolar) S.dolar = await getDolar();
   renderDolar();
