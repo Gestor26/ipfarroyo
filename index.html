@@ -47,6 +47,25 @@ button{cursor:pointer}
 .logo img{height:34px;width:auto;display:block}
 @media (max-width:420px){.logo img{height:28px}}
 .top-tag{font-size:13px;font-weight:600;color:var(--gris)}
+.modos{display:flex;gap:4px;background:#fff;border:1px solid var(--linea);border-radius:12px;padding:4px;margin:0 0 18px;max-width:560px}
+.modos button{flex:1;border:0;background:none;padding:11px 8px;border-radius:9px;font:inherit;font-weight:700;font-size:14px;color:var(--gris);cursor:pointer;line-height:1.2}
+.modos button[aria-selected="true"]{background:var(--navy);color:#fff}
+@media (max-width:420px){.modos button{font-size:12.5px;padding:10px 4px}}
+.plans.p1{grid-template-columns:1fr}
+.plans.p7{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;border:0}
+.plans.p7 .plan:first-child{grid-column:1/-1}
+.plans.p7 .plan{min-width:0}
+.plans.p7 .plan{border:1px solid var(--linea);border-radius:8px}
+.plans.p7 .plan + .plan{border-left:1px solid var(--linea)}
+.plan .u.ars{font-size:15px}
+@media (min-width:720px){
+  .plans.p1{grid-template-columns:200px}
+  .var.v7{grid-template-columns:1fr}
+  .var.v7 .var-info{margin-bottom:10px;padding-right:0}
+  .plans.p7{grid-template-columns:repeat(7,minmax(0,1fr))}
+  .plans.p7 .plan:first-child{grid-column:auto}
+  .plans.p7 .plan{text-align:center;padding:8px 4px}
+}
 
 .intro{padding:36px 0 28px}
 .intro h1{margin:0;font-size:28px;line-height:1.15;font-weight:700;color:var(--navy);letter-spacing:-.3px}
@@ -175,17 +194,22 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 <header class="top">
   <div class="wrap">
     <a class="logo" href="./" aria-label="Farroyo"><img src="logo.svg" alt="Farroyo · Premium Technology Seller" width="177" height="34"></a>
-    <div class="top-tag">Financiación con DNI</div>
+    <div class="top-tag" id="toptag">Precios de contado</div>
   </div>
 </header>
 
 <section class="intro">
   <div class="wrap">
-    <h1>Planes de financiación con DNI</h1>
-    <p>Valores por cuota en dólares, con su equivalente estimado en pesos. Elegí el equipo y el plan que mejor te quede.</p>
+    <div class="modos" id="modos" role="tablist" aria-label="Forma de pago">
+      <button role="tab" data-modo="contado">Contado</button>
+      <button role="tab" data-modo="tarjeta">Tarjeta de crédito</button>
+      <button role="tab" data-modo="dni">Financiación con DNI</button>
+    </div>
+    <h1 id="titulo">Precios de contado</h1>
+    <p id="bajada"></p>
     <dl class="facts">
-      <div class="fact"><dt>Planes</dt><dd>3, 6 y 12 cuotas</dd></div>
-      <div class="fact"><dt>Requisito</dt><dd>DNI, sujeto a aprobación</dd></div>
+      <div class="fact"><dt id="f1t">Planes</dt><dd id="f1d">3, 6 y 12 cuotas</dd></div>
+      <div class="fact" id="freq"><dt>Requisito</dt><dd>DNI, sujeto a aprobación</dd></div>
       <div class="fact"><dt>Ubicación</dt><dd>Oficina en Rosario Zona Centro, Santa Fe</dd></div>
       <div class="fact"><dt>Horarios de atención</dt><dd>Lunes a viernes: 9:00 hs a 18:00 hs<br>Sábados y feriados: 9:00 hs a 13:00 hs</dd></div>
       <div class="fact"><dt>Dólar de referencia</dt><dd id="dolar">Cargando…</dd></div>
@@ -198,9 +222,9 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
   <div class="wrap">
     <h2 id="como">Cómo funciona</h2>
     <ol>
-      <li class="step"><strong>Elegí tu equipo</strong><span>Mirá el stock disponible y el valor de cada cuota.</span></li>
+      <li class="step"><strong>Elegí tu equipo</strong><span id="s1d">Mirá el stock disponible y el valor de cada cuota.</span></li>
       <li class="step"><strong>Escribinos por WhatsApp</strong><span>Tocá «Contactanos» en el equipo que te interesa.</span></li>
-      <li class="step"><strong>Aprobamos y lo retirás</strong><span>Te confirmamos la aprobación y retirás tu equipo.</span></li>
+      <li class="step"><strong id="s3t">Aprobamos y lo retirás</strong><span id="s3d">Te confirmamos la aprobación y retirás tu equipo.</span></li>
     </ol>
   </div>
 </section>
@@ -462,14 +486,44 @@ function track(evento, detalle){
 /* ============================================================
    Render
    ============================================================ */
-const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos', q: '', tope: '', moneda: 'USD' };
+const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos', q: '', tope: '', moneda: 'USD', modo: 'contado' };
+/* Formas de pago (pestañas de arriba) */
+const TARJETA = [ {n:1,r:.15},{n:3,r:.45},{n:6,r:.55},{n:9,r:.75},{n:12,r:.90},{n:18,r:1.05},{n:24,r:1.25} ];   // recargo total (no se muestra)
+const MODOS = {
+  contado: { tag:'Precios de contado', h1:'Precios de contado',
+    p:'Precio en dólares, con su equivalente estimado en pesos. Pagás en efectivo (pesos o dólares) o por transferencia.',
+    f1t:'Forma de pago', f1d:'Efectivo o transferencia', req:false, s1:'Mirá el stock disponible y el precio de cada equipo.',
+    s3t:'Coordinamos y lo retirás', s3d:'Agendamos tu cita y retirás tu equipo.', budget:'¿Cuánto querés gastar?', pago:'contado (efectivo o transferencia)' },
+  tarjeta: { tag:'Tarjeta de crédito', h1:'Cuotas con tarjeta de crédito',
+    p:'Valor de cada cuota en pesos, calculado al dólar del día. Elegí el equipo y la cantidad de cuotas.',
+    f1t:'Planes', f1d:'1, 3, 6, 9, 12, 18 y 24 cuotas', req:false, s1:'Mirá el stock disponible y el valor de cada cuota.',
+    s3t:'Coordinamos y lo retirás', s3d:'Agendamos tu cita, pagás con tu tarjeta y retirás tu equipo.', budget:'¿Cuánto querés pagar por mes?', pago:'tarjeta de crédito' },
+  dni: { tag:'Financiación con DNI', h1:'Planes de financiación con DNI',
+    p:'Valores por cuota en dólares, con su equivalente estimado en pesos. Elegí el equipo y el plan que mejor te quede.',
+    f1t:'Planes', f1d:'3, 6 y 12 cuotas', req:true, s1:'Mirá el stock disponible y el valor de cada cuota.',
+    s3t:'Aprobamos y lo retirás', s3d:'Te confirmamos la aprobación y retirás tu equipo.', budget:'¿Cuánto querés pagar por mes?', pago:'financiación con DNI' }
+};
+function modoDesdeURL(){ const h = location.hash.replace('#',''); return MODOS[h] ? h : 'contado'; }
+function aplicarModo(){
+  const m = MODOS[S.modo];
+  document.querySelectorAll('[data-modo]').forEach(b => b.setAttribute('aria-selected', b.dataset.modo === S.modo));
+  $('#toptag').textContent = m.tag; $('#titulo').textContent = m.h1; $('#bajada').textContent = m.p;
+  $('#f1t').textContent = m.f1t; $('#f1d').textContent = m.f1d; $('#freq').style.display = m.req ? '' : 'none';
+  $('#s1d').textContent = m.s1; $('#s3t').textContent = m.s3t; $('#s3d').textContent = m.s3d;
+}
 const COND_ORDEN = ['Sellado','Open box','Usado'];
 const COND_TITULO = {'Sellado':'Nuevos sellados','Open box':'Open box','Usado':'Usados seleccionados'};
 
 function cuotas(precio){
+  const dol = S.dolar.valor;
+  if (S.modo === 'contado') return [{ n: 1, lab: 'Precio contado', usd: precio, ars: precio * dol }];
+  if (S.modo === 'tarjeta') return TARJETA.map(p => {
+    const ars = Math.ceil(precio * dol * (1 + p.r) / p.n / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS;
+    return { n: p.n, lab: p.n === 1 ? '1 pago' : p.n + ' cuotas', usd: ars / dol, ars, soloArs: true };
+  });
   return CONFIG.PLANES.map(p => {
     const usd = precio * p.f / p.n;
-    return { n: p.n, usd, ars: usd * S.dolar.valor };
+    return { n: p.n, lab: p.n + ' cuotas', usd, ars: usd * dol };
   });
 }
 
@@ -495,8 +549,8 @@ function renderActualizado(){
 function renderBudget(){
   const sym = S.moneda === 'USD' ? 'USD' : '$';
   $('#budget').innerHTML = `
-    <label for="tope">¿Cuánto querés pagar por mes?</label>
-    <div class="money"><span>${sym}</span><input id="tope" inputmode="numeric" placeholder="${S.moneda === 'USD' ? 'Ej: 200' : 'Ej: 300.000'}" value="${esc(S.tope)}" aria-label="Cuota máxima en ${S.moneda === 'USD' ? 'dólares' : 'pesos'}"></div>
+    <label for="tope">${MODOS[S.modo].budget}</label>
+    <div class="money"><span>${sym}</span><input id="tope" inputmode="numeric" placeholder="${S.moneda === 'USD' ? 'Ej: 200' : 'Ej: 300.000'}" value="${esc(S.tope)}" aria-label="Monto máximo en ${S.moneda === 'USD' ? 'dólares' : 'pesos'}"></div>
     <div class="seg" role="group" aria-label="Moneda">
       <button aria-pressed="${S.moneda==='USD'}" data-moneda="USD">Dólares</button>
       <button aria-pressed="${S.moneda==='ARS'}" data-moneda="ARS">Pesos</button>
@@ -547,12 +601,14 @@ function renderFilters(){
 
 function varHTML(it){
   const meta = [it.gb, it.color, it.bat ? `Batería ${it.bat}` : '', it.nota].filter(Boolean).map(esc).join('  |  ');
-  return `<div class="var">
+  const pl = cuotas(it.precio), k = pl.length === 1 ? 'p1' : pl.length > 3 ? 'p7' : '';
+  return `<div class="var${k === 'p7' ? ' v7' : ''}">
     <div class="var-info"><div class="meta">${meta}</div>${wspBtn(it)}</div>
-    <div class="plans">${cuotas(it.precio).map(c => `<div class="plan${enTope(c) ? '' : ' off'}">
-      <div class="n">${c.n} cuotas</div>
-      <div class="u"><small>USD</small>${Math.ceil(c.usd).toLocaleString('es-AR')}</div>
-      <div class="a">Aprox ${fmtARS(c.ars).replace('$ ','$')} pesos</div></div>`).join('')}</div>
+    <div class="plans ${k}">${pl.map(c => `<div class="plan${enTope(c) ? '' : ' off'}">
+      <div class="n">${c.lab}</div>
+      ${c.soloArs ? `<div class="u ars"><small>$</small>${Math.round(c.ars).toLocaleString('es-AR')}</div>`
+        : `<div class="u"><small>USD</small>${Math.ceil(c.usd).toLocaleString('es-AR')}</div>
+      <div class="a">Aprox ${fmtARS(c.ars).replace('$ ','$')} pesos</div>`}</div>`).join('')}</div>
   </div>`;
 }
 
@@ -566,7 +622,7 @@ function wspBtn(it){
     `Condición: ${cond}`,
     it.bat ? `Batería: ${it.bat}` : '',
     it.color ? `Colores: ${it.color}` : '',
-    'Forma de pago: financiación con DNI'
+    'Forma de pago: ' + MODOS[S.modo].pago
   ].filter(Boolean);
   const txt = `Hola, me interesa este modelo:\n\n${lineas.join('\n')}`;
   return `<a class="wsp-btn" data-track="${esc([it.modelo, it.gb, '(' + it.cond + ')'].filter(Boolean).join(' '))}" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(txt)}" aria-label="Contactanos por ${esc(it.modelo)} ${esc(it.gb)} por WhatsApp">${WSP_ICON}<span>Contactanos</span></a>`;
@@ -602,10 +658,10 @@ function renderList(){
   $('#list').innerHTML = html;
   const hint = $('#hint');
   if (hint) hint.textContent = !tope ? '' : list.length
-    ? `Te mostramos los equipos con al menos un plan de hasta ${topeTxt()} por mes. Los planes que superan ese monto se ven atenuados.`
+    ? S.modo === 'contado' ? `Te mostramos los equipos de hasta ${topeTxt()}.` : `Te mostramos los equipos con al menos un plan de hasta ${topeTxt()} por mes. Los planes que superan ese monto se ven atenuados.`
     : '';
   $('#state').innerHTML = list.length ? '' : tope
-    ? `<div class="empty">No hay equipos${S.cat === TODOS ? '' : ' de ' + esc(S.cat)} con cuotas de hasta ${esc(topeTxt())} por mes. Probá con un monto mayor o revisá otra categoría.</div>`
+    ? `<div class="empty">No hay equipos${S.cat === TODOS ? '' : ' de ' + esc(S.cat)} ${S.modo === 'contado' ? 'de hasta ' + esc(topeTxt()) : 'con cuotas de hasta ' + esc(topeTxt()) + ' por mes'}. Probá con un monto mayor o revisá otra categoría.</div>`
     : `<div class="empty">No encontramos equipos para “${esc(S.q)}”. Probá con otro modelo o capacidad.</div>`;
 }
 
@@ -614,8 +670,12 @@ function renderFooter(){
   const fuente = d.fuente === 'rosario' ? 'la cotización del dólar blue en Rosario (precio de venta, InfoDolar)'
     : d.fuente === 'blue' ? 'la cotización del dólar blue (precio de venta)' : 'una cotización de referencia';
   $('#foot').innerHTML = `<h3>Condiciones</h3>
-    <p>Financiación exclusiva con DNI en 3, 6 y 12 cuotas, sujeta a aprobación.</p>
-    <p>Las cuotas se expresan en dólares. El equivalente en pesos es estimado según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirma al momento de la operación.</p>
+    ${S.modo === 'dni' ? `<p>Financiación con DNI en 3, 6 y 12 cuotas, sujeta a aprobación.</p>
+    <p>Las cuotas se expresan en dólares. El equivalente en pesos es estimado según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirma al momento de la operación.</p>`
+    : S.modo === 'tarjeta' ? `<p>Pago con tarjeta de crédito en 1, 3, 6, 9, 12, 18 y 24 cuotas.</p>
+    <p>Los valores en pesos se calculan según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirman al momento de la operación.</p>`
+    : `<p>Precios de contado en dólares, en efectivo (pesos o dólares) o transferencia.</p>
+    <p>El equivalente en pesos es estimado según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirma al momento de la operación.</p>`}
     <p>Precios y disponibilidad sujetos a cambios sin previo aviso. Oficina en Rosario Zona Centro, Santa Fe.</p>
     <p>Horarios de atención: lunes a viernes de 9:00 hs a 18:00 hs · sábados y feriados de 9:00 hs a 13:00 hs.</p>
     <details class="byc"><summary>Bases y condiciones</summary>
@@ -625,23 +685,32 @@ function renderFooter(){
       <p>El sitio muestra el stock disponible y valores de referencia. No se realizan ventas ni cobros a través de esta página: toda operación se confirma por WhatsApp y se concreta en forma presencial al retirar el equipo. Los precios están expresados en dólares estadounidenses; el equivalente en pesos es estimado según la cotización del dólar blue en Rosario (precio de venta) y se confirma al momento de la operación. Precios y stock pueden cambiar sin previo aviso.</p>
       <h4>3. Financiación con DNI</h4>
       <p>Planes de 3, 6 y 12 cuotas, sujetos a evaluación y aprobación crediticia. Ofrecer el plan no implica una aprobación garantizada. La primera cuota se abona al retirar el equipo. El valor exacto de cada cuota y las condiciones del plan se informan antes de confirmar la operación.</p>
-      <h4>4. Retiro de equipos</h4>
+      <h4>4. Tarjeta de crédito</h4>
+      <p>Pago en 1, 3, 6, 9, 12, 18 y 24 cuotas con tarjeta de crédito. Los valores en pesos se calculan con la cotización del día y se confirman al momento de la operación.</p>
+      <h4>5. Retiro de equipos</h4>
       <p>Los equipos se retiran con cita previa coordinada por WhatsApp, dentro del horario de atención (lunes a viernes de 9:00 hs a 18:00 hs; sábados y feriados de 9:00 hs a 13:00 hs). Al momento del retiro se verifica la identidad del comprador con su DNI.</p>
-      <h4>5. Garantía</h4>
+      <h4>6. Garantía</h4>
       <p>Equipos nuevos sellados: 1 año de garantía oficial. Open box: 1 año de garantía. Usados: 3 meses de garantía. La garantía no cubre daños por golpes, humedad, mal uso o reparaciones de terceros.</p>
-      <h4>6. Datos personales</h4>
+      <h4>7. Datos personales</h4>
       <p>Este sitio no solicita datos personales; solo registra estadísticas anónimas de visitas y consultas. Los datos que el cliente comparte por WhatsApp (por ejemplo, su DNI para evaluar la financiación) se usan solo para gestionar su consulta y su compra, y no se comparten con terceros con fines comerciales.</p>
-      <h4>7. Marcas</h4>
+      <h4>8. Marcas</h4>
       <p>iPhone, iPad y Apple son marcas de Apple Inc. ${esc(CONFIG.NOMBRE)} es un revendedor independiente y no está afiliado a Apple Inc.</p>
     </details>`;
 }
 
+function cambiarModo(m){
+  S.modo = MODOS[m] ? m : 'contado'; S.tope = ''; S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD';
+  aplicarModo(); if (S.items.length) renderAll();
+}
+window.addEventListener('hashchange', () => cambiarModo(modoDesdeURL()));
 function renderAll(){
   $('#bar').hidden = false;
   renderCats(); renderFilters(); renderBudget(); renderList(); renderFooter();
 }
 
 document.addEventListener('click', e => {
+  const md = e.target.closest('[data-modo]');
+  if (md){ if (md.dataset.modo !== S.modo) history.replaceState(null, '', '#' + md.dataset.modo); cambiarModo(md.dataset.modo); return; }
   const cat = e.target.closest('[data-cat]');
   if (cat){ S.cat = cat.dataset.cat; S.cond = 'Todos'; S.q = ''; renderAll(); return; }
   const cond = e.target.closest('[data-cond]');
@@ -722,6 +791,7 @@ async function desdeExcel(){
   return parseWorkbook(XLSX.read(await r.arrayBuffer(), {type:'array'}));
 }
 
+S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplicarModo();
 (async () => {
   $('#state').innerHTML = '<div class="empty">Cargando equipos…</div>';
   try{ if (!sessionStorage.getItem('farroyo_visita')){ sessionStorage.setItem('farroyo_visita', '1'); track('visita'); } }catch(e){}
