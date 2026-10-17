@@ -187,6 +187,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
       <div class="fact"><dt>Planes</dt><dd>3, 6 y 12 cuotas</dd></div>
       <div class="fact"><dt>Requisito</dt><dd>DNI, sujeto a aprobación</dd></div>
       <div class="fact"><dt>Ubicación</dt><dd>Oficina en Rosario Zona Centro, Santa Fe</dd></div>
+      <div class="fact"><dt>Horarios de atención</dt><dd>Lunes a viernes: 9:00 hs a 18:00 hs<br>Sábados y feriados: 9:00 hs a 13:00 hs</dd></div>
       <div class="fact"><dt>Dólar de referencia</dt><dd id="dolar">Cargando…</dd></div>
       <div class="fact" style="display:none"><dt>Stock actualizado</dt><dd id="actualizado"></dd></div>
     </dl>
@@ -610,6 +611,7 @@ function renderFooter(){
     <p>Financiación exclusiva con DNI en 3, 6 y 12 cuotas, sujeta a aprobación.</p>
     <p>Las cuotas se expresan en dólares. El equivalente en pesos es estimado según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirma al momento de la operación.</p>
     <p>Precios y disponibilidad sujetos a cambios sin previo aviso. Oficina en Rosario Zona Centro, Santa Fe.</p>
+    <p>Horarios de atención: lunes a viernes de 9:00 hs a 18:00 hs · sábados y feriados de 9:00 hs a 13:00 hs.</p>
     <details class="byc"><summary>Bases y condiciones</summary>
       <h4>1. Quiénes somos</h4>
       <p>Este sitio pertenece a ${esc(CONFIG.NOMBRE)}, con oficina en Rosario Zona Centro, Santa Fe. La atención y la coordinación de cada compra se hacen por WhatsApp.</p>
@@ -618,7 +620,7 @@ function renderFooter(){
       <h4>3. Financiación con DNI</h4>
       <p>Planes de 3, 6 y 12 cuotas, sujetos a evaluación y aprobación crediticia. Ofrecer el plan no implica una aprobación garantizada. La primera cuota se abona al retirar el equipo. El valor exacto de cada cuota y las condiciones del plan se informan antes de confirmar la operación.</p>
       <h4>4. Retiro de equipos</h4>
-      <p>Los equipos se retiran con cita previa coordinada por WhatsApp. Al momento del retiro se verifica la identidad del comprador con su DNI.</p>
+      <p>Los equipos se retiran con cita previa coordinada por WhatsApp, dentro del horario de atención (lunes a viernes de 9:00 hs a 18:00 hs; sábados y feriados de 9:00 hs a 13:00 hs). Al momento del retiro se verifica la identidad del comprador con su DNI.</p>
       <h4>5. Garantía</h4>
       <p>Equipos nuevos sellados: 1 año de garantía oficial. Open box: 1 año de garantía. Usados: 3 meses de garantía. La garantía no cubre daños por golpes, humedad, mal uso o reparaciones de terceros.</p>
       <h4>6. Datos personales</h4>
