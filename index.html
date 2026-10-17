@@ -139,6 +139,7 @@ footer{border-top:1px solid var(--linea);background:#fff}
 footer .wrap{padding:24px 20px 36px;font-size:12.5px;color:var(--gris);line-height:1.7}
 footer h3{margin:0 0 6px;font-size:13px;color:var(--tinta)}
 footer p{margin:0 0 4px;max-width:70ch}
+footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}footer .byc summary{cursor:pointer;font-weight:700;color:var(--tinta);font-size:13px}footer .byc h4{margin:14px 0 4px;font-size:12.5px;color:var(--tinta)}
 
 /* Ajustes para celular */
 @media (max-width:719px){
@@ -608,7 +609,23 @@ function renderFooter(){
   $('#foot').innerHTML = `<h3>Condiciones</h3>
     <p>Financiación exclusiva con DNI en 3, 6 y 12 cuotas, sujeta a aprobación.</p>
     <p>Las cuotas se expresan en dólares. El equivalente en pesos es estimado según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirma al momento de la operación.</p>
-    <p>Precios y disponibilidad sujetos a cambios sin previo aviso. ${esc(CONFIG.NOMBRE)}, Zona Centro, Rosario, Santa Fe.</p>`;
+    <p>Precios y disponibilidad sujetos a cambios sin previo aviso. ${esc(CONFIG.NOMBRE)}, Zona Centro, Rosario, Santa Fe.</p>
+    <details class="byc"><summary>Bases y condiciones</summary>
+      <h4>1. Quiénes somos</h4>
+      <p>Este sitio pertenece a ${esc(CONFIG.NOMBRE)} (Union Technology S.R.L.), con atención en Zona Centro, Rosario, Santa Fe. La atención y la coordinación de cada compra se hacen por WhatsApp.</p>
+      <h4>2. Catálogo y precios</h4>
+      <p>El sitio muestra el stock disponible y valores de referencia. No se realizan ventas ni cobros a través de esta página: toda operación se confirma por WhatsApp y se concreta en forma presencial al retirar el equipo. Los precios están expresados en dólares estadounidenses; el equivalente en pesos es estimado según la cotización del dólar blue en Rosario (precio de venta) y se confirma al momento de la operación. Precios y stock pueden cambiar sin previo aviso.</p>
+      <h4>3. Financiación con DNI</h4>
+      <p>Planes de 3, 6 y 12 cuotas, sujetos a evaluación y aprobación crediticia. Ofrecer el plan no implica una aprobación garantizada. La primera cuota se abona al retirar el equipo. El valor exacto de cada cuota y las condiciones del plan se informan antes de confirmar la operación.</p>
+      <h4>4. Retiro de equipos</h4>
+      <p>Los equipos se retiran con cita previa coordinada por WhatsApp. Al momento del retiro se verifica la identidad del comprador con su DNI.</p>
+      <h4>5. Garantía</h4>
+      <p>Equipos nuevos sellados: 1 año de garantía oficial. Open box: 1 año de garantía. Usados: 3 meses de garantía. La garantía no cubre daños por golpes, humedad, mal uso o reparaciones de terceros.</p>
+      <h4>6. Datos personales</h4>
+      <p>Este sitio no solicita datos personales; solo registra estadísticas anónimas de visitas y consultas. Los datos que el cliente comparte por WhatsApp (por ejemplo, su DNI para evaluar la financiación) se usan solo para gestionar su consulta y su compra, y no se comparten con terceros con fines comerciales.</p>
+      <h4>7. Marcas</h4>
+      <p>iPhone, iPad y Apple son marcas de Apple Inc. ${esc(CONFIG.NOMBRE)} es un revendedor independiente y no está afiliado a Apple Inc.</p>
+    </details>`;
 }
 
 function renderAll(){
