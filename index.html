@@ -586,7 +586,7 @@ function renderList(){
       g.vars.push(it);
     });
     return `<section class="section">
-      <div class="section-head"><h2>${COND_TITULO[cond]}</h2><span>${unidades} ${unidades === 1 ? 'equipo disponible' : 'equipos disponibles'}</span></div>
+      <div class="section-head"><h2>${COND_TITULO[cond]}</h2></div>
       <div class="table">${thead}${groups.map(g =>
         `<div class="group"><div class="model"><span>${esc(g.modelo)}</span></div>${g.vars.map(varHTML).join('')}</div>`).join('')}</div>
     </section>`;
@@ -595,7 +595,7 @@ function renderList(){
   $('#list').innerHTML = html;
   const hint = $('#hint');
   if (hint) hint.textContent = !tope ? '' : list.length
-    ? `${list.length === 1 ? 'Hay 1 opción' : 'Hay ' + list.length + ' opciones'} en ${S.cat} con al menos un plan de hasta ${topeTxt()} por mes. Los planes que superan ese monto se ven atenuados.`
+    ? `Te mostramos los equipos con al menos un plan de hasta ${topeTxt()} por mes. Los planes que superan ese monto se ven atenuados.`
     : '';
   $('#state').innerHTML = list.length ? '' : tope
     ? `<div class="empty">No hay equipos de ${esc(S.cat)} con cuotas de hasta ${esc(topeTxt())} por mes. Probá con un monto mayor o revisá otra categoría.</div>`
