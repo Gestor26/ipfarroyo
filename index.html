@@ -520,21 +520,25 @@ function renderDolar(){
   $('#dolar').textContent = `$ ${Math.round(d.valor).toLocaleString('es-AR')}${etiqueta ? ' (' + etiqueta + ')' : ''}`;
 }
 
+const TODOS = 'Todos';
+const enCat = it => S.cat === TODOS || it.cat === S.cat;
 function renderCats(){
   const counts = {};
   S.items.forEach(it => counts[it.cat] = (counts[it.cat] || 0) + 1);
-  const cats = CONFIG.ORDEN_CATEGORIAS.filter(c => counts[c]).concat(Object.keys(counts).filter(c => !CONFIG.ORDEN_CATEGORIAS.includes(c)));
-  if (!S.cat || !counts[S.cat]) S.cat = cats[0];
+  const reales = CONFIG.ORDEN_CATEGORIAS.filter(c => counts[c]).concat(Object.keys(counts).filter(c => !CONFIG.ORDEN_CATEGORIAS.includes(c)));
+  S.catsOrden = reales;
+  const cats = reales.length > 1 ? [TODOS, ...reales] : reales;
+  if (!S.cat || (S.cat !== TODOS && !counts[S.cat]) || !cats.includes(S.cat)) S.cat = cats[0];
   $('#cats').hidden = cats.length < 2;
   $('#cats').innerHTML = cats.map(c =>
     `<button class="tab" role="tab" aria-selected="${c===S.cat}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
 }
 
 function renderFilters(){
-  const inCat = S.items.filter(it => it.cat === S.cat);
+  const inCat = S.items.filter(enCat);
   const conds = COND_ORDEN.filter(c => inCat.some(it => it.cond === c));
   if (!conds.includes(S.cond)) S.cond = 'Todos';
-  const seg = conds.length > 1
+  const seg = conds.length > 1 && S.cat !== TODOS
     ? `<div class="seg" role="group" aria-label="Condición">${['Todos', ...conds].map(c =>
         `<button aria-pressed="${c===S.cond}" data-cond="${esc(c)}">${c === 'Todos' ? 'Todos' : c === 'Open box' ? 'Open box' : c + 's'}</button>`).join('')}</div>` : '';
   $('#filters').innerHTML = seg + `<input class="search" id="q" type="search" placeholder="Buscar por modelo, capacidad o color" value="${esc(S.q)}" aria-label="Buscar">`;
@@ -570,15 +574,17 @@ function wspBtn(it){
 
 function renderList(){
   const q = norm(S.q), tope = hayTope();
-  const list = S.items.filter(it => it.cat === S.cat
+  const list = S.items.filter(it => enCat(it)
     && (S.cond === 'Todos' || it.cond === S.cond)
     && (!q || norm([it.modelo, it.gb, it.color, it.cond, it.bat].join(' ')).includes(q))
     && (!tope || cuotas(it.precio).some(enTope)));
 
   const thead = `<div class="thead"><span>Equipo</span>${CONFIG.PLANES.map(p => `<span>${p.n} cuotas</span>`).join('')}</div>`;
-  const html = COND_ORDEN.map(cond => {
-    const items = list.filter(it => it.cond === cond);
-    const unidades = items.reduce((a, it) => a + (it.n || 1), 0);
+  // En "Todos" se agrupa por sección (Sellado, Open Box, Usados, iPad); en cada pestaña, por condición
+  const bloques = S.cat === TODOS
+    ? (S.catsOrden || []).map(c => ({titulo: c, items: list.filter(it => it.cat === c)}))
+    : COND_ORDEN.map(cond => ({titulo: COND_TITULO[cond], items: list.filter(it => it.cond === cond)}));
+  const html = bloques.map(({titulo, items}) => {
     if (!items.length) return '';
     const groups = [];
     items.forEach(it => {
@@ -587,7 +593,7 @@ function renderList(){
       g.vars.push(it);
     });
     return `<section class="section">
-      <div class="section-head"><h2>${COND_TITULO[cond]}</h2></div>
+      <div class="section-head"><h2>${esc(titulo)}</h2></div>
       <div class="table">${thead}${groups.map(g =>
         `<div class="group"><div class="model"><span>${esc(g.modelo)}</span></div>${g.vars.map(varHTML).join('')}</div>`).join('')}</div>
     </section>`;
@@ -599,7 +605,7 @@ function renderList(){
     ? `Te mostramos los equipos con al menos un plan de hasta ${topeTxt()} por mes. Los planes que superan ese monto se ven atenuados.`
     : '';
   $('#state').innerHTML = list.length ? '' : tope
-    ? `<div class="empty">No hay equipos de ${esc(S.cat)} con cuotas de hasta ${esc(topeTxt())} por mes. Probá con un monto mayor o revisá otra categoría.</div>`
+    ? `<div class="empty">No hay equipos${S.cat === TODOS ? '' : ' de ' + esc(S.cat)} con cuotas de hasta ${esc(topeTxt())} por mes. Probá con un monto mayor o revisá otra categoría.</div>`
     : `<div class="empty">No encontramos equipos para “${esc(S.q)}”. Probá con otro modelo o capacidad.</div>`;
 }
 
