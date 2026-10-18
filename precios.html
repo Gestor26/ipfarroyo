@@ -157,16 +157,23 @@ footer p{margin:0 0 4px}
   .p .v{font-size:16px}
   .p.c .v{font-size:17px}
 }
+.secnav{background:#fff;border-bottom:1px solid #E3E8F0}
+.secnav .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 16px}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:1 1 0;min-width:0;text-align:center;text-decoration:none;font-weight:700;font-size:12.5px;color:#0B2A5B;border:1px solid #E3E8F0;background:#F6F8FB;border-radius:999px;padding:9px 6px;white-space:nowrap}
+.secnav a[aria-current="page"]{background:#0B2A5B;border-color:#0B2A5B;color:#fff}
+@media (min-width:720px){.secnav a{flex:0 0 auto;font-size:13.5px;padding:9px 16px}}
 </style>
 </head>
 <body>
 
 <header class="top">
   <div class="wrap">
-    <a class="logo" href="./" aria-label="Farroyo"><img src="logo.svg" alt="Farroyo" width="157" height="30"></a>
-    <a class="back" href="./">Financiación con DNI →</a>
+    <a class="logo" href="/" aria-label="Farroyo"><img src="/logo.svg" alt="Farroyo" width="157" height="30"></a>
+    
   </div>
 </header>
+<nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/">Catálogo</a><a href="/dni/">Cuotas con DNI</a><a href="/precios" aria-current="page">Lista de precios</a></div></nav>
 
 <section class="intro">
   <div class="wrap">
@@ -317,7 +324,7 @@ function render(){
       </div>
       <div class="thead"><span>Modelo</span><span>Contado</span><span class="cq">${CONFIG.CUOTAS.map(c => c.n).join(' / ')} cuotas<small>en pesos con tarjeta</small></span><span></span></div>
       ${sec.items.map(it => rowHTML(it, mixta)).join('')}
-      <div class="card-foot"><span>Precios sujetos a cambios</span><img src="logo.svg" alt="Farroyo"></div>
+      <div class="card-foot"><span>Precios sujetos a cambios</span><img src="/logo.svg" alt="Farroyo"></div>
     </section>`;
   }).join('');
   $('#state').innerHTML = visibles.length ? '' : `<div class="empty">No encontramos equipos para “${esc(S.q)}”.</div>`;

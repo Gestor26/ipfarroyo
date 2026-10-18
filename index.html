@@ -200,6 +200,12 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .pc-a{font-size:11.5px;color:var(--gris)}
 .pc .pc-w{margin-top:8px;justify-content:center;width:100%;padding:8px 6px;font-size:13px}
 .section-head{margin-bottom:10px}
+.secnav{background:#fff;border-bottom:1px solid #E3E8F0}
+.secnav .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 16px}
+.secnav .wrap::-webkit-scrollbar{display:none}
+.secnav a{flex:1 1 0;min-width:0;text-align:center;text-decoration:none;font-weight:700;font-size:12.5px;color:#0B2A5B;border:1px solid #E3E8F0;background:#F6F8FB;border-radius:999px;padding:9px 6px;white-space:nowrap}
+.secnav a[aria-current="page"]{background:#0B2A5B;border-color:#0B2A5B;color:#fff}
+@media (min-width:720px){.secnav a{flex:0 0 auto;font-size:13.5px;padding:9px 16px}}
 </style>
 </head>
 <body>
@@ -210,6 +216,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
     <div class="top-tag" id="toptag">Catálogo</div>
   </div>
 </header>
+<nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/" aria-current="page">Catálogo</a><a href="/dni/">Cuotas con DNI</a><a href="/precios">Lista de precios</a></div></nav>
 
 <section class="intro">
   <div class="wrap">
