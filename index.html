@@ -206,14 +206,12 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .secnav a{flex:1 1 0;min-width:0;text-align:center;text-decoration:none;font-weight:700;font-size:12.5px;color:#0B2A5B;border:1px solid #E3E8F0;background:#F6F8FB;border-radius:999px;padding:9px 6px;white-space:nowrap}
 .secnav a[aria-current="page"]{background:#0B2A5B;border-color:#0B2A5B;color:#fff}
 @media (min-width:720px){.secnav a{flex:0 0 auto;font-size:13.5px;padding:9px 16px}}
-.section{margin-top:38px}
-.section:first-child{margin-top:18px}
-.sec-band{position:sticky;top:var(--barh,108px);z-index:3;display:flex;align-items:center;gap:10px;background:var(--acc);color:#fff;
-  border-radius:12px;padding:12px 16px;margin:0 0 12px;box-shadow:0 6px 16px rgba(11,42,91,.18)}
-.sec-band h2{margin:0;font-size:17px;font-weight:800;color:#fff;letter-spacing:.2px;flex:1}
-.sec-ico{font-size:20px;line-height:1}
-.sec-n{font-size:12px;font-weight:700;background:rgba(255,255,255,.18);border-radius:999px;padding:4px 10px;white-space:nowrap}
-.section .pc{border-top:4px solid var(--acc,#0B2A5B)}
+.section{margin-top:34px}
+.section:first-child{margin-top:16px}
+.sec-band{position:sticky;top:var(--barh,108px);z-index:3;display:flex;justify-content:center;margin:0 0 14px;pointer-events:none}
+.sec-band h2{margin:0;width:var(--secw,240px);max-width:100%;box-sizing:border-box;text-align:center;background:var(--navy);color:#fff;
+  font-size:15px;font-weight:700;letter-spacing:.3px;border-radius:999px;padding:10px 22px;white-space:nowrap;
+  box-shadow:0 4px 12px rgba(11,42,91,.18)}
 </style>
 </head>
 <body>
@@ -713,12 +711,12 @@ function renderList(){
       g.vars.push(it);
     });
     return `<section class="section">
-      <div class="sec-band" style="--acc:${colorSec(titulo)}"><span class="sec-ico">${iconoSec(titulo)}</span><h2>${esc(titulo)}</h2></div>
-      <div class="grilla" style="--acc:${colorSec(titulo)}">${items.map(cardHTML).join('')}</div>
+      <div class="sec-band"><h2>${esc(titulo)}</h2></div>
+      <div class="grilla">${items.map(cardHTML).join('')}</div>
     </section>`;
   }).join('');
 
-  $('#list').innerHTML = html;
+  $('#list').innerHTML = html; if (typeof igualarBarras === 'function') igualarBarras();
   const hint = $('#hint');
   if (hint) hint.textContent = !tope ? '' : list.length
     ? S.modo === 'contado' ? `Te mostramos los equipos de hasta ${topeTxt()}.` : `Te mostramos los equipos con al menos un plan de hasta ${topeTxt()} por mes. Los planes que superan ese monto se ven atenuados.`
@@ -764,11 +762,17 @@ function cambiarModo(m){
   aplicarModo(); if (S.items.length) renderAll();
 }
 window.addEventListener('hashchange', () => cambiarModo(modoDesdeURL()));
+function igualarBarras(){
+  const hs = [...document.querySelectorAll('.sec-band h2')]; if (!hs.length) return;
+  document.documentElement.style.setProperty('--secw', 'auto');
+  const w = Math.max(...hs.map(h => h.getBoundingClientRect().width));
+  document.documentElement.style.setProperty('--secw', Math.ceil(w) + 'px');
+}
 function medirBarra(){ const b = document.getElementById('bar'); if (b) document.documentElement.style.setProperty('--barh', b.offsetHeight + 'px'); }
 addEventListener('resize', medirBarra);
 function renderAll(){
   $('#bar').hidden = false;
-  renderCats(); renderFilters(); renderBudget(); renderList(); renderFooter(); medirBarra();
+  renderCats(); renderFilters(); renderBudget(); renderList(); renderFooter(); medirBarra(); igualarBarras();
 }
 
 document.addEventListener('click', e => {
