@@ -57,8 +57,22 @@ a{color:inherit}
 .nav{position:sticky;top:0;z-index:5;background:rgba(242,245,249,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   border-bottom:1px solid var(--linea);padding-top:env(safe-area-inset-top,0px)}
 .nav[hidden]{display:none}
-.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:10px 0}
-.chips::-webkit-scrollbar{display:none}
+.chips-wrap{position:relative}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 0 8px;scroll-behavior:smooth;cursor:grab;
+  scrollbar-width:thin;scrollbar-color:rgba(11,42,91,.35) transparent}
+.chips.arrastrando{cursor:grabbing;scroll-behavior:auto}
+.chips::-webkit-scrollbar{height:5px}
+.chips::-webkit-scrollbar-track{background:transparent}
+.chips::-webkit-scrollbar-thumb{background:rgba(11,42,91,.3);border-radius:99px}
+.chips-wrap::before,.chips-wrap::after{content:'';position:absolute;top:0;bottom:6px;width:46px;pointer-events:none;z-index:1;transition:opacity .2s;opacity:0}
+.chips-wrap::before{left:0;background:linear-gradient(90deg,rgb(242,245,249) 30%,rgba(242,245,249,0))}
+.chips-wrap::after{right:0;background:linear-gradient(270deg,rgb(242,245,249) 30%,rgba(242,245,249,0))}
+.chips-wrap.hay-izq::before,.chips-wrap.hay-der::after{opacity:1}
+.chips-arr{position:absolute;top:50%;transform:translateY(-58%);z-index:2;width:30px;height:30px;border-radius:50%;border:1px solid var(--linea);
+  background:#fff;color:var(--navy);font-size:20px;line-height:1;font-weight:700;display:none;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(11,42,91,.15);cursor:pointer;padding:0 0 2px}
+.chips-arr.izq{left:0}.chips-arr.der{right:0}
+.chips-wrap.hay-izq .chips-arr.izq,.chips-wrap.hay-der .chips-arr.der{display:flex}
 .chip{flex:0 0 auto;border:1px solid var(--linea);background:#fff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;color:var(--navy);white-space:nowrap}
 .chip[aria-current="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
 .search-row{padding:0 0 10px}
@@ -167,7 +181,11 @@ footer p{margin:0 0 4px}
 
 <div class="nav" id="bar" hidden>
   <div class="wrap">
-    <div class="chips" id="chips" aria-label="Secciones"></div>
+    <div class="chips-wrap" id="chipsWrap">
+      <button class="chips-arr izq" id="chipsIzq" type="button" aria-label="Ver secciones anteriores">&#8249;</button>
+      <div class="chips" id="chips" aria-label="Secciones"></div>
+      <button class="chips-arr der" id="chipsDer" type="button" aria-label="Ver más secciones">&#8250;</button>
+    </div>
     <div class="search-row"><input class="search" id="q" type="search" placeholder="Buscar modelo, capacidad o color" aria-label="Buscar"></div>
   </div>
 </div>
@@ -322,7 +340,14 @@ function renderDolar(){
 }
 
 /* Chip activo según la sección visible */
+// Centra un chip en la barra SIN mover la página (scrollIntoView movía también la página y cortaba el salto)
+function centrarChip(ch){
+  const box = $('#chips');
+  box.scrollTo({left: ch.offsetLeft - box.offsetLeft - (box.clientWidth - ch.offsetWidth) / 2, behavior:'smooth'});
+}
+let saltando = false, finSalto = 0;
 function marcarChip(){
+  if (saltando) return;
   const cards = [...document.querySelectorAll('.card')];
   let actual = cards[0];
   cards.forEach(c => { if (c.getBoundingClientRect().top < innerHeight * 0.45) actual = c; });
@@ -330,10 +355,34 @@ function marcarChip(){
     const on = actual && ch.dataset.go === actual.id;
     if (on && ch.getAttribute('aria-current') !== 'true'){
       ch.setAttribute('aria-current', 'true');
-      ch.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
+      centrarChip(ch);
     } else if (!on) ch.removeAttribute('aria-current');
   });
 }
+/* Barra deslizable de secciones: flechas, degradé, rueda del mouse y arrastre */
+(function(){
+  const box = $('#chips'), wrap = $('#chipsWrap');
+  const upd = () => {
+    const max = box.scrollWidth - box.clientWidth;
+    wrap.classList.toggle('hay-izq', box.scrollLeft > 4);
+    wrap.classList.toggle('hay-der', box.scrollLeft < max - 4);
+  };
+  box.addEventListener('scroll', upd, {passive:true});
+  addEventListener('resize', upd);
+  new MutationObserver(upd).observe(box, {childList:true});
+  const paso = () => Math.max(160, box.clientWidth * 0.7);
+  $('#chipsIzq').addEventListener('click', () => box.scrollBy({left: -paso(), behavior:'smooth'}));
+  $('#chipsDer').addEventListener('click', () => box.scrollBy({left: paso(), behavior:'smooth'}));
+  box.addEventListener('wheel', e => {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && box.scrollWidth > box.clientWidth){ e.preventDefault(); box.scrollLeft += e.deltaY; }
+  }, {passive:false});
+  let x0 = 0, s0 = 0, abajo = false, movio = false;
+  box.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; abajo = true; movio = false; x0 = e.clientX; s0 = box.scrollLeft; });
+  addEventListener('pointermove', e => { if (!abajo) return; const dx = e.clientX - x0; if (Math.abs(dx) > 4){ movio = true; box.classList.add('arrastrando'); box.scrollLeft = s0 - dx; } });
+  addEventListener('pointerup', () => { abajo = false; box.classList.remove('arrastrando'); });
+  box.addEventListener('click', e => { if (movio){ e.stopPropagation(); e.preventDefault(); movio = false; } }, true);
+  setTimeout(upd, 300);
+})();
 let raf = 0;
 addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(marcarChip); }, {passive:true});
 
@@ -342,7 +391,17 @@ document.addEventListener('click', e => {
   if (go){
     if (S.q){ S.q = ''; $('#q').value = ''; render(); }
     const el = document.getElementById(go.dataset.go);
-    if (el) scrollTo({top: el.getBoundingClientRect().top + scrollY - $('#bar').offsetHeight - 8, behavior:'smooth'});
+    if (el){
+      // marca el chip tocado y bloquea el marcado automático hasta que termine el salto
+      document.querySelectorAll('.chip').forEach(ch => ch.dataset.go === go.dataset.go ? ch.setAttribute('aria-current', 'true') : ch.removeAttribute('aria-current'));
+      centrarChip(go);
+      saltando = true; clearTimeout(finSalto);
+      const destino = el.getBoundingClientRect().top + scrollY - $('#bar').offsetHeight - 8;
+      scrollTo({top: destino, behavior:'smooth'});
+      const soltar = () => { clearTimeout(finSalto); finSalto = setTimeout(() => { saltando = false; removeEventListener('scroll', soltar); }, 180); };
+      addEventListener('scroll', soltar, {passive:true});
+      finSalto = setTimeout(() => { saltando = false; removeEventListener('scroll', soltar); }, 1500);
+    }
     return;
   }
   const w = e.target.closest('[data-track]');
