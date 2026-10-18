@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Precios | Farroyo</title>
+<meta name="description" content="Lista de precios de Farroyo: iPhone nuevos sellados, open box y usados, iPad, Mac y más. Contado y cuotas con tarjeta.">
+<meta name="theme-color" content="#0B2A5B">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Farroyo">
+<meta property="og:title" content="Lista de precios | Farroyo">
+<meta property="og:description" content="iPhone nuevos sellados, open box y usados. Contado y cuotas con tarjeta. Zona Centro, Rosario.">
+<meta property="og:url" content="https://ipfarroyo.com/precios">
+<meta property="og:image" content="https://ipfarroyo.com/og.jpg">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://api.ipfarroyo.com" crossorigin>
+<style>
+:root{
+  --navy:#0B2A5B; --navy-2:#13386F; --azul:#1565D8; --celeste:#EEF5FD; --celeste-2:#DCE9FA;
+  --tinta:#14213A; --gris:#64718A; --gris-2:#94A0B4; --linea:#E3E8F0; --fondo:#F2F5F9;
+  --verde:#1E9E5A; --verde-bg:#E3F6EC; --ambar:#B7791F; --ambar-bg:#FDF3DC; --rojo:#C2412D; --rojo-bg:#FCE7E3;
+  --verde-sec:#0F4C45;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none !important}
+html{scroll-padding-top:70px}
+body{margin:0;background:var(--fondo);color:var(--tinta);
+  font-family:Montserrat,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.45;
+  -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--azul);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+
+/* Encabezado */
+.top{background:#fff;border-bottom:1px solid var(--linea)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
+.logo img{height:30px;width:auto;display:block}
+.top a.back{font-size:13px;font-weight:600;color:var(--azul);text-decoration:none;white-space:nowrap}
+
+.intro{padding:22px 0 14px}
+.intro h1{margin:0;font-size:26px;line-height:1.1;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.intro p{margin:6px 0 0;color:var(--gris);font-size:14px}
+.chips-info{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.ci{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--linea);border-radius:999px;padding:5px 11px;font-size:12.5px;color:var(--gris);font-weight:600}
+.ci b{color:var(--tinta)}
+
+/* Navegación por secciones */
+.nav{position:sticky;top:0;z-index:5;background:rgba(242,245,249,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--linea);padding-top:env(safe-area-inset-top,0px)}
+.nav[hidden]{display:none}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:10px 0}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--linea);background:#fff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;color:var(--navy);white-space:nowrap}
+.chip[aria-current="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.search-row{padding:0 0 10px}
+.search{width:100%;height:38px;border:1px solid var(--linea);border-radius:10px;padding:0 12px;background:#fff;font-size:14px}
+
+/* Placa (estilo historia) */
+main{padding:6px 0 40px}
+.card{background:#fff;border-radius:16px;overflow:hidden;margin-top:18px;box-shadow:0 2px 10px rgba(11,42,91,.08);border:1px solid var(--linea)}
+.card-head{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;text-align:center;padding:20px 16px 16px}
+.card-head.ob{background:linear-gradient(160deg,#0F4C45 0%,#17645A 100%)}
+.card-head.us{background:linear-gradient(160deg,#16325C 0%,#24508C 100%)}
+.card-head .t{font-size:30px;font-weight:900;letter-spacing:1px;line-height:1;text-transform:uppercase}
+.card-head .s{font-size:14px;font-weight:700;letter-spacing:2.5px;margin-top:6px;text-transform:uppercase;opacity:.95}
+.card-head .g{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;margin-top:10px;opacity:.9}
+
+.thead,.row{display:grid;grid-template-columns:minmax(0,1fr) 78px 92px 92px;align-items:center;gap:6px}
+.thead{background:var(--navy);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:9px 12px}
+.card-head.ob + .thead{background:#0F4C45}
+.thead span{text-align:center}
+.thead span:first-child{text-align:left}
+.thead .cq{grid-column:span 2;line-height:1.2}
+.thead .cq small{display:block;font-size:9.5px;font-weight:600;letter-spacing:0;text-transform:none;opacity:.85}
+
+.row{padding:10px 12px;border-top:1px solid var(--linea);text-decoration:none;color:inherit}
+.row:nth-child(even){background:#FAFCFE}
+.row:hover{background:var(--celeste)}
+.m{min-width:0}
+.m .n{font-weight:700;font-size:14px;color:var(--navy);line-height:1.2}
+.m .d{font-size:11.5px;color:var(--gris);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bat{display:inline-flex;align-items:center;gap:4px;margin-top:4px;font-size:10.5px;font-weight:700;border-radius:999px;padding:2px 7px;background:var(--verde-bg);color:var(--verde)}
+.bat.mid{background:var(--ambar-bg);color:var(--ambar)}
+.bat.low{background:var(--rojo-bg);color:var(--rojo)}
+.bat::before{content:"";width:10px;height:6px;border:1.5px solid currentColor;border-radius:2px}
+.nota{display:inline-block;margin-top:4px;margin-left:4px;font-size:10.5px;font-weight:700;color:var(--ambar)}
+
+.p{border:1px solid var(--celeste-2);border-radius:8px;text-align:center;padding:5px 2px 6px;background:#fff}
+.p .l{font-size:9.5px;font-weight:600;color:var(--gris);text-transform:uppercase;letter-spacing:.3px}
+.p .v{font-size:14px;font-weight:800;color:var(--navy);white-space:nowrap;line-height:1.2}
+.p.c{background:var(--celeste);border-color:var(--celeste-2)}
+.p.c .v{font-size:15px}
+
+.card-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border-top:1px solid var(--linea);background:#F7F9FC;font-size:12px;color:var(--gris)}
+.card-foot img{height:20px;opacity:.85}
+
+.wsp{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:6;display:inline-flex;align-items:center;gap:8px;
+  background:#25D366;color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 16px;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+
+.empty{text-align:center;padding:40px 16px;color:var(--gris)}
+footer{border-top:1px solid var(--linea);background:#fff}
+footer .wrap{padding:22px 16px 90px;font-size:12.5px;color:var(--gris);line-height:1.7}
+footer h3{margin:0 0 6px;font-size:13px;color:var(--tinta)}
+footer p{margin:0 0 4px}
+
+@media (max-width:560px){
+  .thead{grid-template-columns:repeat(3,1fr);padding:8px 12px}
+  .thead span:first-child{display:none}
+  .thead .cq{grid-column:span 2}
+  .row{grid-template-columns:repeat(3,1fr);gap:6px;padding:11px 12px 12px}
+  .m{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;margin-bottom:2px}
+  .m .n{font-size:15px}
+  .m .d{flex:1 1 100%;order:3;white-space:normal;margin-top:0}
+  .bat,.nota{margin-top:0;margin-left:0}
+  .p .v{font-size:15px}
+  .p.c .v{font-size:15.5px}
+  .card-head .t{font-size:26px}
+}
+@media (min-width:640px){
+  .intro h1{font-size:32px}
+  .thead,.row{grid-template-columns:minmax(0,1fr) 110px 130px 130px;gap:10px}
+  .row{padding:11px 18px}
+  .thead{padding:10px 18px}
+  .m .n{font-size:15px}
+  .p .v{font-size:16px}
+  .p.c .v{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="./" aria-label="Farroyo"><img src="logo.svg" alt="Farroyo" width="157" height="30"></a>
+    <a class="back" href="./">Financiación con DNI →</a>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="wrap">
+    <h1>Lista de precios</h1>
+    <p>Precios de contado en dólares y cuotas en pesos con tarjeta de crédito. Tocá un equipo para consultarlo por WhatsApp.</p>
+    <div class="chips-info">
+      <span class="ci">Dólar blue Rosario <b id="dolar">…</b></span>
+      <span class="ci" id="act-wrap" hidden>Actualizado <b id="act"></b></span>
+    </div>
+  </div>
+</section>
+
+<div class="nav" id="bar" hidden>
+  <div class="wrap">
+    <div class="chips" id="chips" aria-label="Secciones"></div>
+    <div class="search-row"><input class="search" id="q" type="search" placeholder="Buscar modelo, capacidad o color" aria-label="Buscar"></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div id="list"></div>
+  <div id="state"><div class="empty">Cargando precios…</div></div>
+</main>
+
+<a class="wsp" id="wsp" target="_blank" rel="noopener" href="#">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>
+  Consultar
+</a>
+
+<footer><div class="wrap" id="foot"></div></footer>
+
+<script>
+const CONFIG = {
+  API_URL: 'https://api.ipfarroyo.com/',   // misma fuente que la página principal (Google Sheets)
+  WHATSAPP: '5493413105554',
+  // Cuotas con tarjeta: multiplicador sobre el contado (no se muestra al cliente)
+  CUOTAS: [ {n:6, f:1.55}, {n:12, f:1.90} ],
+  DOLAR_FIJO: null,          // forzar cotización (ej: 1600). null = automático
+  DOLAR_RESPALDO: 1571,
+  REDONDEO_PESOS: 1000,      // cuotas en pesos redondeadas hacia arriba a múltiplos de esto
+  // Orden y títulos de las placas: [categoría, condición, título, subtítulo]
+  SECCIONES: [
+    ['iPhone','Sellado','iPhone','Nuevos sellados'],
+    ['iPhone','Open box','iPhone','Nuevos open box'],
+    ['iPhone','Usado','iPhone','Usados'],
+    ['iPad','*','iPad',''],
+    ['MacBook','*','MacBook',''],
+    ['AirPods','*','AirPods',''],
+    ['Apple Watch','*','Apple Watch',''],
+    ['Pencil y AirTag','*','Accesorios','Pencil y AirTag'],
+    ['Samsung','*','Samsung',''],
+    ['Samsung Watch','*','Samsung Watch',''],
+    ['Xiaomi','*','Xiaomi','']
+  ],
+  CHIP: {'iPhone|Sellado':'iPhone Sellados','iPhone|Open box':'iPhone Open Box','iPhone|Usado':'iPhone Usados'}
+};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s == null ? '' : s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+const hhmm = d => new Date(d).toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit', hourCycle:'h23'});
+const slug = s => norm(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const withTimeout = (p, ms) => Promise.race([p, new Promise((_, r) => setTimeout(() => r(new Error('timeout')), ms))]);
+const pesos = n => '$' + (Math.ceil(n / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS).toLocaleString('es-AR');
+
+const S = { items: [], dolar: null, actualizado: null, q: '' };
+
+/* Garantía según categoría y condición (igual que en las historias) */
+function garantia(cat, cond){
+  const iph = cat === 'iPhone';
+  if (cond === 'Usado') return iph ? '3 meses de garantía + cargador y cable USB' : '3 meses de garantía';
+  if (cond === 'Sellado') return iph ? '1 año de garantía oficial + cargador 20W incluido' : '1 año de garantía oficial';
+  if (cond === 'Open box') return iph ? '1 año de garantía + cargador 20W incluido' : '1 año de garantía';
+  return '';
+}
+const condTxt = c => ({'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[c] || c);
+
+function batClass(txt){
+  const nums = String(txt).match(/\d+/g); if (!nums) return '';
+  const min = Math.min(...nums.map(Number));
+  return min >= 90 ? '' : min >= 80 ? ' mid' : ' low';
+}
+
+function secciones(){
+  const q = norm(S.q);
+  const usados = new Set();
+  const out = [];
+  CONFIG.SECCIONES.forEach(([cat, cond, t, s]) => {
+    const items = S.items.filter((it, i) => !usados.has(i) && it.cat === cat && (cond === '*' || it.cond === cond));
+    S.items.forEach((it, i) => { if (it.cat === cat && (cond === '*' || it.cond === cond)) usados.add(i); });
+    if (items.length) out.push({cat, cond, t, s, items});
+  });
+  // Categorías nuevas que aparezcan en la planilla y no estén en la lista
+  const resto = S.items.filter((_, i) => !usados.has(i));
+  [...new Set(resto.map(it => it.cat))].forEach(cat => out.push({cat, cond:'*', t:cat, s:'', items: resto.filter(it => it.cat === cat)}));
+  return out.map(sec => {
+    const items = sec.items.filter(it => !q || norm([it.modelo, it.gb, it.color, it.cond, it.bat].join(' ')).includes(q));
+    // Si la sección mezcla condiciones, ordena sellado → open box → usado
+    const ord = {'Sellado':0,'Open box':1,'Usado':2};
+    if (sec.cond === '*') items.sort((a, b) => (ord[a.cond] ?? 9) - (ord[b.cond] ?? 9));
+    return {...sec, items, id: slug(sec.t + ' ' + (sec.s || sec.cat))};
+  });
+}
+
+function wspLink(it){
+  const enUSD = (it.moneda || 'USD') === 'USD';
+  const lineas = [
+    `Equipo: ${it.modelo}${it.gb ? ' ' + it.gb : ''}`,
+    `Condición: ${condTxt(it.cond)}`,
+    it.bat ? `Batería: ${it.bat}` : '',
+    `Precio contado: ${enUSD ? 'USD ' + it.precio.toLocaleString('es-AR') : pesos(it.precio)}`
+  ].filter(Boolean);
+  return `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent('Hola! Vi la lista de precios y me interesa:\n\n' + lineas.join('\n'))}`;
+}
+
+function rowHTML(it, mixta){
+  const enUSD = (it.moneda || 'USD') === 'USD';
+  const usdBase = enUSD ? it.precio : it.precio / S.dolar.valor;
+  const det = [it.gb, mixta && it.cond !== 'Sellado' ? condTxt(it.cond) : '', it.color].filter(Boolean).join(' · ');
+  const cuotas = CONFIG.CUOTAS.map(c => `<div class="p"><div class="l">${c.n} cuotas</div><div class="v">${pesos(usdBase * c.f / c.n * S.dolar.valor)}</div></div>`).join('');
+  return `<a class="row" href="${wspLink(it)}" target="_blank" rel="noopener" data-track="${esc(it.modelo + ' ' + it.gb + ' (' + it.cond + ')')}">
+    <div class="m"><div class="n">${esc(it.modelo)}</div>
+      <div class="d" title="${esc(det)}">${esc(det)}</div>
+      ${it.bat ? `<span class="bat${batClass(it.bat)}">${esc(it.bat)}</span>` : ''}${it.nota ? `<span class="nota">${esc(it.nota)}</span>` : ''}
+    </div>
+    <div class="p c"><div class="l">${enUSD ? 'USD' : 'Pesos'}</div><div class="v">${enUSD ? '$' + Math.ceil(it.precio).toLocaleString('es-AR') : pesos(it.precio)}</div></div>
+    ${cuotas}
+  </a>`;
+}
+
+function render(){
+  const secs = secciones();
+  const visibles = secs.filter(s => s.items.length);
+  $('#chips').innerHTML = secs.map(s => `<button class="chip" data-go="${s.id}">${esc(CONFIG.CHIP[s.cat + '|' + s.cond] || s.t)}</button>`).join('');
+  $('#list').innerHTML = visibles.map(sec => {
+    const cls = sec.cond === 'Open box' ? ' ob' : sec.cond === 'Usado' ? ' us' : '';
+    const g = sec.cond === '*' ? garantia(sec.cat, sec.items[0].cond === 'Usado' ? 'Usado' : 'Sellado') : garantia(sec.cat, sec.cond);
+    const mixta = sec.cond === '*' && new Set(sec.items.map(i => i.cond)).size > 1;
+    const gTxt = mixta ? 'Sellados y open box: 1 año de garantía · Usados: 3 meses' : g;
+    return `<section class="card" id="${sec.id}">
+      <div class="card-head${cls}">
+        <div class="t">${esc(sec.t)}</div>
+        ${sec.s ? `<div class="s">${esc(sec.s)}</div>` : ''}
+        ${gTxt ? `<div class="g">🛡️ ${esc(gTxt)}</div>` : ''}
+      </div>
+      <div class="thead"><span>Modelo</span><span>Contado</span><span class="cq">${CONFIG.CUOTAS.map(c => c.n).join(' / ')} cuotas<small>en pesos con tarjeta</small></span></div>
+      ${sec.items.map(it => rowHTML(it, mixta)).join('')}
+      <div class="card-foot"><span>Precios sujetos a cambios</span><img src="logo.svg" alt="Farroyo"></div>
+    </section>`;
+  }).join('');
+  $('#state').innerHTML = visibles.length ? '' : `<div class="empty">No encontramos equipos para “${esc(S.q)}”.</div>`;
+  marcarChip();
+}
+
+function renderDolar(){
+  $('#dolar').textContent = '$' + Math.round(S.dolar.valor).toLocaleString('es-AR');
+  if (S.actualizado){
+    const d = new Date(S.actualizado), hoy = new Date();
+    const dias = Math.round((new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
+    $('#act').textContent = (dias === 0 ? 'hoy' : dias === 1 ? 'ayer' : d.toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit'})) + ' ' + hhmm(d) + ' hs';
+    $('#act-wrap').hidden = false;
+  }
+  $('#foot').innerHTML = `<h3>Condiciones</h3>
+    <p>Precios de contado en dólares. Las cuotas son con tarjeta de crédito y se expresan en pesos según el dólar blue en Rosario (venta) del momento: $${Math.round(S.dolar.valor).toLocaleString('es-AR')}${S.dolar.hora ? ', ' + S.dolar.hora + ' hs' : ''}. El valor final se confirma al momento de la operación.</p>
+    <p>Precios y disponibilidad sujetos a cambios sin previo aviso. También aceptamos pesos, transferencia, euros y cripto. Consultá financiación con DNI en <a href="./">ipfarroyo.com</a>.</p>
+    <p>Oficina en Rosario Zona Centro, Santa Fe · Lunes a viernes 9:00 a 18:00 hs · Sábados y feriados 9:00 a 13:00 hs.</p>
+    <p>iPhone, iPad y Apple son marcas de Apple Inc. Farroyo es un revendedor independiente.</p>`;
+}
+
+/* Chip activo según la sección visible */
+function marcarChip(){
+  const cards = [...document.querySelectorAll('.card')];
+  let actual = cards[0];
+  cards.forEach(c => { if (c.getBoundingClientRect().top < innerHeight * 0.45) actual = c; });
+  document.querySelectorAll('.chip').forEach(ch => {
+    const on = actual && ch.dataset.go === actual.id;
+    if (on && ch.getAttribute('aria-current') !== 'true'){
+      ch.setAttribute('aria-current', 'true');
+      ch.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
+    } else if (!on) ch.removeAttribute('aria-current');
+  });
+}
+let raf = 0;
+addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(marcarChip); }, {passive:true});
+
+document.addEventListener('click', e => {
+  const go = e.target.closest('[data-go]');
+  if (go){
+    if (S.q){ S.q = ''; $('#q').value = ''; render(); }
+    const el = document.getElementById(go.dataset.go);
+    if (el) scrollTo({top: el.getBoundingClientRect().top + scrollY - $('#bar').offsetHeight - 8, behavior:'smooth'});
+    return;
+  }
+  const w = e.target.closest('[data-track]');
+  if (w) track('contacto-precios', w.dataset.track);
+});
+$('#q').addEventListener('input', e => { S.q = e.target.value; render(); });
+
+function track(evento, detalle){
+  try{ fetch(`${CONFIG.API_URL}?evento=${evento}&detalle=${encodeURIComponent(detalle || '')}`, {mode:'no-cors', keepalive:true}); }catch(e){}
+}
+
+/* Carga de datos */
+async function dolarRespaldo(){
+  try{
+    const j = await withTimeout(fetch('https://dolarapi.com/v1/dolares/blue').then(r => r.json()), 6000);
+    if (j && j.venta) return {valor: j.venta, hora: hhmm(Date.now())};
+  }catch(e){}
+  return {valor: CONFIG.DOLAR_RESPALDO};
+}
+const COPIA = 'farroyo_precios_v1';
+async function aplicar(j){
+  S.items = j.items || [];
+  S.actualizado = j.actualizado;
+  S.dolar = CONFIG.DOLAR_FIJO ? {valor: CONFIG.DOLAR_FIJO}
+    : j.dolar && j.dolar.valor ? {valor: j.dolar.valor, hora: j.dolar.t ? hhmm(j.dolar.t) : ''}
+    : await dolarRespaldo();
+  $('#bar').hidden = false;
+  renderDolar(); render();
+}
+
+(async () => {
+  try{ if (!sessionStorage.getItem('farroyo_visita_precios')){ sessionStorage.setItem('farroyo_visita_precios', '1'); track('visita-precios'); } }catch(e){}
+  let copia = null;
+  try{ copia = JSON.parse(localStorage.getItem(COPIA) || 'null'); }catch(e){}
+  if (copia && copia.items && Date.now() - copia.t < 3 * 864e5) await aplicar(copia);
+  try{
+    const j = await withTimeout(fetch(CONFIG.API_URL).then(r => r.json()), 20000);
+    if (!j.items || !j.items.length) throw new Error('sin datos');
+    try{ localStorage.setItem(COPIA, JSON.stringify({...j, t: Date.now()})); }catch(e){}
+    await aplicar(j);
+  }catch(e){
+    if (!S.items.length) $('#state').innerHTML = '<div class="empty">No pudimos cargar los precios. Escribinos por WhatsApp y te los pasamos.</div>';
+  }
+})();
+$('#wsp').href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent('Hola! Vi la lista de precios y quería consultar.')}`;
+</script>
+</body>
+</html>
