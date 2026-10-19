@@ -252,6 +252,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .tabla-w thead th{color:var(--navy);font-size:13.5px}
 .tabla-w tbody th{color:var(--gris);font-weight:600;white-space:nowrap}
 .tabla-w td small{display:block;color:var(--gris);font-size:11px}
+.tabla-w tr.sp td{color:var(--tinta)}
 .tabla-w .wsp-btn{font-size:12px;padding:7px 10px}
 </style>
 </head>
@@ -877,13 +878,80 @@ function pintarComp(){
   $('#compTxt').textContent = its.length === 1 ? 'Elegí otro equipo para comparar' : its.length + ' equipos elegidos';
   $('#compVer').disabled = its.length < 2;
 }
+/* Características principales para el comparador (del más específico al más general) */
+const SPECS = [
+  // [patrón, pantalla, chip, cámaras, batería/autonomía, destacado]
+  [/iphone 18 pro max/, '6,9" OLED 120 Hz, siempre activa', 'A20 Pro', 'Triple 48 MP · zoom 4x (8x calidad óptica)', 'Hasta 45 h de video', 'Aluminio, Wi‑Fi 7, solo eSIM'],
+  [/iphone 18 pro/, '6,3" OLED 120 Hz, siempre activa', 'A20 Pro', 'Triple 48 MP · zoom 4x (8x calidad óptica)', 'Hasta 36 h de video', 'Aluminio, Wi‑Fi 7, solo eSIM'],
+  [/iphone 17 pro max/, '6,9" OLED 120 Hz, siempre activa', 'A19 Pro', 'Triple 48 MP · zoom 4x (8x calidad óptica)', 'La mayor batería de la línea 17', 'Aluminio, cámara frontal 18 MP'],
+  [/iphone 17 pro/, '6,3" OLED 120 Hz, siempre activa', 'A19 Pro', 'Triple 48 MP · zoom 4x (8x calidad óptica)', 'Mejor autonomía que el 16 Pro', 'Aluminio, cámara frontal 18 MP'],
+  [/iphone 17 ?e\b/, '6,1" OLED', 'A19', '48 MP', 'Hasta 26 h de video', 'MagSafe'],
+  [/iphone air/, '6,5" OLED 120 Hz', 'A19 Pro', '48 MP', 'Todo el día', 'El iPhone más delgado (5,6 mm)'],
+  [/iphone 17\b/, '6,3" OLED 120 Hz, siempre activa', 'A19', 'Doble 48 MP', 'Mejor autonomía que el 16', 'Cámara frontal 18 MP'],
+  [/iphone 16 pro max/, '6,9" OLED 120 Hz, siempre activa', 'A18 Pro', 'Triple 48 MP · zoom 5x', 'La mayor batería de la línea 16', 'Titanio, Control de Cámara'],
+  [/iphone 16 pro/, '6,3" OLED 120 Hz, siempre activa', 'A18 Pro', 'Triple 48 MP · zoom 5x', 'Todo el día', 'Titanio, Control de Cámara'],
+  [/iphone 16 ?e\b/, '6,1" OLED', 'A18', '48 MP', 'Todo el día', 'Botón de Acción, USB‑C'],
+  [/iphone 16 plus/, '6,7" OLED', 'A18', 'Doble 48 MP', 'Gran autonomía', 'Control de Cámara, Botón de Acción'],
+  [/iphone 16\b/, '6,1" OLED', 'A18', 'Doble 48 MP', 'Todo el día', 'Control de Cámara, Botón de Acción'],
+  [/iphone 15 pro max/, '6,7" OLED 120 Hz, siempre activa', 'A17 Pro', 'Triple 48 MP · zoom 5x', 'Todo el día', 'Titanio, Botón de Acción, USB‑C'],
+  [/iphone 15 pro/, '6,1" OLED 120 Hz, siempre activa', 'A17 Pro', 'Triple 48 MP · zoom 3x', 'Todo el día', 'Titanio, Botón de Acción, USB‑C'],
+  [/iphone 15 plus/, '6,7" OLED', 'A16 Bionic', 'Doble 48 MP', 'Gran autonomía', 'Dynamic Island, USB‑C'],
+  [/iphone 15\b/, '6,1" OLED', 'A16 Bionic', 'Doble 48 MP', 'Todo el día', 'Dynamic Island, USB‑C'],
+  [/iphone 14 pro max/, '6,7" OLED 120 Hz, siempre activa', 'A16 Bionic', 'Triple 48 MP · zoom 3x', 'Todo el día', 'Dynamic Island'],
+  [/iphone 14 pro/, '6,1" OLED 120 Hz, siempre activa', 'A16 Bionic', 'Triple 48 MP · zoom 3x', 'Todo el día', 'Dynamic Island'],
+  [/iphone 14 plus/, '6,7" OLED', 'A15 Bionic', 'Doble 12 MP', 'Gran autonomía', 'Detección de choques'],
+  [/iphone 14\b/, '6,1" OLED', 'A15 Bionic', 'Doble 12 MP', 'Todo el día', 'Detección de choques'],
+  [/iphone 13 pro max/, '6,7" OLED 120 Hz', 'A15 Bionic', 'Triple 12 MP · zoom 3x', 'Todo el día', 'ProMotion'],
+  [/iphone 13 pro/, '6,1" OLED 120 Hz', 'A15 Bionic', 'Triple 12 MP · zoom 3x', 'Todo el día', 'ProMotion'],
+  [/iphone 13 mini/, '5,4" OLED', 'A15 Bionic', 'Doble 12 MP', 'Todo el día', 'Compacto'],
+  [/iphone 13\b/, '6,1" OLED', 'A15 Bionic', 'Doble 12 MP', 'Todo el día', '5G'],
+  [/iphone 12 pro max/, '6,7" OLED', 'A14 Bionic', 'Triple 12 MP · LiDAR', 'Todo el día', 'MagSafe, 5G'],
+  [/iphone 12 pro/, '6,1" OLED', 'A14 Bionic', 'Triple 12 MP · LiDAR', 'Todo el día', 'MagSafe, 5G'],
+  [/iphone 12 mini/, '5,4" OLED', 'A14 Bionic', 'Doble 12 MP', 'Todo el día', 'Compacto, MagSafe, 5G'],
+  [/iphone 12\b/, '6,1" OLED', 'A14 Bionic', 'Doble 12 MP', 'Todo el día', 'MagSafe, 5G'],
+  [/iphone 11 pro max/, '6,5" OLED', 'A13 Bionic', 'Triple 12 MP', 'Todo el día', 'Face ID'],
+  [/iphone 11 pro/, '5,8" OLED', 'A13 Bionic', 'Triple 12 MP', 'Todo el día', 'Face ID'],
+  [/iphone 11\b/, '6,1" LCD', 'A13 Bionic', 'Doble 12 MP', 'Todo el día', 'Face ID'],
+  [/iphone se ?3/, '4,7" LCD', 'A15 Bionic', '12 MP', '—', 'Touch ID, 5G'],
+  [/iphone se ?2/, '4,7" LCD', 'A13 Bionic', '12 MP', '—', 'Touch ID'],
+  [/ipad .*m5 pro|ipad pro .*m5/, 'Ultra Retina XDR (OLED)', 'M5', '12 MP', 'Hasta 10 h', 'Compatible con Apple Pencil Pro'],
+  [/ipad air .*m3/, 'Liquid Retina', 'M3', '12 MP', 'Hasta 10 h', 'Compatible con Apple Pencil Pro'],
+  [/ipad mini .*a17|ipad mini 7/, '8,3" Liquid Retina', 'A17 Pro', '12 MP', 'Hasta 10 h', 'Compatible con Apple Pencil Pro'],
+  [/ipad 11|ipad .*a16/, '11" Liquid Retina', 'A16', '12 MP', 'Hasta 10 h', 'Touch ID'],
+  [/ipad 9/, '10,2" Retina', 'A13 Bionic', '8 MP', 'Hasta 10 h', 'Touch ID, botón de inicio'],
+  [/macbook pro .*m5/, '14" Liquid Retina XDR', 'M5', '—', 'Hasta 24 h', 'Para trabajo profesional'],
+  [/macbook air .*m5/, '13,6" Liquid Retina', 'M5', '—', 'Todo el día', 'Liviana, sin ventilador, MagSafe'],
+  [/macbook neo/, '13" Liquid Retina', 'A18 Pro', '—', 'Todo el día', 'La Mac más accesible, 2 USB‑C'],
+  [/watch ultra 2/, '49 mm, siempre activa', 'S9', '—', 'Hasta 36 h', 'Titanio, ideal deporte y aventura'],
+  [/watch ultra/, '49 mm, siempre activa', 'S8', '—', 'Hasta 36 h', 'Titanio, ideal deporte y aventura'],
+  [/watch series 11/, 'Siempre activa, más brillo', 'S10', '—', 'Hasta 24 h', 'ECG, oxígeno en sangre'],
+  [/watch series 10/, 'OLED gran angular, siempre activa', 'S10', '—', 'Hasta 18 h', 'El más delgado, ECG'],
+  [/watch series 9/, 'Siempre activa', 'S9', '—', 'Hasta 18 h', 'Doble toque, ECG'],
+  [/watch se/, 'Retina', 'S10', '—', 'Hasta 18 h', 'Detección de caídas y choques'],
+  [/airpods 4 ?- ?anc|airpods 4 anc/, '—', 'H2', '—', '—', 'Cancelación activa de ruido, USB‑C'],
+  [/airpods 4/, '—', 'H2', '—', '—', 'Audio espacial, USB‑C'],
+  [/airpods (3 pro|pro 3)/, '—', 'H2', '—', '—', 'Cancelación de ruido, sensor de ritmo cardíaco'],
+  [/airpods (2 pro|pro 2)/, '—', 'H2', '—', '—', 'Cancelación activa de ruido, modo adaptativo'],
+  [/galaxy s25 ultra|s25 ultra/, '6,9" AMOLED 120 Hz', 'Snapdragon 8 Elite', '200 MP', 'Todo el día', 'S Pen incluido'],
+  [/galaxy s22 ultra/, '6,8" AMOLED 120 Hz', 'Snapdragon 8 Gen 1', '108 MP', 'Todo el día', 'S Pen incluido'],
+  [/galaxy s23 fe/, '6,4" AMOLED 120 Hz', '—', '50 MP', 'Todo el día', '—'],
+  [/galaxy s23\b/, '6,1" AMOLED 120 Hz', 'Snapdragon 8 Gen 2', '50 MP', 'Todo el día', 'Compacto'],
+];
+function specsDe(it){
+  const t = norm(it.modelo + ' ' + (it.cat === 'iPad' && !/ipad/i.test(it.modelo) ? 'ipad' : ''));
+  const r = SPECS.find(([re]) => re.test(t));
+  return r ? {pantalla: r[1], chip: r[2], camara: r[3], bateria: r[4], extra: r[5]} : null;
+}
 function abrirComp(){
   const its = itemsComp(); if (its.length < 2) return;
+  const sp = its.map(specsDe);
+  const filaSpec = (lab, k) => sp.some(x => x && x[k] && x[k] !== '—') ? `<tr class="sp"><th>${lab}</th>${sp.map(x => `<td>${esc(x && x[k] && x[k] !== '—' ? x[k] : '—')}</td>`).join('')}</tr>` : '';
   const fila = (lab, f) => `<tr><th>${lab}</th>${its.map(it => `<td>${f(it)}</td>`).join('')}</tr>`;
   const pr = it => { const c = cuotas(it.precio, it)[0]; return c.soloArs ? '$ ' + Math.round(c.ars).toLocaleString('es-AR') : 'USD ' + Math.ceil(c.usd).toLocaleString('es-AR') + `<small>≈ ${fmtARS(c.ars).replace('$ ','$')}</small>`; };
   $('#compTabla').innerHTML = `<div class="tabla-w"><table><thead><tr><th></th>${its.map(it => `<th>${esc(it.modelo)}</th>`).join('')}</tr></thead><tbody>
     ${fila('Precio', pr)}${fila('Capacidad', it => esc(it.gb || '—'))}${fila('Condición', it => esc({'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond))}
     ${fila('Batería', it => esc(it.bat || (it.cond === 'Usado' ? '—' : 'Nueva')))}${fila('Colores', it => esc(it.color || '—'))}
+    ${filaSpec('Pantalla', 'pantalla')}${filaSpec('Chip', 'chip')}${filaSpec('Cámaras', 'camara')}${filaSpec('Autonomía', 'bateria')}${filaSpec('Destacado', 'extra')}
     ${fila('', it => wspBtn(it).replace('<span>Contactanos</span>', '<span>Consultar</span>'))}</tbody></table></div>`;
   $('#modal').hidden = false; document.body.style.overflow = 'hidden';
 }
