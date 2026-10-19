@@ -710,7 +710,7 @@ function renderFilters(){
         `<button aria-pressed="${c===S.cond}" data-cond="${esc(c)}">${c === 'Todos' ? 'Todos' : c === 'Open box' ? 'Open box' : c + 's'}</button>`).join('')}</div>` : '';
   const gens = [...new Set(inCat.map(genDe).filter(Boolean))].sort((a, b) => (/^iPhone/.test(b) - /^iPhone/.test(a)) || genNum(b) - genNum(a));
   if (S.gen && !gens.includes(S.gen)) S.gen = '';
-  const genRow = gens.length > 1 ? `<div class="gens" role="group" aria-label="Modelo"><button data-gen="" aria-pressed="${!S.gen}">Todos</button>${gens.map(g =>
+  const genRow = false && gens.length > 1 ? `<div class="gens" role="group" aria-label="Modelo"><button data-gen="" aria-pressed="${!S.gen}">Todos</button>${gens.map(g =>
       `<button data-gen="${esc(g)}" aria-pressed="${S.gen === g}">${esc(g)}</button>`).join('')}</div>` : '';
   $('#filters').innerHTML = seg + `<div class="busca-row"><input class="search" id="q" type="search" placeholder="Buscar por modelo, capacidad o color" value="${esc(S.q)}" aria-label="Buscar">
     <select class="orden" id="orden" aria-label="Ordenar"><option value="rec"${S.orden==='rec'?' selected':''}>Recomendados</option><option value="asc"${S.orden==='asc'?' selected':''}>Menor precio</option><option value="desc"${S.orden==='desc'?' selected':''}>Mayor precio</option></select></div>` + genRow;
