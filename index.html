@@ -247,6 +247,8 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .promo-top{background:linear-gradient(150deg,var(--navy),var(--azul));color:#fff;padding:30px 22px 24px;text-align:center}
 .promo-top img{display:block;width:100%;border-radius:12px;margin:0 0 14px}
 .promo-et{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.16);padding:5px 11px;border-radius:99px;margin-bottom:12px}
+.promo-med{display:block;width:74px;height:92px;margin:0 auto 12px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.3))}
+.promo-med[hidden],.promo-et[hidden]{display:none}
 .promo-top h2{margin:0;font-size:25px;line-height:1.15;font-weight:800}
 .promo-bot{padding:18px 22px 22px;text-align:center}
 .promo-bot p{margin:0 0 16px;color:var(--gris);font-size:15px;line-height:1.45}
@@ -339,12 +341,13 @@ const CONFIG = {
   // Cartel publicitario al entrar (ACTIVO: false para apagarlo)
   PROMO: {
     ACTIVO: true,
-    ETIQUETA: 'Farroyo · Rosario',
-    TITULO: 'Financiá tu iPhone solo con tu DNI',
-    TEXTO: 'Hasta 12 cuotas fijas, sin tarjeta. Coordiná tu cita y retiralo en el día.',
+    MEDALLA: true,                       // medalla de 1er puesto arriba del título
+    ETIQUETA: '',
+    TITULO: 'Somos líderes en Ventas',
+    TEXTO: 'Oficinas en Zona Centro, Rosario.',
     IMAGEN: '',                          // opcional: URL de una imagen (ej: /promo.jpg)
-    BOTON: 'Ver cuotas con DNI',
-    LINK: '/dni/',                       // dejar vacío para que el botón abra WhatsApp
+    BOTON: 'Escribinos por WhatsApp',
+    LINK: '',                       // dejar vacío para que el botón abra WhatsApp
     MENSAJE_WSP: 'Hola! Vi la promo en la web y quería consultar.',
     UNA_VEZ_POR_VISITA: true             // false = aparece cada vez que recarga la página
   },
@@ -1112,7 +1115,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 <div class="promo" id="promo" hidden role="dialog" aria-modal="true" aria-labelledby="promoT">
   <div class="promo-box">
     <button class="promo-x" id="promoX" aria-label="Cerrar">×</button>
-    <div class="promo-top"><img id="promoImg" alt="" hidden><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2></div>
+    <div class="promo-top"><img id="promoImg" alt="" hidden><svg class="promo-med" id="promoMed" hidden viewBox="0 0 96 120" aria-hidden="true"><path d="M30 2h14l10 40H40z" fill="#1565D8"/><path d="M66 2H52L42 42h14z" fill="#8FB8F0"/><circle cx="48" cy="76" r="38" fill="#B8861B"/><circle cx="48" cy="76" r="34" fill="url(#mg)"/><circle cx="48" cy="76" r="26" fill="none" stroke="#FFF3C4" stroke-opacity=".55" stroke-width="2"/><text x="48" y="90" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="800" font-size="40" fill="#7A5608">1</text><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".5" stop-color="#F2C23C"/><stop offset="1" stop-color="#D19A1E"/></linearGradient></defs></svg><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2></div>
     <div class="promo-bot"><p id="promoTx"></p><a class="promo-cta" id="promoBtn"></a><button class="promo-no" id="promoNo">Seguir viendo el catálogo</button></div>
   </div>
 </div>
@@ -1123,6 +1126,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
   try { if (P.UNA_VEZ_POR_VISITA && sessionStorage.getItem(K)) return; } catch(e){}
   const el = document.getElementById('promo'), g = id => document.getElementById(id);
   g('promoEt').textContent = P.ETIQUETA || ''; g('promoEt').hidden = !P.ETIQUETA;
+  g('promoMed').toggleAttribute('hidden', !P.MEDALLA);
   g('promoT').textContent = P.TITULO || ''; g('promoTx').textContent = P.TEXTO || '';
   if (P.IMAGEN) { g('promoImg').src = P.IMAGEN; g('promoImg').hidden = false; }
   const b = g('promoBtn'); b.textContent = P.BOTON || 'Consultar';
