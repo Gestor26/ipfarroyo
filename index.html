@@ -256,7 +256,12 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .promo-bot p{margin:0 0 16px;color:var(--gris);font-size:15px;line-height:1.45}
 .promo-cta{display:block;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;padding:14px;border-radius:12px;font-size:15px}
 .promo-no{margin-top:10px;background:none;border:0;color:var(--gris);font-size:14px;cursor:pointer;padding:8px}
-.promo-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.2);color:#fff;font-size:22px;line-height:1;cursor:pointer}
+.promo-x{position:absolute;top:10px;right:8px;border:0;background:none;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0}
+.promo-xi{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);font-size:22px;line-height:34px;text-align:center}
+.promo-xl{font-size:11px;font-weight:600;letter-spacing:.02em;opacity:.9}
+.promo-ind{color:var(--navy);font-weight:700;font-size:15px;line-height:1.4;background:var(--celeste);border-radius:12px;padding:12px 14px}
+.promo-ind[hidden],.promo-cta[hidden]{display:none}
+.promo-bot p:last-child{margin:0}
 .modal{position:fixed;inset:0;z-index:30;background:rgba(11,18,32,.55);display:flex;align-items:flex-end;justify-content:center}
 .modal[hidden]{display:none}
 .modal-box{position:relative;background:#fff;width:100%;max-width:760px;max-height:88vh;overflow:auto;border-radius:18px 18px 0 0;padding:20px 16px 24px}
@@ -348,8 +353,9 @@ const CONFIG = {
     TITULO: 'Somos líderes en Ventas',
     SUBTITULO: 'FINANCIÁ TU IPHONE CON DNI',
     TEXTO: 'Oficinas en Zona Centro, Rosario.',
+    INDICACION: 'Elegí tu equipo y contactanos por WhatsApp',
     IMAGEN: '',                          // opcional: URL de una imagen (ej: /promo.jpg)
-    BOTON: 'Escribinos por WhatsApp',
+    BOTON: '',                           // vacío = sin botón
     LINK: '',                       // dejar vacío para que el botón abra WhatsApp
     MENSAJE_WSP: 'Hola! Vi la promo en la web y quería consultar.',
     UNA_VEZ_POR_VISITA: true             // false = aparece cada vez que recarga la página
@@ -1116,9 +1122,9 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 </script>
 <div class="promo" id="promo" hidden role="dialog" aria-modal="true" aria-labelledby="promoT">
   <div class="promo-box">
-    <button class="promo-x" id="promoX" aria-label="Cerrar">×</button>
+    <button class="promo-x" id="promoX" aria-label="Cerrar"><span class="promo-xi">×</span><span class="promo-xl">Cerrar</span></button>
     <div class="promo-top"><img id="promoImg" alt="" hidden><svg class="promo-med" id="promoMed" hidden viewBox="0 0 96 120" aria-hidden="true"><path d="M30 2h14l10 40H40z" fill="#1565D8"/><path d="M66 2H52L42 42h14z" fill="#8FB8F0"/><circle cx="48" cy="76" r="38" fill="#B8861B"/><circle cx="48" cy="76" r="34" fill="url(#mg)"/><circle cx="48" cy="76" r="26" fill="none" stroke="#FFF3C4" stroke-opacity=".55" stroke-width="2"/><text x="48" y="90" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="800" font-size="40" fill="#7A5608">1</text><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".5" stop-color="#F2C23C"/><stop offset="1" stop-color="#D19A1E"/></linearGradient></defs></svg><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2><div class="promo-sub" id="promoSub"></div></div>
-    <div class="promo-bot"><p id="promoTx"></p><a class="promo-cta" id="promoBtn"></a><button class="promo-no" id="promoNo">Seguir viendo el catálogo</button></div>
+    <div class="promo-bot"><p id="promoTx"></p><div class="promo-ind" id="promoInd"></div><a class="promo-cta" id="promoBtn"></a></div>
   </div>
 </div>
 <script>
@@ -1131,13 +1137,15 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
   g('promoMed').toggleAttribute('hidden', !P.MEDALLA);
   g('promoT').textContent = P.TITULO || ''; g('promoSub').textContent = P.SUBTITULO || ''; g('promoSub').hidden = !P.SUBTITULO; g('promoTx').textContent = P.TEXTO || '';
   if (P.IMAGEN) { g('promoImg').src = P.IMAGEN; g('promoImg').hidden = false; }
-  const b = g('promoBtn'); b.textContent = P.BOTON || 'Consultar';
+  g('promoInd').textContent = P.INDICACION || ''; g('promoInd').hidden = !P.INDICACION;
+  const b = g('promoBtn'); b.textContent = P.BOTON || ''; b.hidden = !P.BOTON;
+  if (P.BOTON && P.INDICACION) g('promoInd').style.marginBottom = '14px';
   if (P.LINK) b.href = P.LINK;
   else { b.href = 'https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(P.MENSAJE_WSP || ''); b.target = '_blank'; b.rel = 'noopener'; }
   const cerrar = () => { el.classList.remove('on'); document.body.style.overflow = ''; setTimeout(() => el.hidden = true, 250);
     try { sessionStorage.setItem(K, '1'); } catch(e){} };
   b.addEventListener('click', () => { try { sessionStorage.setItem(K, '1'); } catch(e){} });
-  g('promoX').onclick = cerrar; g('promoNo').onclick = cerrar;
+  g('promoX').onclick = cerrar;
   el.addEventListener('click', e => { if (e.target === el) cerrar(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !el.hidden) cerrar(); });
   setTimeout(() => { el.hidden = false; document.body.style.overflow = 'hidden'; requestAnimationFrame(() => el.classList.add('on')); }, 700);
