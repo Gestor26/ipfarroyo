@@ -212,6 +212,47 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .sec-band h2{margin:0;width:var(--secw,240px);max-width:100%;box-sizing:border-box;text-align:center;background:var(--navy);color:#fff;
   font-size:15px;font-weight:700;letter-spacing:.3px;border-radius:999px;padding:10px 22px;white-space:nowrap;
   box-shadow:0 4px 12px rgba(11,42,91,.18)}
+.actbadge{display:inline-block;font-size:12px;font-weight:700;color:#0E7A43;background:#E6F6EC;border-radius:999px;padding:4px 10px;margin-bottom:10px}
+.actbadge::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#1FB955;margin-right:6px;vertical-align:1px}
+.busca-row{display:flex;gap:8px;width:100%}
+.busca-row .search{flex:1;min-width:0}
+.orden{flex:none;height:34px;border:1px solid var(--linea);border-radius:10px;background:#fff;font:inherit;font-size:13px;font-weight:600;color:var(--navy);padding:0 8px}
+@media (min-width:720px){.orden{height:38px}}
+.gens{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px;width:100%}
+.gens::-webkit-scrollbar{display:none}
+.gens button{flex:none;border:1px solid var(--linea);background:#fff;border-radius:999px;padding:5px 11px;font:inherit;font-size:12.5px;font-weight:700;color:var(--navy);cursor:pointer}
+.gens button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.pc-img{position:relative;height:84px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#F3F6FA,#E9EEF5);border-radius:9px;margin-bottom:8px}
+.pc-img svg{height:70px;width:70px}
+.pc-dots{position:absolute;right:8px;bottom:7px;display:flex;gap:3px}
+.pc-dots i{width:10px;height:10px;border-radius:50%;border:1px solid rgba(11,42,91,.25)}
+.pc-b{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.pc-b span{font-size:10.5px;font-weight:700;color:var(--navy);background:#EEF3FA;border-radius:6px;padding:3px 6px}
+.pc-c{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:7px;font-size:12px;font-weight:600;color:var(--gris);cursor:pointer}
+.pc-c input{accent-color:#0B2A5B;width:15px;height:15px}
+.pc.comp{outline:2px solid #0B2A5B;outline-offset:-1px}
+.fab-wsp{position:fixed;right:16px;bottom:18px;z-index:20;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(0,0,0,.22)}
+.fab-top{position:fixed;right:22px;bottom:86px;z-index:20;width:44px;height:44px;border-radius:50%;border:1px solid var(--linea);background:#fff;color:var(--navy);font-size:20px;font-weight:700;box-shadow:0 6px 16px rgba(11,42,91,.15);cursor:pointer}
+.fab-top[hidden]{display:none}
+.compbar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:19;display:flex;align-items:center;gap:10px;background:#0B2A5B;color:#fff;border-radius:999px;padding:8px 8px 8px 16px;box-shadow:0 10px 26px rgba(11,42,91,.3);font-size:13px;font-weight:600;max-width:calc(100% - 100px)}
+.compbar[hidden]{display:none}
+.compbar button{border:0;border-radius:999px;background:#fff;color:#0B2A5B;font:inherit;font-weight:800;padding:8px 14px;cursor:pointer;white-space:nowrap}
+.compbar button:disabled{opacity:.45;cursor:default}
+.compbar button.link{background:none;color:#fff;font-weight:600;padding:8px 6px;text-decoration:underline}
+#compTxt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.modal{position:fixed;inset:0;z-index:30;background:rgba(11,18,32,.55);display:flex;align-items:flex-end;justify-content:center}
+.modal[hidden]{display:none}
+.modal-box{position:relative;background:#fff;width:100%;max-width:760px;max-height:88vh;overflow:auto;border-radius:18px 18px 0 0;padding:20px 16px 24px}
+@media (min-width:720px){.modal{align-items:center}.modal-box{border-radius:18px}}
+.modal-box h3{margin:0 0 12px;color:var(--navy);font-size:18px}
+.modal-x{position:absolute;top:10px;right:12px;border:0;background:#F2F5F9;width:34px;height:34px;border-radius:50%;font-size:22px;color:var(--navy);cursor:pointer}
+.tabla-w{overflow-x:auto}
+.tabla-w table{border-collapse:collapse;width:100%;font-size:13px}
+.tabla-w th,.tabla-w td{padding:9px 8px;border-bottom:1px solid var(--linea);text-align:left;vertical-align:top}
+.tabla-w thead th{color:var(--navy);font-size:13.5px}
+.tabla-w tbody th{color:var(--gris);font-weight:600;white-space:nowrap}
+.tabla-w td small{display:block;color:var(--gris);font-size:11px}
+.tabla-w .wsp-btn{font-size:12px;padding:7px 10px}
 </style>
 </head>
 <body>
@@ -226,6 +267,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 
 <section class="intro">
   <div class="wrap">
+    <div class="actbadge" id="actbadge" hidden></div>
     <h1 id="titulo">Catálogo de equipos</h1>
     <p id="bajada"></p>
     <dl class="facts">
@@ -261,6 +303,11 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
   <div id="list"></div>
   <div id="state"></div>
 </main>
+
+<a class="fab-wsp" id="fabWsp" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp" href="#"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg></a>
+<button class="fab-top" id="fabTop" type="button" aria-label="Volver arriba" hidden>↑</button>
+<div class="compbar" id="compbar" hidden><span id="compTxt"></span><button type="button" id="compVer">Comparar</button><button type="button" class="link" id="compBorrar">Quitar</button></div>
+<div class="modal" id="modal" hidden><div class="modal-box" role="dialog" aria-modal="true" aria-label="Comparar equipos"><button class="modal-x" id="modalX" aria-label="Cerrar">×</button><h3>Comparar equipos</h3><div id="compTabla"></div></div></div>
 
 <footer>
   <div class="wrap" id="foot"></div>
@@ -506,7 +553,7 @@ function track(evento, detalle){
 /* ============================================================
    Render
    ============================================================ */
-const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos', q: '', tope: '', moneda: 'USD', modo: 'contado' };
+const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos', q: '', tope: '', moneda: 'USD', modo: 'contado', orden: 'rec', gen: '', comp: [] };
 /* Formas de pago (pestañas de arriba) */
 const TARJETA = [ {n:1,r:.15},{n:3,r:.45},{n:6,r:.55},{n:9,r:.75},{n:12,r:.90},{n:18,r:1.05},{n:24,r:1.25} ];   // recargo total (no se muestra)
 const MODOS = {
@@ -558,7 +605,14 @@ function enTope(c){
 const topeTxt = () => S.moneda === 'USD' ? 'USD ' + S.tope : '$ ' + S.tope;
 
 function renderActualizado(){
-  const el = $('#actualizado'); el.parentElement.hidden = true; return;
+  const el = $('#actualizado'), b = document.getElementById('actbadge');
+  if (S.actualizado && b){
+    const d = new Date(S.actualizado), h = new Date();
+    const diff = Math.round((new Date(h.getFullYear(), h.getMonth(), h.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
+    b.textContent = diff <= 0 ? 'Precios actualizados hoy' : diff === 1 ? 'Precios actualizados ayer' : 'Precios actualizados el ' + d.toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit'});
+    b.hidden = false;
+  }
+  el.parentElement.hidden = true; return;
   if (!S.actualizado){ el.parentElement.hidden = true; return; }
   const d = new Date(S.actualizado), hoy = new Date();
   const dia = new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -616,8 +670,14 @@ function renderFilters(){
   const seg = conds.length > 1 && S.cat !== TODOS
     ? `<div class="seg" role="group" aria-label="Condición">${['Todos', ...conds].map(c =>
         `<button aria-pressed="${c===S.cond}" data-cond="${esc(c)}">${c === 'Todos' ? 'Todos' : c === 'Open box' ? 'Open box' : c + 's'}</button>`).join('')}</div>` : '';
-  $('#filters').innerHTML = seg + `<input class="search" id="q" type="search" placeholder="Buscar por modelo, capacidad o color" value="${esc(S.q)}" aria-label="Buscar">`;
+  const gens = [...new Set(inCat.map(genDe).filter(Boolean))].sort((a, b) => (/^iPhone/.test(b) - /^iPhone/.test(a)) || genNum(b) - genNum(a));
+  if (S.gen && !gens.includes(S.gen)) S.gen = '';
+  const genRow = gens.length > 1 ? `<div class="gens" role="group" aria-label="Modelo"><button data-gen="" aria-pressed="${!S.gen}">Todos</button>${gens.map(g =>
+      `<button data-gen="${esc(g)}" aria-pressed="${S.gen === g}">${esc(g)}</button>`).join('')}</div>` : '';
+  $('#filters').innerHTML = seg + `<div class="busca-row"><input class="search" id="q" type="search" placeholder="Buscar por modelo, capacidad o color" value="${esc(S.q)}" aria-label="Buscar">
+    <select class="orden" id="orden" aria-label="Ordenar"><option value="rec"${S.orden==='rec'?' selected':''}>Recomendados</option><option value="asc"${S.orden==='asc'?' selected':''}>Menor precio</option><option value="desc"${S.orden==='desc'?' selected':''}>Mayor precio</option></select></div>` + genRow;
   $('#q').addEventListener('input', e => { S.q = e.target.value; renderList(); });
+  $('#orden').addEventListener('change', e => { S.orden = e.target.value; renderList(); });
 }
 
 function varHTML(it){
@@ -661,18 +721,55 @@ function iconoSec(t){
   if (t.includes('pencil')) return '✏️';
   return '📱';
 }
+/* ---------- Ayudas: generación, precio en USD, colores e íconos ---------- */
+function genDe(it){
+  const m = String(it.modelo).match(/iPhone\s+(\d{1,2}|SE)/i);
+  if (m) return 'iPhone ' + m[1].toUpperCase();
+  const s = String(it.modelo).match(/Galaxy\s+(S\d+|A\d+|Z\s?\w+)/i); if (s) return 'Galaxy ' + s[1].replace(/\s/,'');
+  return '';
+}
+const genNum = g => { const n = parseInt(String(g).replace(/\D+/g, ''), 10); return isNaN(n) ? 0 : n; };
+const precioUSD = it => it.moneda === 'ARS' ? it.precio / (S.dolar.valor || 1) : it.precio;
+const COLORES = [['deep blue','#2B3F6B'],['mist','#B9C9D9'],['sage','#A9B79A'],['lavender','#C9B8E3'],['orange','#E2783A'],['cosmic','#E2783A'],['burgundy','#6E2233'],['glacier','#DCE8F0'],
+  ['natural','#C2B9AA'],['desert','#C7A98A'],['titanium black','#3A3A3C'],['black titanium','#3A3A3C'],['white titanium','#EDEBE6'],['blue titanium','#3E4A5C'],['space black','#2E2E30'],
+  ['deep purple','#5A4A6B'],['purple','#B8A6D9'],['midnight','#2B3040'],['starlight','#EFE8DA'],['graphite','#55565A'],['sierra','#9BB4CF'],['pacific','#2F4A5C'],['alpine','#4A5E4E'],
+  ['gold','#E9D8B4'],['silver','#E3E4E6'],['space gray','#6B6C70'],['gray','#8A8B8F'],['pink','#F2C9CF'],['rose','#E8C3C0'],['red','#C2272D'],['yellow','#F2D96B'],['green','#A9C7A3'],
+  ['teal','#7FB3B1'],['ultramarine','#5A6FD8'],['sky','#BBD6EE'],['blue','#8FB3D9'],['white','#F4F4F2'],['blanco','#F4F4F2'],['black','#2B2B2D'],['negro','#2B2B2D']];
+function colorHex(nombre){ const n = norm(nombre); const c = COLORES.find(([k]) => n.includes(k)); return c ? c[1] : '#C9D2DE'; }
+function iconoEquipo(it, hex){
+  const t = norm(it.cat + ' ' + it.modelo), st = 'stroke="#0B2A5B" stroke-opacity=".25" stroke-width="1.5"';
+  if (/watch/.test(t)) return `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="24" y="4" width="16" height="10" rx="3" fill="#C9D2DE"/><rect x="24" y="50" width="16" height="10" rx="3" fill="#C9D2DE"/><rect x="16" y="12" width="32" height="40" rx="10" fill="${hex}" ${st}/><rect x="20" y="16" width="24" height="32" rx="7" fill="#0B1220"/></svg>`;
+  if (/airpods|pencil|airtag/.test(t)) return `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="14" y="20" width="36" height="30" rx="12" fill="#F4F4F2" ${st}/><line x1="14" y1="31" x2="50" y2="31" stroke="#0B2A5B" stroke-opacity=".2" stroke-width="1.5"/><circle cx="32" cy="40" r="2" fill="#0B2A5B" fill-opacity=".3"/></svg>`;
+  if (/macbook|mac /.test(t)) return `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="14" width="44" height="30" rx="3" fill="${hex}" ${st}/><rect x="13" y="17" width="38" height="24" rx="1.5" fill="#0B1220"/><path d="M4 46h56l-4 5H8z" fill="${hex}" ${st}/></svg>`;
+  if (/ipad/.test(t)) return `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="6" width="40" height="52" rx="6" fill="${hex}" ${st}/><rect x="15" y="9" width="34" height="46" rx="3.5" fill="#0B1220"/></svg>`;
+  return `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="18" y="4" width="28" height="56" rx="8" fill="${hex}" ${st}/><rect x="21" y="7" width="22" height="50" rx="5.5" fill="#0B1220"/><rect x="28" y="9" width="8" height="2.6" rx="1.3" fill="#2A3346"/></svg>`;
+}
+function badgesDe(it){
+  const b = [];
+  if (it.cond === 'Sellado') b.push(it.cat === 'iPhone' || /iphone|ipad|mac|watch|airpods/i.test(it.cat) ? 'Garantía oficial' : 'Nuevo sellado');
+  else if (it.cond === 'Open box') b.push('Open box');
+  if (it.bat && /^100/.test(String(it.bat))) b.push('Batería 100%');
+  else if (it.bats && it.bats.length && Math.max(...it.bats) >= 90) b.push('Batería +90%');
+  return b;
+}
+const claveIt = it => [it.cat, it.cond, it.modelo, it.gb, it.precio, it.nota].join('|');
 function cardHTML(it){
   const c = cuotas(it.precio, it)[0];
   const det = [it.color, it.bat ? 'Bat. ' + it.bat : '', it.nota].filter(Boolean).map(esc).join(' · ');
   const precio = c.soloArs ? '<small>$</small>' + Math.round(c.ars).toLocaleString('es-AR')
                            : '<small>USD</small>' + Math.ceil(c.usd).toLocaleString('es-AR');
-  return `<article class="pc${enTope(c) ? '' : ' off'}">
+  const hex = colorHex((it.colores && it.colores[0]) || it.color || ''), k = claveIt(it), enComp = S.comp.includes(k);
+  const bd = badgesDe(it);
+  return `<article class="pc${enTope(c) ? '' : ' off'}${enComp ? ' comp' : ''}">
+    <div class="pc-img">${iconoEquipo(it, hex)}${(it.colores || []).length > 1 ? `<div class="pc-dots">${it.colores.slice(0, 5).map(n => `<i style="background:${colorHex(n)}" title="${esc(n)}"></i>`).join('')}</div>` : ''}</div>
+    ${bd.length ? `<div class="pc-b">${bd.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
     <div class="pc-m">${esc(it.modelo)}</div>
     ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
     ${det ? `<div class="pc-d">${det}</div>` : ''}
     <div class="pc-p">${precio}</div>
     ${c.soloArs ? '' : `<div class="pc-a">≈ ${fmtARS(c.ars).replace('$ ','$')}</div>`}
     ${wspBtn(it).replace('<span>Contactanos</span>', '<span>Consultar</span>').replace('class="wsp-btn"', 'class="wsp-btn pc-w"')}
+    <label class="pc-c"><input type="checkbox" data-comp="${esc(k)}"${enComp ? ' checked' : ''}> Comparar</label>
   </article>`;
 }
 function wspBtn(it){
@@ -695,7 +792,9 @@ function renderList(){
   const list = S.items.filter(it => enCat(it)
     && (S.cond === 'Todos' || it.cond === S.cond)
     && (!q || norm([it.modelo, it.gb, it.color, it.cond, it.bat].join(' ')).includes(q))
-    && (!tope || cuotas(it.precio, it).some(enTope)));
+    && (!tope || cuotas(it.precio, it).some(enTope))
+    && (!S.gen || genDe(it) === S.gen));
+  if (S.orden !== 'rec') list.sort((a, b) => (precioUSD(a) - precioUSD(b)) * (S.orden === 'asc' ? 1 : -1));
 
   const thead = `<div class="thead"><span>Equipo</span>${CONFIG.PLANES.map(p => `<span>${p.n} cuotas</span>`).join('')}</div>`;
   // En "Todos" se agrupa por sección (Sellado, Open Box, Usados, iPad); en cada pestaña, por condición
@@ -770,16 +869,54 @@ function igualarBarras(){
 }
 function medirBarra(){ const b = document.getElementById('bar'); if (b) document.documentElement.style.setProperty('--barh', b.offsetHeight + 'px'); }
 addEventListener('resize', medirBarra);
+/* ---------- Comparador ---------- */
+function itemsComp(){ return S.comp.map(k => S.items.find(it => claveIt(it) === k)).filter(Boolean); }
+function pintarComp(){
+  const its = itemsComp(); S.comp = its.map(claveIt);
+  const bar = $('#compbar'); bar.hidden = !its.length;
+  $('#compTxt').textContent = its.length === 1 ? 'Elegí otro equipo para comparar' : its.length + ' equipos elegidos';
+  $('#compVer').disabled = its.length < 2;
+}
+function abrirComp(){
+  const its = itemsComp(); if (its.length < 2) return;
+  const fila = (lab, f) => `<tr><th>${lab}</th>${its.map(it => `<td>${f(it)}</td>`).join('')}</tr>`;
+  const pr = it => { const c = cuotas(it.precio, it)[0]; return c.soloArs ? '$ ' + Math.round(c.ars).toLocaleString('es-AR') : 'USD ' + Math.ceil(c.usd).toLocaleString('es-AR') + `<small>≈ ${fmtARS(c.ars).replace('$ ','$')}</small>`; };
+  $('#compTabla').innerHTML = `<div class="tabla-w"><table><thead><tr><th></th>${its.map(it => `<th>${esc(it.modelo)}</th>`).join('')}</tr></thead><tbody>
+    ${fila('Precio', pr)}${fila('Capacidad', it => esc(it.gb || '—'))}${fila('Condición', it => esc({'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond))}
+    ${fila('Batería', it => esc(it.bat || (it.cond === 'Usado' ? '—' : 'Nueva')))}${fila('Colores', it => esc(it.color || '—'))}
+    ${fila('', it => wspBtn(it).replace('<span>Contactanos</span>', '<span>Consultar</span>'))}</tbody></table></div>`;
+  $('#modal').hidden = false; document.body.style.overflow = 'hidden';
+}
+function cerrarComp(){ $('#modal').hidden = true; document.body.style.overflow = ''; }
+document.addEventListener('change', e => {
+  const c = e.target.closest('[data-comp]'); if (!c) return;
+  const k = c.dataset.comp;
+  if (c.checked){ if (S.comp.length >= 3){ c.checked = false; alert('Podés comparar hasta 3 equipos.'); return; } S.comp.push(k); }
+  else S.comp = S.comp.filter(x => x !== k);
+  c.closest('.pc').classList.toggle('comp', c.checked); pintarComp();
+});
+document.addEventListener('DOMContentLoaded', () => {});
+function iniciarFlotantes(){
+  $('#compVer').onclick = abrirComp; $('#compBorrar').onclick = () => { S.comp = []; pintarComp(); renderList(); };
+  $('#modalX').onclick = cerrarComp; $('#modal').addEventListener('click', e => { if (e.target.id === 'modal') cerrarComp(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') cerrarComp(); });
+  $('#fabWsp').href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent('Hola! Estoy viendo el catálogo y quería hacer una consulta.')}`;
+  $('#fabTop').onclick = () => scrollTo({top: 0, behavior: 'smooth'});
+  addEventListener('scroll', () => { $('#fabTop').hidden = scrollY < 900; }, {passive: true});
+}
+iniciarFlotantes();
 function renderAll(){
   $('#bar').hidden = false;
-  renderCats(); renderFilters(); renderBudget(); renderList(); renderFooter(); medirBarra(); igualarBarras();
+  renderCats(); renderFilters(); renderBudget(); renderList(); renderFooter(); medirBarra(); igualarBarras(); pintarComp();
 }
 
 document.addEventListener('click', e => {
   const md = e.target.closest('[data-modo]');
   if (md){ if (md.dataset.modo !== S.modo) history.replaceState(null, '', '#' + md.dataset.modo); cambiarModo(md.dataset.modo); return; }
   const cat = e.target.closest('[data-cat]');
-  if (cat){ S.cat = cat.dataset.cat; S.cond = 'Todos'; S.q = ''; renderAll(); return; }
+  if (cat){ S.cat = cat.dataset.cat; S.cond = 'Todos'; S.q = ''; S.gen = ''; renderAll(); return; }
+  const gn = e.target.closest('[data-gen]');
+  if (gn){ S.gen = gn.dataset.gen; renderFilters(); renderList(); medirBarra(); return; }
   const cond = e.target.closest('[data-cond]');
   if (cond){ S.cond = cond.dataset.cond; renderFilters(); renderList(); return; }
   const mon = e.target.closest('[data-moneda]');
