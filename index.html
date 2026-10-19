@@ -250,6 +250,8 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .promo-med{display:block;width:74px;height:92px;margin:0 auto 12px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.3))}
 .promo-med[hidden],.promo-et[hidden]{display:none}
 .promo-top h2{margin:0;font-size:25px;line-height:1.15;font-weight:800}
+.promo-sub{margin-top:12px;display:inline-block;background:#fff;color:var(--navy);font-weight:800;font-size:14px;letter-spacing:.06em;padding:8px 14px;border-radius:10px}
+.promo-sub[hidden]{display:none}
 .promo-bot{padding:18px 22px 22px;text-align:center}
 .promo-bot p{margin:0 0 16px;color:var(--gris);font-size:15px;line-height:1.45}
 .promo-cta{display:block;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;padding:14px;border-radius:12px;font-size:15px}
@@ -344,6 +346,7 @@ const CONFIG = {
     MEDALLA: true,                       // medalla de 1er puesto arriba del título
     ETIQUETA: '',
     TITULO: 'Somos líderes en Ventas',
+    SUBTITULO: 'FINANCIÁ TU IPHONE CON DNI',
     TEXTO: 'Oficinas en Zona Centro, Rosario.',
     IMAGEN: '',                          // opcional: URL de una imagen (ej: /promo.jpg)
     BOTON: 'Escribinos por WhatsApp',
@@ -790,7 +793,6 @@ function cardHTML(it){
   const hex = colorHex((it.colores && it.colores[0]) || it.color || ''), k = claveIt(it), enComp = S.comp.includes(k);
   const bd = badgesDe(it);
   return `<article class="pc${enTope(c) ? '' : ' off'}${enComp ? ' comp' : ''}">
-    <div class="pc-img">${iconoEquipo(it, hex)}${(it.colores || []).length > 1 ? `<div class="pc-dots">${it.colores.slice(0, 5).map(n => `<i style="background:${colorHex(n)}" title="${esc(n)}"></i>`).join('')}</div>` : ''}</div>
     ${bd.length ? `<div class="pc-b">${bd.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
     <div class="pc-m">${esc(it.modelo)}</div>
     ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
@@ -1115,7 +1117,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 <div class="promo" id="promo" hidden role="dialog" aria-modal="true" aria-labelledby="promoT">
   <div class="promo-box">
     <button class="promo-x" id="promoX" aria-label="Cerrar">×</button>
-    <div class="promo-top"><img id="promoImg" alt="" hidden><svg class="promo-med" id="promoMed" hidden viewBox="0 0 96 120" aria-hidden="true"><path d="M30 2h14l10 40H40z" fill="#1565D8"/><path d="M66 2H52L42 42h14z" fill="#8FB8F0"/><circle cx="48" cy="76" r="38" fill="#B8861B"/><circle cx="48" cy="76" r="34" fill="url(#mg)"/><circle cx="48" cy="76" r="26" fill="none" stroke="#FFF3C4" stroke-opacity=".55" stroke-width="2"/><text x="48" y="90" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="800" font-size="40" fill="#7A5608">1</text><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".5" stop-color="#F2C23C"/><stop offset="1" stop-color="#D19A1E"/></linearGradient></defs></svg><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2></div>
+    <div class="promo-top"><img id="promoImg" alt="" hidden><svg class="promo-med" id="promoMed" hidden viewBox="0 0 96 120" aria-hidden="true"><path d="M30 2h14l10 40H40z" fill="#1565D8"/><path d="M66 2H52L42 42h14z" fill="#8FB8F0"/><circle cx="48" cy="76" r="38" fill="#B8861B"/><circle cx="48" cy="76" r="34" fill="url(#mg)"/><circle cx="48" cy="76" r="26" fill="none" stroke="#FFF3C4" stroke-opacity=".55" stroke-width="2"/><text x="48" y="90" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="800" font-size="40" fill="#7A5608">1</text><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".5" stop-color="#F2C23C"/><stop offset="1" stop-color="#D19A1E"/></linearGradient></defs></svg><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2><div class="promo-sub" id="promoSub"></div></div>
     <div class="promo-bot"><p id="promoTx"></p><a class="promo-cta" id="promoBtn"></a><button class="promo-no" id="promoNo">Seguir viendo el catálogo</button></div>
   </div>
 </div>
@@ -1127,7 +1129,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
   const el = document.getElementById('promo'), g = id => document.getElementById(id);
   g('promoEt').textContent = P.ETIQUETA || ''; g('promoEt').hidden = !P.ETIQUETA;
   g('promoMed').toggleAttribute('hidden', !P.MEDALLA);
-  g('promoT').textContent = P.TITULO || ''; g('promoTx').textContent = P.TEXTO || '';
+  g('promoT').textContent = P.TITULO || ''; g('promoSub').textContent = P.SUBTITULO || ''; g('promoSub').hidden = !P.SUBTITULO; g('promoTx').textContent = P.TEXTO || '';
   if (P.IMAGEN) { g('promoImg').src = P.IMAGEN; g('promoImg').hidden = false; }
   const b = g('promoBtn'); b.textContent = P.BOTON || 'Consultar';
   if (P.LINK) b.href = P.LINK;
