@@ -252,6 +252,9 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .promo-top h2{margin:0;font-size:25px;line-height:1.15;font-weight:800}
 .promo-sub{margin-top:12px;display:inline-block;background:#fff;color:var(--navy);font-weight:800;font-size:14px;letter-spacing:.06em;padding:8px 14px;border-radius:10px}
 .promo-sub[hidden]{display:none}
+.promo-ops{display:grid;gap:10px;margin-top:18px}
+.promo-ops a{display:block;background:#fff;color:var(--navy);text-decoration:none;font-weight:800;font-size:15.5px;padding:14px 12px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.promo-ops a:hover{background:var(--celeste)}
 .promo-bot{padding:18px 22px 22px;text-align:center}
 .promo-bot p{margin:0 0 16px;color:var(--gris);font-size:15px;line-height:1.45}
 .promo-cta{display:block;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;padding:14px;border-radius:12px;font-size:15px}
@@ -351,7 +354,11 @@ const CONFIG = {
     MEDALLA: true,                       // medalla de 1er puesto arriba del título
     ETIQUETA: '',
     TITULO: 'Somos líderes en Ventas',
-    SUBTITULO: 'FINANCIÁ TU IPHONE CON DNI',
+    SUBTITULO: '',
+    OPCIONES: [                          // botones debajo del título
+      { TEXTO: 'Quiero financiar con DNI', LINK: '/dni/' },
+      { TEXTO: 'Quiero comprar de contado', LINK: '#catalogo' }   // #catalogo = cierra y va al catálogo
+    ],
     TEXTO: 'Oficinas en Zona Centro, Rosario.',
     INDICACION: 'Elegí tu equipo y contactanos por WhatsApp',
     IMAGEN: '',                          // opcional: URL de una imagen (ej: /promo.jpg)
@@ -1123,7 +1130,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 <div class="promo" id="promo" hidden role="dialog" aria-modal="true" aria-labelledby="promoT">
   <div class="promo-box">
     <button class="promo-x" id="promoX" aria-label="Cerrar"><span class="promo-xi">×</span><span class="promo-xl">Cerrar</span></button>
-    <div class="promo-top"><img id="promoImg" alt="" hidden><svg class="promo-med" id="promoMed" hidden viewBox="0 0 96 120" aria-hidden="true"><path d="M30 2h14l10 40H40z" fill="#1565D8"/><path d="M66 2H52L42 42h14z" fill="#8FB8F0"/><circle cx="48" cy="76" r="38" fill="#B8861B"/><circle cx="48" cy="76" r="34" fill="url(#mg)"/><circle cx="48" cy="76" r="26" fill="none" stroke="#FFF3C4" stroke-opacity=".55" stroke-width="2"/><text x="48" y="90" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="800" font-size="40" fill="#7A5608">1</text><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".5" stop-color="#F2C23C"/><stop offset="1" stop-color="#D19A1E"/></linearGradient></defs></svg><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2><div class="promo-sub" id="promoSub"></div></div>
+    <div class="promo-top"><img id="promoImg" alt="" hidden><svg class="promo-med" id="promoMed" hidden viewBox="0 0 96 120" aria-hidden="true"><path d="M30 2h14l10 40H40z" fill="#1565D8"/><path d="M66 2H52L42 42h14z" fill="#8FB8F0"/><circle cx="48" cy="76" r="38" fill="#B8861B"/><circle cx="48" cy="76" r="34" fill="url(#mg)"/><circle cx="48" cy="76" r="26" fill="none" stroke="#FFF3C4" stroke-opacity=".55" stroke-width="2"/><text x="48" y="90" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="800" font-size="40" fill="#7A5608">1</text><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".5" stop-color="#F2C23C"/><stop offset="1" stop-color="#D19A1E"/></linearGradient></defs></svg><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2><div class="promo-sub" id="promoSub"></div><div class="promo-ops" id="promoOps"></div></div>
     <div class="promo-bot"><p id="promoTx"></p><div class="promo-ind" id="promoInd"></div><a class="promo-cta" id="promoBtn"></a></div>
   </div>
 </div>
@@ -1137,6 +1144,10 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
   g('promoMed').toggleAttribute('hidden', !P.MEDALLA);
   g('promoT').textContent = P.TITULO || ''; g('promoSub').textContent = P.SUBTITULO || ''; g('promoSub').hidden = !P.SUBTITULO; g('promoTx').textContent = P.TEXTO || '';
   if (P.IMAGEN) { g('promoImg').src = P.IMAGEN; g('promoImg').hidden = false; }
+  const ops = g('promoOps');
+  ops.innerHTML = (P.OPCIONES || []).map((o, i) => `<a href="${o.LINK === '#catalogo' ? '#cats' : o.LINK}" data-op="${i}"></a>`).join('');
+  ops.querySelectorAll('a').forEach(a => { const o = P.OPCIONES[+a.dataset.op]; a.textContent = o.TEXTO; });
+  ops.hidden = !(P.OPCIONES || []).length;
   g('promoInd').textContent = P.INDICACION || ''; g('promoInd').hidden = !P.INDICACION;
   const b = g('promoBtn'); b.textContent = P.BOTON || ''; b.hidden = !P.BOTON;
   if (P.BOTON && P.INDICACION) g('promoInd').style.marginBottom = '14px';
@@ -1146,6 +1157,10 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
     try { sessionStorage.setItem(K, '1'); } catch(e){} };
   b.addEventListener('click', () => { try { sessionStorage.setItem(K, '1'); } catch(e){} });
   g('promoX').onclick = cerrar;
+  ops.addEventListener('click', e => { const a = e.target.closest('a'); if (!a) return;
+    try { sessionStorage.setItem(K, '1'); } catch(er){}
+    if (P.OPCIONES[+a.dataset.op].LINK === '#catalogo') { e.preventDefault(); cerrar();
+      setTimeout(() => { const c = document.getElementById('cats'); if (c) window.scrollTo({ top: c.getBoundingClientRect().top + scrollY - 10, behavior: 'smooth' }); }, 260); } });
   el.addEventListener('click', e => { if (e.target === el) cerrar(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !el.hidden) cerrar(); });
   setTimeout(() => { el.hidden = false; document.body.style.overflow = 'hidden'; requestAnimationFrame(() => el.classList.add('on')); }, 700);
