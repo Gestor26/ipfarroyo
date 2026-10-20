@@ -126,6 +126,18 @@ main{padding:8px 0 48px}
 .budget .clear{border:0;background:none;color:var(--azul);font-weight:600;font-size:13px;padding:4px}
 .budget .hint{flex-basis:100%;font-size:12.5px}
 .plan.off{opacity:.3}
+button.plan{font:inherit;background:#fff;border:0;cursor:pointer;color:inherit;margin:0}
+button.plan:hover{background:var(--celeste,#EEF5FD)}
+button.plan[aria-checked="true"]{background:#0B2A5B}
+button.plan[aria-checked="true"] .n,button.plan[aria-checked="true"] .u,button.plan[aria-checked="true"] .u small,button.plan[aria-checked="true"] .a{color:#fff}
+.plans{overflow:hidden}
+.pl-w{min-width:0}
+.elegi{font-size:11.5px;font-weight:700;color:#0B2A5B;margin:0 0 6px}
+@media (min-width:720px){.elegi{text-align:right}button.plan{border-radius:8px;padding-right:10px}button.plan + button.plan{border-left:0}.plans.alerta{border-radius:10px}}
+.wsp-btn.need{background:#B9C2D0;border:0;cursor:pointer;font:inherit;font-weight:700}
+.plans.alerta{outline:2px solid #E5484D;outline-offset:3px;animation:sacudir .4s}
+.aviso-cuotas{font-size:12px;color:#C2272D;font-weight:600;margin-top:6px}
+@keyframes sacudir{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
 .plan.off .u{text-decoration:line-through;text-decoration-thickness:1px}
 
 /* Estados */
@@ -469,7 +481,7 @@ function track(evento, detalle){
 /* ============================================================
    Render
    ============================================================ */
-const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos', q: '', tope: '', moneda: 'USD' };
+const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos', q: '', tope: '', moneda: 'USD', sel: {} };
 const COND_ORDEN = ['Sellado','Open box','Usado'];
 const COND_TITULO = {'Sellado':'Nuevos sellados','Open box':'Open box','Usado':'Usados seleccionados'};
 
@@ -552,19 +564,24 @@ function renderFilters(){
   $('#q').addEventListener('input', e => { S.q = e.target.value; renderList(); });
 }
 
+const claveIt = it => [it.cat, it.cond, it.modelo, it.gb, it.color, it.bat, it.precio, it.nota].join('|');
 function varHTML(it){
   const meta = [it.gb, it.color, it.bat ? `Batería ${it.bat}` : '', it.nota].filter(Boolean).map(esc).join('  |  ');
-  return `<div class="var">
-    <div class="var-info"><div class="meta">${meta}</div>${wspBtn(it)}</div>
-    <div class="plans">${cuotas(it.precio).map(c => `<div class="plan${enTope(c) ? '' : ' off'}">
+  const k = claveIt(it), cs = cuotas(it.precio), el = cs.find(c => c.n === S.sel[k]);
+  const btn = el ? wspBtn(it, el)
+    : `<button type="button" class="wsp-btn need" data-need="${esc(k)}">${WSP_ICON}<span>Contactanos</span></button>`;
+  return `<div class="var" data-var="${esc(k)}">
+    <div class="var-info"><div class="meta">${meta}</div>${btn}</div>
+    <div class="pl-w"><div class="elegi">${el ? 'Plan elegido: ' + el.n + ' cuotas' : 'Tocá un plan para elegir la cantidad de cuotas'}</div>
+    <div class="plans" role="radiogroup" aria-label="Cantidad de cuotas">${cs.map(c => `<button type="button" role="radio" aria-checked="${!!el && el.n === c.n}" data-pl="${esc(k)}" data-n="${c.n}" class="plan${enTope(c) ? '' : ' off'}">
       <div class="n">${c.n} cuotas</div>
       <div class="u"><small>USD</small>${Math.ceil(c.usd).toLocaleString('es-AR')}</div>
-      <div class="a">Aprox ${fmtARS(c.ars).replace('$ ','$')} pesos</div></div>`).join('')}</div>
+      <div class="a">Aprox ${fmtARS(c.ars).replace('$ ','$')} pesos</div></button>`).join('')}</div></div>
   </div>`;
 }
 
 const WSP_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>';
-function wspBtn(it){
+function wspBtn(it, cuo){
   if (!CONFIG.WHATSAPP) return '';
   const cond = {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond;
   const lineas = [
@@ -573,7 +590,8 @@ function wspBtn(it){
     `Condición: ${cond}`,
     it.bat ? `Batería: ${it.bat}` : '',
     it.color ? `Colores: ${it.color}` : '',
-    'Forma de pago: financiación con DNI'
+    'Forma de pago: financiación con DNI',
+    cuo ? `Cuotas: ${cuo.n} cuotas de USD ${Math.ceil(cuo.usd).toLocaleString('es-AR')}` : ''
   ].filter(Boolean);
   const txt = `Hola, me interesa este modelo:\n\n${lineas.join('\n')}`;
   return `<a class="wsp-btn" data-track="${esc([it.modelo, it.gb, '(' + it.cond + ')'].filter(Boolean).join(' '))}" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(txt)}" aria-label="Contactanos por ${esc(it.modelo)} ${esc(it.gb)} por WhatsApp">${WSP_ICON}<span>Contactanos</span></a>`;
@@ -649,6 +667,13 @@ function renderAll(){
 }
 
 document.addEventListener('click', e => {
+  const pl = e.target.closest('[data-pl]');
+  if (pl){ S.sel[pl.dataset.pl] = +pl.dataset.n; renderList(); return; }
+  const nd = e.target.closest('[data-need]');
+  if (nd){ const v = nd.closest('.var'), p = v.querySelector('.plans');
+    p.classList.remove('alerta'); void p.offsetWidth; p.classList.add('alerta');
+    if (!v.querySelector('.aviso-cuotas')) p.insertAdjacentHTML('afterend', '<div class="aviso-cuotas">Elegí la cantidad de cuotas para contactarnos</div>');
+    return; }
   const cat = e.target.closest('[data-cat]');
   if (cat){ S.cat = cat.dataset.cat; S.cond = 'Todos'; S.q = ''; renderAll(); return; }
   const cond = e.target.closest('[data-cond]');
