@@ -198,12 +198,17 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .pc-p{margin-top:auto;padding-top:8px;font-size:20px;font-weight:800;color:var(--navy);white-space:nowrap}
 .pc-p small{font-size:11px;font-weight:700;color:var(--gris);margin-right:3px}
 .pc-a{font-size:11.5px;color:var(--gris)}
+.pc-p br{display:block}
+.pc-t{margin-top:6px;border-top:1px solid var(--linea);padding-top:6px;display:grid;gap:2px}
+.pc-t div{display:flex;justify-content:space-between;gap:6px;font-size:12px;color:var(--gris)}
+.pc-t b{color:var(--tinta);font-weight:700;white-space:nowrap}
+.pc-t div.off{opacity:.4}
 .pc .pc-w{margin-top:8px;justify-content:center;width:100%;padding:8px 6px;font-size:13px}
 .section-head{margin-bottom:10px}
 .secnav{background:#fff;border-bottom:1px solid #E3E8F0}
 .secnav .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 16px}
 .secnav .wrap::-webkit-scrollbar{display:none}
-.secnav a{flex:1 1 0;min-width:0;text-align:center;text-decoration:none;font-weight:700;font-size:12.5px;color:#0B2A5B;border:1px solid #E3E8F0;background:#F6F8FB;border-radius:999px;padding:9px 6px;white-space:nowrap}
+.secnav a{flex:1 1 auto;min-width:0;text-align:center;text-decoration:none;font-weight:700;font-size:12px;color:#0B2A5B;border:1px solid #E3E8F0;background:#F6F8FB;border-radius:999px;padding:9px 10px;white-space:nowrap}
 .secnav a[aria-current="page"]{background:#0B2A5B;border-color:#0B2A5B;color:#fff}
 @media (min-width:720px){.secnav a{flex:0 0 auto;font-size:13.5px;padding:9px 16px}}
 .section{margin-top:34px}
@@ -289,7 +294,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
     <div class="top-tag" id="toptag">Catálogo</div>
   </div>
 </header>
-<nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/" aria-current="page">Catálogo</a><a href="/dni/">Cuotas con DNI</a></div></nav>
+<nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/" aria-current="page">Catálogo</a><a href="/tarjeta/">Tarjeta de crédito</a><a href="/dni/">Cuotas con DNI</a></div></nav>
 
 <section class="intro">
   <div class="wrap">
@@ -357,7 +362,8 @@ const CONFIG = {
     SUBTITULO: '',
     OPCIONES: [                          // botones debajo del título
       { TEXTO: 'Quiero financiar con DNI', LINK: '/dni/' },
-      { TEXTO: 'Quiero comprar de contado', LINK: '#catalogo' }   // #catalogo = cierra y va al catálogo
+      { TEXTO: 'Quiero comprar de contado', LINK: '#catalogo' },  // #catalogo = cierra y va al catálogo
+      { TEXTO: 'Quiero comprar con tarjeta de crédito', LINK: '/tarjeta/' }
     ],
     TEXTO: 'Oficinas en Zona Centro, Rosario.',
     INDICACION: 'Elegí tu equipo y contactanos por WhatsApp',
@@ -615,7 +621,7 @@ const MODOS = {
     f1t:'Planes', f1d:'3, 6 y 12 cuotas', req:true, s1:'Mirá el stock disponible y el valor de cada cuota.',
     s3t:'Aprobamos y lo retirás', s3d:'Te confirmamos la aprobación y retirás tu equipo.', budget:'¿Cuánto querés pagar por mes?', pago:'financiación con DNI' }
 };
-function modoDesdeURL(){ return 'contado'; }
+function modoDesdeURL(){ return window.MODO_PAGINA || 'contado'; }
 function aplicarModo(){
   const m = MODOS[S.modo];
   document.querySelectorAll('[data-modo]').forEach(b => b.setAttribute('aria-selected', b.dataset.modo === S.modo));
@@ -799,19 +805,23 @@ function badgesDe(it){
 }
 const claveIt = it => [it.cat, it.cond, it.modelo, it.gb, it.precio, it.nota].join('|');
 function cardHTML(it){
-  const c = cuotas(it.precio, it)[0];
+  const cs = cuotas(it.precio, it), tj = S.modo === 'tarjeta' && cs.length > 1;
+  const c = tj ? (cs.find(x => x.n === 12) || cs[0]) : cs[0];
   const det = [it.color, it.bat ? 'Bat. ' + it.bat : '', it.nota].filter(Boolean).map(esc).join(' · ');
   const precio = c.soloArs ? '<small>$</small>' + Math.round(c.ars).toLocaleString('es-AR')
                            : '<small>USD</small>' + Math.ceil(c.usd).toLocaleString('es-AR');
   const hex = colorHex((it.colores && it.colores[0]) || it.color || ''), k = claveIt(it), enComp = S.comp.includes(k);
   const bd = badgesDe(it);
-  return `<article class="pc${enTope(c) ? '' : ' off'}${enComp ? ' comp' : ''}">
+  const precioH = tj ? `<div class="pc-p"><small>12 cuotas de</small><br>$${Math.round(c.ars).toLocaleString('es-AR')}</div>
+    <div class="pc-t">${cs.map(x => `<div${enTope(x) ? '' : ' class="off"'}><span>${x.n === 1 ? '1 pago' : x.n + ' cuotas'}</span><b>$${Math.round(x.ars).toLocaleString('es-AR')}</b></div>`).join('')}</div>`
+    : `<div class="pc-p">${precio}</div>
+    ${c.soloArs ? '' : `<div class="pc-a">≈ ${fmtARS(c.ars).replace('$ ','$')}</div>`}`;
+  return `<article class="pc${(tj ? cs.some(enTope) : enTope(c)) ? '' : ' off'}${enComp ? ' comp' : ''}">
     ${bd.length ? `<div class="pc-b">${bd.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
     <div class="pc-m">${esc(it.modelo)}</div>
     ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
     ${det ? `<div class="pc-d">${det}</div>` : ''}
-    <div class="pc-p">${precio}</div>
-    ${c.soloArs ? '' : `<div class="pc-a">≈ ${fmtARS(c.ars).replace('$ ','$')}</div>`}
+    ${precioH}
     ${wspBtn(it).replace('<span>Contactanos</span>', '<span>Consultar</span>').replace('class="wsp-btn"', 'class="wsp-btn pc-w"')}
     <label class="pc-c"><input type="checkbox" data-comp="${esc(k)}"${enComp ? ' checked' : ''}> Comparar</label>
   </article>`;
@@ -990,7 +1000,9 @@ function abrirComp(){
   const sp = its.map(specsDe);
   const filaSpec = (lab, k) => sp.some(x => x && x[k] && x[k] !== '—') ? `<tr class="sp"><th>${lab}</th>${sp.map(x => `<td>${esc(x && x[k] && x[k] !== '—' ? x[k] : '—')}</td>`).join('')}</tr>` : '';
   const fila = (lab, f) => `<tr><th>${lab}</th>${its.map(it => `<td>${f(it)}</td>`).join('')}</tr>`;
-  const pr = it => { const c = cuotas(it.precio, it)[0]; return c.soloArs ? '$ ' + Math.round(c.ars).toLocaleString('es-AR') : 'USD ' + Math.ceil(c.usd).toLocaleString('es-AR') + `<small>≈ ${fmtARS(c.ars).replace('$ ','$')}</small>`; };
+  const pr = it => { const cs = cuotas(it.precio, it);
+    if (S.modo === 'tarjeta' && cs.length > 1) return cs.map(x => `${x.n === 1 ? '1 pago' : x.n + ' cuotas'}: $${Math.round(x.ars).toLocaleString('es-AR')}`).join('<br>');
+    const c = cs[0]; return c.soloArs ? '$ ' + Math.round(c.ars).toLocaleString('es-AR') : 'USD ' + Math.ceil(c.usd).toLocaleString('es-AR') + `<small>≈ ${fmtARS(c.ars).replace('$ ','$')}</small>`; };
   $('#compTabla').innerHTML = `<div class="tabla-w"><table><thead><tr><th></th>${its.map(it => `<th>${esc(it.modelo)}</th>`).join('')}</tr></thead><tbody>
     ${fila('Precio', pr)}${fila('Capacidad', it => esc(it.gb || '—'))}${fila('Condición', it => esc({'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond))}
     ${fila('Batería', it => esc(it.bat || (it.cond === 'Usado' ? '—' : 'Nueva')))}${fila('Colores', it => esc(it.color || '—'))}
