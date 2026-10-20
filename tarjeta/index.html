@@ -199,10 +199,19 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .pc-p small{font-size:11px;font-weight:700;color:var(--gris);margin-right:3px}
 .pc-a{font-size:11.5px;color:var(--gris)}
 .pc-p br{display:block}
-.pc-t{margin-top:6px;border-top:1px solid var(--linea);padding-top:6px;display:grid;gap:2px}
-.pc-t div{display:flex;justify-content:space-between;gap:6px;font-size:12px;color:var(--gris)}
-.pc-t b{color:var(--tinta);font-weight:700;white-space:nowrap}
-.pc-t div.off{opacity:.4}
+.pc-tl{margin-top:8px;font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.04em}
+.pc-t{margin-top:4px;display:grid;gap:3px}
+.pc-t button{display:flex;justify-content:space-between;align-items:center;gap:6px;font:inherit;font-size:12px;color:var(--gris);background:#fff;border:1px solid var(--linea);border-radius:8px;padding:6px 8px;cursor:pointer;text-align:left}
+.pc-t button b{color:var(--tinta);font-weight:700;white-space:nowrap}
+.pc-t button:hover{border-color:var(--azul)}
+.pc-t button[aria-checked="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.pc-t button[aria-checked="true"] b{color:#fff}
+.pc-t button.off{opacity:.45}
+.pc-t.alerta button{animation:sacudir .4s}
+.pc-t.alerta{outline:2px solid #E5484D;outline-offset:3px;border-radius:9px}
+@keyframes sacudir{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.wsp-btn.pc-need{background:#B9C2D0;border:0;cursor:pointer;font:inherit;font-weight:700}
+.pc-aviso{font-size:11.5px;color:#C2272D;font-weight:600;text-align:center}
 .pc .pc-w{margin-top:8px;justify-content:center;width:100%;padding:8px 6px;font-size:13px}
 .section-head{margin-bottom:10px}
 .secnav{background:#fff;border-bottom:1px solid #E3E8F0}
@@ -605,7 +614,7 @@ function track(evento, detalle){
 /* ============================================================
    Render
    ============================================================ */
-const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos', q: '', tope: '', moneda: 'USD', modo: 'contado', orden: 'rec', gen: '', comp: [] };
+const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos', q: '', tope: '', moneda: 'USD', modo: 'contado', orden: 'rec', gen: '', comp: [], sel: {} };
 /* Formas de pago (pestañas de arriba) */
 const TARJETA = [ {n:1,r:.15},{n:3,r:.45},{n:6,r:.55},{n:9,r:.75},{n:12,r:.90},{n:18,r:1.05},{n:24,r:1.25} ];   // recargo total (no se muestra)
 const MODOS = {
@@ -807,14 +816,17 @@ function badgesDe(it){
 const claveIt = it => [it.cat, it.cond, it.modelo, it.gb, it.precio, it.nota].join('|');
 function cardHTML(it){
   const cs = cuotas(it.precio, it), tj = S.modo === 'tarjeta' && cs.length > 1;
-  const c = tj ? (cs.find(x => x.n === 12) || cs[0]) : cs[0];
+  const elegida = tj ? cs.find(x => x.n === S.sel[claveIt(it)]) : null;
+  const c = tj ? (elegida || cs.find(x => x.n === 12) || cs[0]) : cs[0];
   const det = [it.color, it.bat ? 'Bat. ' + it.bat : '', it.nota].filter(Boolean).map(esc).join(' · ');
   const precio = c.soloArs ? '<small>$</small>' + Math.round(c.ars).toLocaleString('es-AR')
                            : '<small>USD</small>' + Math.ceil(c.usd).toLocaleString('es-AR');
   const hex = colorHex((it.colores && it.colores[0]) || it.color || ''), k = claveIt(it), enComp = S.comp.includes(k);
   const bd = badgesDe(it);
-  const precioH = tj ? `<div class="pc-p"><small>12 cuotas de</small><br>$${Math.round(c.ars).toLocaleString('es-AR')}</div>
-    <div class="pc-t">${cs.map(x => `<div${enTope(x) ? '' : ' class="off"'}><span>${x.n === 1 ? '1 pago' : x.n + ' cuotas'}</span><b>$${Math.round(x.ars).toLocaleString('es-AR')}</b></div>`).join('')}</div>`
+  const kk = claveIt(it);
+  const precioH = tj ? `<div class="pc-p"><small>${c.n === 1 ? '1 pago de' : c.n + ' cuotas de'}</small><br>$${Math.round(c.ars).toLocaleString('es-AR')}</div>
+    <div class="pc-tl">${elegida ? 'Cuotas elegidas' : 'Elegí la cantidad de cuotas'}</div>
+    <div class="pc-t" role="radiogroup" aria-label="Cantidad de cuotas">${cs.map(x => `<button type="button" role="radio" aria-checked="${elegida && elegida.n === x.n}" data-cuo="${esc(kk)}" data-n="${x.n}"${enTope(x) ? '' : ' class="off"'}><span>${x.n === 1 ? '1 pago' : x.n + ' cuotas'}</span><b>$${Math.round(x.ars).toLocaleString('es-AR')}</b></button>`).join('')}</div>`
     : `<div class="pc-p">${precio}</div>
     ${c.soloArs ? '' : `<div class="pc-a">≈ ${fmtARS(c.ars).replace('$ ','$')}</div>`}`;
   return `<article class="pc${(tj ? cs.some(enTope) : enTope(c)) ? '' : ' off'}${enComp ? ' comp' : ''}">
@@ -823,11 +835,12 @@ function cardHTML(it){
     ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
     ${det ? `<div class="pc-d">${det}</div>` : ''}
     ${precioH}
-    ${wspBtn(it).replace('<span>Contactanos</span>', '<span>Consultar</span>').replace('class="wsp-btn"', 'class="wsp-btn pc-w"')}
+    ${tj && !elegida ? `<button type="button" class="wsp-btn pc-w pc-need" data-need="${esc(kk)}">${WSP_ICON}<span>Consultar</span></button>`
+      : wspBtn(it, elegida).replace('<span>Contactanos</span>', '<span>Consultar</span>').replace('class="wsp-btn"', 'class="wsp-btn pc-w"')}
     <label class="pc-c"><input type="checkbox" data-comp="${esc(k)}"${enComp ? ' checked' : ''}> Comparar</label>
   </article>`;
 }
-function wspBtn(it){
+function wspBtn(it, cuo){
   if (!CONFIG.WHATSAPP) return '';
   const cond = {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond;
   const lineas = [
@@ -836,7 +849,8 @@ function wspBtn(it){
     `Condición: ${cond}`,
     it.bat ? `Batería: ${it.bat}` : '',
     it.color ? `Colores: ${it.color}` : '',
-    MODOS[S.modo].pago ? 'Forma de pago: ' + MODOS[S.modo].pago : ''
+    MODOS[S.modo].pago ? 'Forma de pago: ' + MODOS[S.modo].pago : '',
+    cuo ? 'Cuotas: ' + (cuo.n === 1 ? '1 pago de $' : cuo.n + ' cuotas de $') + Math.round(cuo.ars).toLocaleString('es-AR') : ''
   ].filter(Boolean);
   const txt = `Hola, me interesa este modelo:\n\n${lineas.join('\n')}`;
   return `<a class="wsp-btn" data-track="${esc([it.modelo, it.gb, '(' + it.cond + ')'].filter(Boolean).join(' '))}" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(txt)}" aria-label="Contactanos por ${esc(it.modelo)} ${esc(it.gb)} por WhatsApp">${WSP_ICON}<span>Contactanos</span></a>`;
@@ -1008,7 +1022,9 @@ function abrirComp(){
     ${fila('Precio', pr)}${fila('Capacidad', it => esc(it.gb || '—'))}${fila('Condición', it => esc({'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond))}
     ${fila('Batería', it => esc(it.bat || (it.cond === 'Usado' ? '—' : 'Nueva')))}${fila('Colores', it => esc(it.color || '—'))}
     ${filaSpec('Pantalla', 'pantalla')}${filaSpec('Chip', 'chip')}${filaSpec('Cámaras', 'camara')}${filaSpec('Autonomía', 'bateria')}${filaSpec('Destacado', 'extra')}
-    ${fila('', it => wspBtn(it).replace('<span>Contactanos</span>', '<span>Consultar</span>'))}</tbody></table></div>`;
+    ${fila('', it => { const cs = cuotas(it.precio, it), el = cs.find(x => x.n === S.sel[claveIt(it)]);
+      return S.modo === 'tarjeta' && cs.length > 1 && !el ? `<button type="button" class="wsp-btn pc-need" data-need="${esc(claveIt(it))}">${WSP_ICON}<span>Elegir cuotas</span></button>`
+        : wspBtn(it, S.modo === 'tarjeta' ? el : null).replace('<span>Contactanos</span>', '<span>Consultar</span>'); })}</tbody></table></div>`;
   $('#modal').hidden = false; document.body.style.overflow = 'hidden';
 }
 function cerrarComp(){ $('#modal').hidden = true; document.body.style.overflow = ''; }
@@ -1034,7 +1050,23 @@ function renderAll(){
   renderCats(); renderFilters(); renderBudget(); renderList(); renderFooter(); medirBarra(); igualarBarras(); pintarComp();
 }
 
+function repintarCard(k){
+  const it = S.items.find(x => claveIt(x) === k); if (!it) return;
+  const old = [...document.querySelectorAll('[data-cuo]')].find(b => b.dataset.cuo === k);
+  const art = old ? old.closest('article') : null; if (!art) return;
+  const tmp = document.createElement('div'); tmp.innerHTML = cardHTML(it); art.replaceWith(tmp.firstElementChild);
+}
+function cardDe(k){ const b = [...document.querySelectorAll('[data-cuo]')].find(x => x.dataset.cuo === k); return b ? b.closest('article') : null; }
 document.addEventListener('click', e => {
+  const cu = e.target.closest('[data-cuo]');
+  if (cu){ S.sel[cu.dataset.cuo] = +cu.dataset.n; repintarCard(cu.dataset.cuo); if (!$('#modal').hidden) abrirComp(); return; }
+  const nd = e.target.closest('[data-need]');
+  if (nd){ const k = nd.dataset.need; if (!$('#modal').hidden) cerrarComp();
+    const art = cardDe(k); if (!art) return;
+    art.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const t = art.querySelector('.pc-t'); t.classList.remove('alerta'); void t.offsetWidth; t.classList.add('alerta');
+    if (!art.querySelector('.pc-aviso')) t.insertAdjacentHTML('afterend', '<div class="pc-aviso">Elegí la cantidad de cuotas para consultar</div>');
+    return; }
   const md = e.target.closest('[data-modo]');
   if (md){ if (md.dataset.modo !== S.modo) history.replaceState(null, '', '#' + md.dataset.modo); cambiarModo(md.dataset.modo); return; }
   const cat = e.target.closest('[data-cat]');
