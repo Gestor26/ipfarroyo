@@ -201,8 +201,11 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .pc-p br{display:block}
 .pc[data-fpcard]{cursor:pointer}
 .pc-fp{margin-top:8px;border-top:1px dashed var(--linea);padding-top:7px;display:grid;gap:4px;font-size:12.5px}
-.pc-fp div{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;column-gap:6px}
-.pc-fp b{margin-left:auto;white-space:nowrap}
+.pc-fp div{display:flex;flex-direction:column;gap:0}
+.pc-fp span{font-size:11.5px}
+.pc-fp b{white-space:nowrap}
+.pc-ars{font-size:15px;font-weight:700;color:var(--navy);white-space:nowrap}
+.pc-ars small{font-size:11px;font-weight:700;color:var(--gris);margin-right:4px}
 .pc-fp b{font-size:13px}
 .pc-fp span{color:var(--gris)}
 .pc-fp b{color:var(--navy);white-space:nowrap}
@@ -859,8 +862,8 @@ function resumenFP(it){
   if (typeof window.FP_OPCIONES !== 'function' || !S.dolar) return '';
   const o = window.FP_OPCIONES(it), t = o.tj.find(x => x.n === 12), d = o.dni[o.dni.length - 1];
   const pes = n => '$' + Math.round(n).toLocaleString('es-AR');
-  return `${it.moneda === 'ARS' ? `<div class="pc-p"><small>$</small>${Math.round(o.efe).toLocaleString('es-AR')}</div>`
-      : `<div class="pc-p"><small>US$</small>${Math.ceil(o.usd).toLocaleString('es-AR')}</div><div class="pc-a">≈ ${pes(o.efe)}</div>`}
+  return `${it.moneda === 'ARS' ? `<div class="pc-p"><small>PESOS</small>${pes(o.efe)}</div>`
+      : `<div class="pc-p"><small>USD</small>$${Math.ceil(o.usd).toLocaleString('es-AR')}</div><div class="pc-ars"><small>PESOS</small>${pes(o.efe)}</div>`}
     <div class="pc-fp"><div><span>Tarjeta</span><b>12 cuotas x ${t.v}</b></div>${d ? `<div><span>DNI</span><b>${d.n} cuotas x ${pes(d.ars)}</b></div>` : ''}</div>`;
 }
 function wspBtn(it, cuo){
