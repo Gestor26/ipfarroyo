@@ -200,8 +200,9 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .pc-a{font-size:11.5px;color:var(--gris)}
 .pc-p br{display:block}
 .pc[data-fpcard]{cursor:pointer}
-.pc-fp{margin-top:8px;border-top:1px dashed var(--linea);padding-top:7px;display:grid;gap:3px;font-size:12px}
-.pc-fp div{display:flex;justify-content:space-between;gap:6px}
+.pc-fp{margin-top:8px;border-top:1px dashed var(--linea);padding-top:7px;display:grid;gap:4px;font-size:12.5px}
+.pc-fp div{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.pc-fp b{font-size:13px}
 .pc-fp span{color:var(--gris)}
 .pc-fp b{color:var(--navy);white-space:nowrap}
 .pc-fp .pc-fpl{display:block;color:var(--azul);font-weight:700;font-size:11.5px;margin-top:2px}
@@ -838,8 +839,9 @@ function cardHTML(it){
   const precioH = tj ? `<div class="pc-p"><small>${c.n === 1 ? '1 pago de' : c.n + ' cuotas de'}</small><br>$${Math.round(c.ars).toLocaleString('es-AR')}</div>
     <div class="pc-tl">${elegida ? 'Cuotas elegidas' : 'Elegí la cantidad de cuotas'}</div>
     <div class="pc-t" role="radiogroup" aria-label="Cantidad de cuotas">${cs.map(x => `<button type="button" role="radio" aria-checked="${elegida && elegida.n === x.n}" data-cuo="${esc(kk)}" data-n="${x.n}"${enTope(x) ? '' : ' class="off"'}><span>${x.n === 1 ? '1 pago' : x.n + ' cuotas'}</span><b>$${Math.round(x.ars).toLocaleString('es-AR')}</b></button>`).join('')}</div>`
+    : S.modo === 'contado' && resumenFP(it) ? resumenFP(it)
     : `<div class="pc-p">${precio}</div>
-    ${c.soloArs ? '' : `<div class="pc-a">≈ ${fmtARS(c.ars).replace('$ ','$')}</div>`}${S.modo === 'contado' ? resumenFP(it) : ''}`;
+    ${c.soloArs ? '' : `<div class="pc-a">≈ ${fmtARS(c.ars).replace('$ ','$')}</div>`}`;
   return `<article data-fpcard="${esc(k)}" class="pc${(tj ? cs.some(enTope) : enTope(c)) ? '' : ' off'}${enComp ? ' comp' : ''}">
     ${bd.length ? `<div class="pc-b">${bd.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
     <div class="pc-m">${esc(it.modelo)}</div>
@@ -848,15 +850,17 @@ function cardHTML(it){
     ${precioH}
     ${tj && !elegida ? `<button type="button" class="wsp-btn pc-w pc-need" data-need="${esc(kk)}">${WSP_ICON}<span>Consultar</span></button>`
       : wspBtn(it, elegida).replace('<span>Contactanos</span>', '<span>Consultar</span>').replace('class="wsp-btn"', 'class="wsp-btn pc-w"')}
-    <button type="button" class="fp-btn" data-fp="${esc(k)}">Ver formas de pago</button>
-    <label class="pc-c"><input type="checkbox" data-comp="${esc(k)}"${enComp ? ' checked' : ''}> Comparar</label>
+    <button type="button" class="fp-btn" data-fp="${esc(k)}">Más opciones de pago</button>
   </article>`;
 }
 /* Resumen de cuotas en la tarjeta del equipo (tarjeta y DNI); el detalle completo está en la ficha */
 function resumenFP(it){
   if (typeof window.FP_OPCIONES !== 'function' || !S.dolar) return '';
   const o = window.FP_OPCIONES(it), t = o.tj.find(x => x.n === 12), d = o.dni[o.dni.length - 1];
-  return `<div class="pc-fp"><div><span>Tarjeta</span><b>12 x ${t.v}</b></div>${d ? `<div><span>Con DNI</span><b>${d.n} x ${d.v}</b></div>` : ''}</div>`;
+  const pes = n => '$' + Math.round(n).toLocaleString('es-AR');
+  return `${it.moneda === 'ARS' ? `<div class="pc-p"><small>$</small>${Math.round(o.efe).toLocaleString('es-AR')}</div>`
+      : `<div class="pc-p"><small>US$</small>${Math.ceil(o.usd).toLocaleString('es-AR')}</div><div class="pc-a">≈ ${pes(o.efe)}</div>`}
+    <div class="pc-fp"><div><span>Tarjeta</span><b>12 x ${t.v}</b></div>${d ? `<div><span>DNI</span><b>${d.n} x ${d.v}</b></div>` : ''}</div>`;
 }
 function wspBtn(it, cuo){
   if (!CONFIG.WHATSAPP) return '';
@@ -1235,6 +1239,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 <style>
 .fp-btn{display:block;width:100%;margin-top:7px;border:1px solid var(--linea);background:#fff;color:var(--navy);font:inherit;font-weight:700;font-size:13px;border-radius:10px;padding:8px 6px;cursor:pointer}
 .fp-btn:hover{background:var(--celeste)}
+@media (max-width:480px){.fp-btn{font-size:12px;letter-spacing:-.1px;white-space:nowrap;padding:8px 2px}}
 .fp{position:fixed;inset:0;z-index:35;background:rgba(11,18,32,.55);display:flex;align-items:flex-end;justify-content:center}
 .fp[hidden]{display:none}
 .fp-box{position:relative;background:#fff;width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:22px 18px 18px;overscroll-behavior:contain}
@@ -1296,7 +1301,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
     FP_TARJETA.forEach(p => { const c = up(usd * dol * (1 + p.r) / p.n, R);
       o.tj.push({k:'tj' + p.n, n:p.n, ico:'tj', l:p.n === 1 ? '1 pago de' : p.n + ' cuotas de', v:p$(c), msg:'Tarjeta de crédito: ' + (p.n === 1 ? '1 pago de ' : p.n + ' cuotas de ') + p$(c)}); });
     FP_PLANES.forEach(p => { const c = usd * p.f / p.n;
-      o.dni.push({k:'dni' + p.n, n:p.n, ico:'dni', l:p.n + ' cuotas de', v:u$(c), sub:'≈ ' + p$(up(c * dol, R)), msg:'Financiación con DNI: ' + p.n + ' cuotas de ' + u$(c)}); });
+      o.dni.push({k:'dni' + p.n, n:p.n, ico:'dni', l:p.n + ' cuotas de', v:u$(c), ars:up(c * dol, R), sub:'≈ ' + p$(up(c * dol, R)), msg:'Financiación con DNI: ' + p.n + ' cuotas de ' + u$(c)}); });
     return o;
   }
   window.FP_OPCIONES = it => opciones(it);
