@@ -201,7 +201,8 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .pc-p br{display:block}
 .pc[data-fpcard]{cursor:pointer}
 .pc-fp{margin-top:8px;border-top:1px dashed var(--linea);padding-top:7px;display:grid;gap:4px;font-size:12.5px}
-.pc-fp div{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.pc-fp div{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;column-gap:6px}
+.pc-fp b{margin-left:auto;white-space:nowrap}
 .pc-fp b{font-size:13px}
 .pc-fp span{color:var(--gris)}
 .pc-fp b{color:var(--navy);white-space:nowrap}
@@ -860,7 +861,7 @@ function resumenFP(it){
   const pes = n => '$' + Math.round(n).toLocaleString('es-AR');
   return `${it.moneda === 'ARS' ? `<div class="pc-p"><small>$</small>${Math.round(o.efe).toLocaleString('es-AR')}</div>`
       : `<div class="pc-p"><small>US$</small>${Math.ceil(o.usd).toLocaleString('es-AR')}</div><div class="pc-a">≈ ${pes(o.efe)}</div>`}
-    <div class="pc-fp"><div><span>Tarjeta</span><b>12 x ${t.v}</b></div>${d ? `<div><span>DNI</span><b>${d.n} x ${d.v}</b></div>` : ''}</div>`;
+    <div class="pc-fp"><div><span>Tarjeta</span><b>12 cuotas x ${t.v}</b></div>${d ? `<div><span>DNI</span><b>${d.n} cuotas x ${pes(d.ars)}</b></div>` : ''}</div>`;
 }
 function wspBtn(it, cuo){
   if (!CONFIG.WHATSAPP) return '';
