@@ -275,11 +275,14 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .promo-et{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.16);padding:5px 11px;border-radius:99px;margin-bottom:12px}
 .promo-med{display:block;width:74px;height:92px;margin:0 auto 12px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.3))}
 .promo-med[hidden],.promo-et[hidden]{display:none}
-.promo-top img.promo-memo{width:112px;height:auto;border-radius:0;margin:-6px auto 10px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.3))}
+.promo-top img.promo-memo{width:120px;height:auto;border-radius:0;margin:14px auto 6px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.3))}
 .promo-top img.promo-memo[hidden]{display:none}
 .promo-top h2{margin:0;font-size:25px;line-height:1.15;font-weight:800}
 .promo-sub{margin-top:12px;display:inline-block;background:#fff;color:var(--navy);font-weight:800;font-size:14px;letter-spacing:.06em;padding:8px 14px;border-radius:10px}
 .promo-sub[hidden]{display:none}
+.promo-top .promo-sub{display:block;background:none;color:#fff;font-weight:600;font-size:16px;letter-spacing:0;padding:0;margin-top:6px}
+.promo-bot:empty,.promo-bot.vacio{display:none}
+.promo-top{padding:58px 22px 26px}
 .promo-ops{display:grid;gap:10px;margin-top:18px}
 .promo-ops a{display:block;background:#fff;color:var(--navy);text-decoration:none;font-weight:800;font-size:15.5px;padding:14px 12px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
 .promo-ops a:hover{background:var(--celeste)}
@@ -383,21 +386,19 @@ const CONFIG = {
     MEDALLA: false,                      // medalla de 1er puesto arriba del título
     MEMOJI: '/memoji.png',               // memoji arriba del título ('' para sacarlo)
     ETIQUETA: '',
-    TITULO: 'Somos líderes en Ventas',
-    SUBTITULO: '',
+    TITULO: 'Somos líderes en ventas',
+    SUBTITULO: 'Destacamos por calidad y confianza.',
     OPCIONES: [                          // botones debajo del título
-      { TEXTO: 'Quiero financiar con DNI', LINK: '#catalogo' },
-      { TEXTO: 'Quiero comprar de contado', LINK: '#catalogo' },  // #catalogo = cierra y va al catálogo
-      { TEXTO: 'Quiero comprar con tarjeta de crédito', LINK: '#catalogo' }
+      { TEXTO: 'Ingresá para ver todo nuestro stock disponible', LINK: '#catalogo' }  // #catalogo = cierra y va al catálogo
     ],
-    TEXTO: 'Oficinas en Zona Centro, Rosario.',
-    INDICACION: 'Elegí tu equipo y contactanos por WhatsApp',
+    TEXTO: '',
+    INDICACION: '',
     IMAGEN: '',                          // opcional: URL de una imagen (ej: /promo.jpg)
     BOTON: '',                           // vacío = sin botón
     LINK: '',                       // dejar vacío para que el botón abra WhatsApp
     MENSAJE_WSP: 'Hola! Vi la promo en la web y quería consultar.',
     UNA_VEZ_POR_VISITA: true,            // false = aparece cada vez que recarga la página
-    OBLIGATORIO: true                    // true = no se puede cerrar: hay que elegir una opción
+    OBLIGATORIO: false                   // true = no se puede cerrar: hay que elegir una opción
   },
   // Financiación con DNI: multiplicador sobre el precio contado (no se muestra al cliente)
   PLANES: [ {n:3, f:1.45}, {n:6, f:1.84}, {n:12, f:2.56} ],
@@ -1201,7 +1202,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 <div class="promo" id="promo" hidden role="dialog" aria-modal="true" aria-labelledby="promoT">
   <div class="promo-box">
     <button class="promo-x" id="promoX" aria-label="Cerrar"><span class="promo-xi">×</span><span class="promo-xl">Cerrar</span></button>
-    <div class="promo-top"><img id="promoImg" alt="" hidden><img class="promo-memo" id="promoMemo" alt="" hidden><svg class="promo-med" id="promoMed" hidden viewBox="0 0 96 120" aria-hidden="true"><path d="M30 2h14l10 40H40z" fill="#1565D8"/><path d="M66 2H52L42 42h14z" fill="#8FB8F0"/><circle cx="48" cy="76" r="38" fill="#B8861B"/><circle cx="48" cy="76" r="34" fill="url(#mg)"/><circle cx="48" cy="76" r="26" fill="none" stroke="#FFF3C4" stroke-opacity=".55" stroke-width="2"/><text x="48" y="90" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="800" font-size="40" fill="#7A5608">1</text><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".5" stop-color="#F2C23C"/><stop offset="1" stop-color="#D19A1E"/></linearGradient></defs></svg><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2><div class="promo-sub" id="promoSub"></div><div class="promo-ops" id="promoOps"></div></div>
+    <div class="promo-top"><img id="promoImg" alt="" hidden><svg class="promo-med" id="promoMed" hidden viewBox="0 0 96 120" aria-hidden="true"><path d="M30 2h14l10 40H40z" fill="#1565D8"/><path d="M66 2H52L42 42h14z" fill="#8FB8F0"/><circle cx="48" cy="76" r="38" fill="#B8861B"/><circle cx="48" cy="76" r="34" fill="url(#mg)"/><circle cx="48" cy="76" r="26" fill="none" stroke="#FFF3C4" stroke-opacity=".55" stroke-width="2"/><text x="48" y="90" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="800" font-size="40" fill="#7A5608">1</text><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".5" stop-color="#F2C23C"/><stop offset="1" stop-color="#D19A1E"/></linearGradient></defs></svg><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2><img class="promo-memo" id="promoMemo" alt="" hidden><div class="promo-sub" id="promoSub"></div><div class="promo-ops" id="promoOps"></div></div>
     <div class="promo-bot"><p id="promoTx"></p><div class="promo-ind" id="promoInd"></div><a class="promo-cta" id="promoBtn"></a></div>
   </div>
 </div>
@@ -1223,6 +1224,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
   g('promoInd').textContent = P.INDICACION || ''; g('promoInd').hidden = !P.INDICACION;
   const b = g('promoBtn'); b.textContent = P.BOTON || ''; b.hidden = !P.BOTON;
   if (P.BOTON && P.INDICACION) g('promoInd').style.marginBottom = '14px';
+  if (!P.TEXTO && !P.INDICACION && !P.BOTON) document.querySelector('.promo-bot').classList.add('vacio');
   if (P.LINK) b.href = P.LINK;
   else { b.href = 'https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(P.MENSAJE_WSP || ''); b.target = '_blank'; b.rel = 'noopener'; }
   const cerrar = () => { el.classList.remove('on'); document.body.style.overflow = ''; setTimeout(() => el.hidden = true, 250);
