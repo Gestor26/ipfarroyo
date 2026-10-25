@@ -220,6 +220,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .secnav a{flex:1 1 auto;min-width:0;text-align:center;text-decoration:none;font-weight:700;font-size:12px;color:#0B2A5B;border:1px solid #E3E8F0;background:#F6F8FB;border-radius:999px;padding:9px 10px;white-space:nowrap}
 .secnav a[aria-current="page"]{background:#0B2A5B;border-color:#0B2A5B;color:#fff}
 @media (min-width:720px){.secnav a{flex:0 0 auto;font-size:13.5px;padding:9px 16px}}
+@media (max-width:719px){.secnav .wrap{display:grid;grid-template-columns:1fr 1fr}}
 .section{margin-top:34px}
 .section:first-child{margin-top:16px}
 .sec-band{position:sticky;top:var(--barh,108px);z-index:3;display:flex;justify-content:center;margin:0 0 14px;pointer-events:none}
@@ -263,6 +264,8 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .promo-et{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.16);padding:5px 11px;border-radius:99px;margin-bottom:12px}
 .promo-med{display:block;width:74px;height:92px;margin:0 auto 12px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.3))}
 .promo-med[hidden],.promo-et[hidden]{display:none}
+.promo-top img.promo-memo{width:112px;height:auto;border-radius:0;margin:-6px auto 10px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.3))}
+.promo-top img.promo-memo[hidden]{display:none}
 .promo-top h2{margin:0;font-size:25px;line-height:1.15;font-weight:800}
 .promo-sub{margin-top:12px;display:inline-block;background:#fff;color:var(--navy);font-weight:800;font-size:14px;letter-spacing:.06em;padding:8px 14px;border-radius:10px}
 .promo-sub[hidden]{display:none}
@@ -303,14 +306,14 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
     <div class="top-tag" id="toptag">Catálogo</div>
   </div>
 </header>
-<nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/" aria-current="page">Catálogo</a><a href="/tarjeta/">Tarjeta de crédito</a><a href="/dni/">Cuotas con DNI</a></div></nav>
+<nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/" aria-current="page">Catálogo</a><a href="/tarjeta/">Tarjeta de crédito</a><a href="/dni/">Cuotas con DNI</a><a href="/pagos/">Pagos y horarios</a></div></nav>
 
 <section class="intro">
   <div class="wrap">
     <div class="actbadge" id="actbadge" hidden></div>
     <h1 id="titulo">Catálogo de equipos</h1>
     <p id="bajada"></p>
-    <dl class="facts">
+    <dl class="facts" style="display:none">
       <div class="fact"><dt id="f1t">Formas de pago</dt><dd id="f1d">Efectivo, transferencia, tarjeta y planes de pago</dd></div>
       <div class="fact"><dt>Ubicación</dt><dd>Oficina en Rosario Zona Centro, Santa Fe</dd></div>
       <div class="fact"><dt>Horarios de atención</dt><dd>Lunes a viernes: 9:00 hs a 18:00 hs<br>Sábados y feriados: 9:00 hs a 13:00 hs</dd></div>
@@ -365,7 +368,8 @@ const CONFIG = {
   // Cartel publicitario al entrar (ACTIVO: false para apagarlo)
   PROMO: {
     ACTIVO: true,
-    MEDALLA: true,                       // medalla de 1er puesto arriba del título
+    MEDALLA: false,                      // medalla de 1er puesto arriba del título
+    MEMOJI: '/memoji.png',               // memoji arriba del título ('' para sacarlo)
     ETIQUETA: '',
     TITULO: 'Somos líderes en Ventas',
     SUBTITULO: '',
@@ -1174,7 +1178,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 <div class="promo" id="promo" hidden role="dialog" aria-modal="true" aria-labelledby="promoT">
   <div class="promo-box">
     <button class="promo-x" id="promoX" aria-label="Cerrar"><span class="promo-xi">×</span><span class="promo-xl">Cerrar</span></button>
-    <div class="promo-top"><img id="promoImg" alt="" hidden><svg class="promo-med" id="promoMed" hidden viewBox="0 0 96 120" aria-hidden="true"><path d="M30 2h14l10 40H40z" fill="#1565D8"/><path d="M66 2H52L42 42h14z" fill="#8FB8F0"/><circle cx="48" cy="76" r="38" fill="#B8861B"/><circle cx="48" cy="76" r="34" fill="url(#mg)"/><circle cx="48" cy="76" r="26" fill="none" stroke="#FFF3C4" stroke-opacity=".55" stroke-width="2"/><text x="48" y="90" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="800" font-size="40" fill="#7A5608">1</text><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".5" stop-color="#F2C23C"/><stop offset="1" stop-color="#D19A1E"/></linearGradient></defs></svg><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2><div class="promo-sub" id="promoSub"></div><div class="promo-ops" id="promoOps"></div></div>
+    <div class="promo-top"><img id="promoImg" alt="" hidden><img class="promo-memo" id="promoMemo" alt="" hidden><svg class="promo-med" id="promoMed" hidden viewBox="0 0 96 120" aria-hidden="true"><path d="M30 2h14l10 40H40z" fill="#1565D8"/><path d="M66 2H52L42 42h14z" fill="#8FB8F0"/><circle cx="48" cy="76" r="38" fill="#B8861B"/><circle cx="48" cy="76" r="34" fill="url(#mg)"/><circle cx="48" cy="76" r="26" fill="none" stroke="#FFF3C4" stroke-opacity=".55" stroke-width="2"/><text x="48" y="90" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="800" font-size="40" fill="#7A5608">1</text><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".5" stop-color="#F2C23C"/><stop offset="1" stop-color="#D19A1E"/></linearGradient></defs></svg><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2><div class="promo-sub" id="promoSub"></div><div class="promo-ops" id="promoOps"></div></div>
     <div class="promo-bot"><p id="promoTx"></p><div class="promo-ind" id="promoInd"></div><a class="promo-cta" id="promoBtn"></a></div>
   </div>
 </div>
@@ -1186,6 +1190,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
   const el = document.getElementById('promo'), g = id => document.getElementById(id);
   g('promoEt').textContent = P.ETIQUETA || ''; g('promoEt').hidden = !P.ETIQUETA;
   g('promoMed').toggleAttribute('hidden', !P.MEDALLA);
+  if (P.MEMOJI){ g('promoMemo').src = P.MEMOJI; g('promoMemo').hidden = false; }
   g('promoT').textContent = P.TITULO || ''; g('promoSub').textContent = P.SUBTITULO || ''; g('promoSub').hidden = !P.SUBTITULO; g('promoTx').textContent = P.TEXTO || '';
   if (P.IMAGEN) { g('promoImg').src = P.IMAGEN; g('promoImg').hidden = false; }
   const ops = g('promoOps');
