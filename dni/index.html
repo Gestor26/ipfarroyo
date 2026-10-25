@@ -186,6 +186,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .secnav a{flex:1 1 auto;min-width:0;text-align:center;text-decoration:none;font-weight:700;font-size:12px;color:#0B2A5B;border:1px solid #E3E8F0;background:#F6F8FB;border-radius:999px;padding:9px 10px;white-space:nowrap}
 .secnav a[aria-current="page"]{background:#0B2A5B;border-color:#0B2A5B;color:#fff}
 @media (min-width:720px){.secnav a{flex:0 0 auto;font-size:13.5px;padding:9px 16px}}
+@media (max-width:719px){.secnav .wrap{display:grid;grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -196,7 +197,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
     <div class="top-tag">Financiación con DNI</div>
   </div>
 </header>
-<nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/">Catálogo</a><a href="/tarjeta/">Tarjeta de crédito</a><a href="/dni/" aria-current="page">Cuotas con DNI</a></div></nav>
+<nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/">Catálogo</a><a href="/tarjeta/">Tarjeta de crédito</a><a href="/dni/" aria-current="page">Cuotas con DNI</a><a href="/pagos/">Pagos y horarios</a></div></nav>
 
 <section class="intro">
   <div class="wrap">
@@ -205,9 +206,9 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
     <dl class="facts">
       <div class="fact"><dt>Planes</dt><dd>3, 6 y 12 cuotas</dd></div>
       <div class="fact"><dt>Requisito</dt><dd>DNI, sujeto a aprobación</dd></div>
-      <div class="fact"><dt>Ubicación</dt><dd>Oficina en Rosario Zona Centro, Santa Fe</dd></div>
-      <div class="fact"><dt>Horarios de atención</dt><dd>Lunes a viernes: 9:00 hs a 18:00 hs<br>Sábados y feriados: 9:00 hs a 13:00 hs</dd></div>
-      <div class="fact"><dt>Dólar de referencia</dt><dd id="dolar">Cargando…</dd></div>
+      <div class="fact" style="display:none"><dt>Ubicación</dt><dd>Oficina en Rosario Zona Centro, Santa Fe</dd></div>
+      <div class="fact" style="display:none"><dt>Horarios de atención</dt><dd>Lunes a viernes: 9:00 hs a 18:00 hs<br>Sábados y feriados: 9:00 hs a 13:00 hs</dd></div>
+      <div class="fact" style="display:none"><dt>Dólar de referencia</dt><dd id="dolar">Cargando…</dd></div>
       <div class="fact" style="display:none"><dt>Stock actualizado</dt><dd id="actualizado"></dd></div>
     </dl>
   </div>
