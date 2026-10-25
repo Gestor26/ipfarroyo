@@ -199,6 +199,12 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .pc-p small{font-size:11px;font-weight:700;color:var(--gris);margin-right:3px}
 .pc-a{font-size:11.5px;color:var(--gris)}
 .pc-p br{display:block}
+.pc[data-fpcard]{cursor:pointer}
+.pc-fp{margin-top:8px;border-top:1px dashed var(--linea);padding-top:7px;display:grid;gap:3px;font-size:12px}
+.pc-fp div{display:flex;justify-content:space-between;gap:6px}
+.pc-fp span{color:var(--gris)}
+.pc-fp b{color:var(--navy);white-space:nowrap}
+.pc-fp .pc-fpl{display:block;color:var(--azul);font-weight:700;font-size:11.5px;margin-top:2px}
 .pc-tl{margin-top:8px;font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.04em}
 .pc-t{margin-top:4px;display:grid;gap:3px}
 .pc-t button{display:flex;justify-content:space-between;align-items:center;gap:6px;font:inherit;font-size:12px;color:var(--gris);background:#fff;border:1px solid var(--linea);border-radius:8px;padding:6px 8px;cursor:pointer;text-align:left}
@@ -281,6 +287,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .promo-xl{font-size:11px;font-weight:600;letter-spacing:.02em;opacity:.9}
 .promo-ind{color:var(--navy);font-weight:700;font-size:15px;line-height:1.4;background:var(--celeste);border-radius:12px;padding:12px 14px}
 .promo-ind[hidden],.promo-cta[hidden]{display:none}
+.promo-x[hidden]{display:none}
 .promo-bot p:last-child{margin:0}
 .modal{position:fixed;inset:0;z-index:30;background:rgba(11,18,32,.55);display:flex;align-items:flex-end;justify-content:center}
 .modal[hidden]{display:none}
@@ -306,7 +313,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
     <div class="top-tag" id="toptag">Catálogo</div>
   </div>
 </header>
-<nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/" aria-current="page">Catálogo</a><a href="/tarjeta/">Tarjeta de crédito</a><a href="/dni/">Cuotas con DNI</a><a href="/pagos/">Pagos y horarios</a></div></nav>
+<nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/" aria-current="page">Catálogo</a><a href="/pagos/">Pagos y horarios</a></div></nav>
 
 <section class="intro">
   <div class="wrap">
@@ -374,9 +381,9 @@ const CONFIG = {
     TITULO: 'Somos líderes en Ventas',
     SUBTITULO: '',
     OPCIONES: [                          // botones debajo del título
-      { TEXTO: 'Quiero financiar con DNI', LINK: '/dni/' },
+      { TEXTO: 'Quiero financiar con DNI', LINK: '#catalogo' },
       { TEXTO: 'Quiero comprar de contado', LINK: '#catalogo' },  // #catalogo = cierra y va al catálogo
-      { TEXTO: 'Quiero comprar con tarjeta de crédito', LINK: '/tarjeta/' }
+      { TEXTO: 'Quiero comprar con tarjeta de crédito', LINK: '#catalogo' }
     ],
     TEXTO: 'Oficinas en Zona Centro, Rosario.',
     INDICACION: 'Elegí tu equipo y contactanos por WhatsApp',
@@ -384,7 +391,8 @@ const CONFIG = {
     BOTON: '',                           // vacío = sin botón
     LINK: '',                       // dejar vacío para que el botón abra WhatsApp
     MENSAJE_WSP: 'Hola! Vi la promo en la web y quería consultar.',
-    UNA_VEZ_POR_VISITA: true             // false = aparece cada vez que recarga la página
+    UNA_VEZ_POR_VISITA: true,            // false = aparece cada vez que recarga la página
+    OBLIGATORIO: true                    // true = no se puede cerrar: hay que elegir una opción
   },
   // Financiación con DNI: multiplicador sobre el precio contado (no se muestra al cliente)
   PLANES: [ {n:3, f:1.45}, {n:6, f:1.84}, {n:12, f:2.56} ],
@@ -622,7 +630,7 @@ const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos',
 const TARJETA = [ {n:1,r:.15},{n:3,r:.45},{n:6,r:.55},{n:9,r:.75},{n:12,r:.90},{n:18,r:1.05},{n:24,r:1.25} ];   // recargo total (no se muestra)
 const MODOS = {
   contado: { tag:'Catálogo', h1:'Catálogo de equipos',
-    p:'iPhone, iPad, Mac, accesorios y más. Precios de contado en dólares, con su equivalente estimado en pesos.',
+    p:'iPhone, iPad, Mac, accesorios y más. Tocá un equipo para ver todos sus precios: contado, transferencia, tarjeta y cuotas con DNI.',
     f1t:'Formas de pago', f1d:'Efectivo, transferencia, tarjeta y planes de pago', req:false, s1:'Mirá el stock disponible y el precio de cada equipo.',
     s3t:'Coordinamos y lo retirás', s3d:'Agendamos tu cita y retirás tu equipo.', budget:'¿Cuánto querés gastar?', pago:'' },
   tarjeta: { tag:'Tarjeta de crédito', h1:'Cuotas con tarjeta de crédito',
@@ -831,8 +839,8 @@ function cardHTML(it){
     <div class="pc-tl">${elegida ? 'Cuotas elegidas' : 'Elegí la cantidad de cuotas'}</div>
     <div class="pc-t" role="radiogroup" aria-label="Cantidad de cuotas">${cs.map(x => `<button type="button" role="radio" aria-checked="${elegida && elegida.n === x.n}" data-cuo="${esc(kk)}" data-n="${x.n}"${enTope(x) ? '' : ' class="off"'}><span>${x.n === 1 ? '1 pago' : x.n + ' cuotas'}</span><b>$${Math.round(x.ars).toLocaleString('es-AR')}</b></button>`).join('')}</div>`
     : `<div class="pc-p">${precio}</div>
-    ${c.soloArs ? '' : `<div class="pc-a">≈ ${fmtARS(c.ars).replace('$ ','$')}</div>`}`;
-  return `<article class="pc${(tj ? cs.some(enTope) : enTope(c)) ? '' : ' off'}${enComp ? ' comp' : ''}">
+    ${c.soloArs ? '' : `<div class="pc-a">≈ ${fmtARS(c.ars).replace('$ ','$')}</div>`}${S.modo === 'contado' ? resumenFP(it) : ''}`;
+  return `<article data-fpcard="${esc(k)}" class="pc${(tj ? cs.some(enTope) : enTope(c)) ? '' : ' off'}${enComp ? ' comp' : ''}">
     ${bd.length ? `<div class="pc-b">${bd.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
     <div class="pc-m">${esc(it.modelo)}</div>
     ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
@@ -840,8 +848,15 @@ function cardHTML(it){
     ${precioH}
     ${tj && !elegida ? `<button type="button" class="wsp-btn pc-w pc-need" data-need="${esc(kk)}">${WSP_ICON}<span>Consultar</span></button>`
       : wspBtn(it, elegida).replace('<span>Contactanos</span>', '<span>Consultar</span>').replace('class="wsp-btn"', 'class="wsp-btn pc-w"')}
+    <button type="button" class="fp-btn" data-fp="${esc(k)}">Ver formas de pago</button>
     <label class="pc-c"><input type="checkbox" data-comp="${esc(k)}"${enComp ? ' checked' : ''}> Comparar</label>
   </article>`;
+}
+/* Resumen de cuotas en la tarjeta del equipo (tarjeta y DNI); el detalle completo está en la ficha */
+function resumenFP(it){
+  if (typeof window.FP_OPCIONES !== 'function' || !S.dolar) return '';
+  const o = window.FP_OPCIONES(it), t = o.tj.find(x => x.n === 12), d = o.dni[o.dni.length - 1];
+  return `<div class="pc-fp"><div><span>Tarjeta</span><b>12 x ${t.v}</b></div>${d ? `<div><span>Con DNI</span><b>${d.n} x ${d.v}</b></div>` : ''}</div>`;
 }
 function wspBtn(it, cuo){
   if (!CONFIG.WHATSAPP) return '';
@@ -1205,14 +1220,134 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
   const cerrar = () => { el.classList.remove('on'); document.body.style.overflow = ''; setTimeout(() => el.hidden = true, 250);
     try { sessionStorage.setItem(K, '1'); } catch(e){} };
   b.addEventListener('click', () => { try { sessionStorage.setItem(K, '1'); } catch(e){} });
-  g('promoX').onclick = cerrar;
+  g('promoX').onclick = cerrar; if (P.OBLIGATORIO) g('promoX').hidden = true;
   ops.addEventListener('click', e => { const a = e.target.closest('a'); if (!a) return;
     try { sessionStorage.setItem(K, '1'); } catch(er){}
     if (P.OPCIONES[+a.dataset.op].LINK === '#catalogo') { e.preventDefault(); cerrar();
       setTimeout(() => { const c = document.getElementById('cats'); if (c) window.scrollTo({ top: c.getBoundingClientRect().top + scrollY - 10, behavior: 'smooth' }); }, 260); } });
-  el.addEventListener('click', e => { if (e.target === el) cerrar(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !el.hidden) cerrar(); });
+  el.addEventListener('click', e => { if (e.target === el && !P.OBLIGATORIO) cerrar(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !el.hidden && !P.OBLIGATORIO) cerrar(); });
   setTimeout(() => { el.hidden = false; document.body.style.overflow = 'hidden'; requestAnimationFrame(() => el.classList.add('on')); }, 700);
+})();
+</script>
+
+<!-- ===== Ficha "Formas de pago": todas las opciones de un equipo en un mismo lugar ===== -->
+<style>
+.fp-btn{display:block;width:100%;margin-top:7px;border:1px solid var(--linea);background:#fff;color:var(--navy);font:inherit;font-weight:700;font-size:13px;border-radius:10px;padding:8px 6px;cursor:pointer}
+.fp-btn:hover{background:var(--celeste)}
+.fp{position:fixed;inset:0;z-index:35;background:rgba(11,18,32,.55);display:flex;align-items:flex-end;justify-content:center}
+.fp[hidden]{display:none}
+.fp-box{position:relative;background:#fff;width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:22px 18px 18px;overscroll-behavior:contain}
+@media (min-width:720px){.fp{align-items:center}.fp-box{border-radius:20px;padding:26px 26px 22px}}
+.fp-x{position:absolute;top:12px;right:12px;border:0;background:#F2F5F9;width:34px;height:34px;border-radius:50%;font-size:22px;line-height:34px;color:var(--navy);cursor:pointer}
+.fp-h{text-align:center;padding:4px 28px 0}
+.fp-mod{font-weight:800;font-size:17px;color:var(--navy);line-height:1.25}
+.fp-det{font-size:13px;color:var(--gris);margin-top:2px}
+.fp-pre{margin-top:14px;font-size:12.5px;color:var(--gris)}
+.fp-big{font-size:38px;font-weight:800;color:var(--navy);letter-spacing:-.5px;line-height:1.1}
+.fp-big small{font-size:17px;font-weight:700;margin-right:5px}
+.fp-sec{margin-top:22px}
+.fp-st{font-weight:800;font-size:15px;color:var(--tinta)}
+.fp-ss{font-size:12.5px;color:var(--gris);margin-top:1px}
+.fp-rows{margin-top:8px;border-top:1px solid var(--linea)}
+.fp-row{display:flex;align-items:center;gap:12px;width:100%;border:0;border-bottom:1px solid var(--linea);background:none;font:inherit;color:inherit;text-align:left;padding:13px 6px;cursor:pointer;border-radius:0}
+.fp-row:hover{background:#F8FAFD}
+.fp-row[aria-checked="true"]{background:var(--celeste);box-shadow:inset 3px 0 0 var(--navy)}
+.fp-row svg{flex:0 0 22px;width:22px;height:22px;color:var(--gris)}
+.fp-row .l{flex:1;font-size:15px}
+.fp-row .v{text-align:right;font-weight:800;font-size:15.5px;color:var(--tinta);white-space:nowrap}
+.fp-row .v small{display:block;font-weight:500;font-size:12.5px;color:var(--gris)}
+.fp-mas{border:0;background:none;color:var(--azul);font:inherit;font-weight:700;font-size:13.5px;padding:10px 6px 0;cursor:pointer}
+.fp-nota{margin-top:16px;font-size:12px;color:var(--gris);text-align:center;line-height:1.5}
+.fp-wsp{position:sticky;bottom:0;background:#fff;padding-top:12px;margin-top:6px}
+.fp-wsp a{display:flex;align-items:center;justify-content:center;gap:8px;background:#1FA855;color:#fff;text-decoration:none;font-weight:700;font-size:15.5px;border-radius:12px;padding:14px}
+.fp-wsp .el{font-size:12.5px;color:var(--gris);text-align:center;margin-bottom:8px;min-height:18px}
+</style>
+<div class="fp" id="fp" hidden><div class="fp-box" role="dialog" aria-modal="true" aria-labelledby="fpMod"><button class="fp-x" id="fpX" aria-label="Cerrar">×</button><div id="fpBody"></div></div></div>
+<script>
+(function(){
+  const FP_TARJETA = [ {n:1,r:.15},{n:3,r:.45},{n:6,r:.55},{n:9,r:.75},{n:12,r:.90},{n:18,r:1.05},{n:24,r:1.25} ];   // recargo total (no se muestra)
+  const FP_TARJETA_VISIBLES = [3, 6, 12];          // el resto aparece con "Ver más cuotas"
+  const FP_TRANSFERENCIA = 3;                      // % sobre el efectivo en pesos
+  const FP_PLANES = (typeof CONFIG !== 'undefined' && CONFIG.PLANES) || [ {n:3,f:1.45},{n:6,f:1.84},{n:12,f:2.56} ];
+  const ICO = {
+    usd:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="9" cy="9" r="6"/><circle cx="15.5" cy="15.5" r="5.5"/><path d="M9 6.5v5M15.5 13.5v4"/></svg>',
+    ars:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.4"/><path d="M6 12h.01M18 12h.01"/></svg>',
+    trf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5M4.5 10v8M9 10v8M15 10v8M19.5 10v8M3 20.5h18"/></svg>',
+    tj:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19"/></svg>',
+    dni:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M5.5 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4M14.5 10h4M14.5 13.5h4"/></svg>'
+  };
+  const up = (n, m) => Math.ceil(n / m) * m;
+  const R = (typeof CONFIG !== 'undefined' && CONFIG.REDONDEO_PESOS) || 100;   // mismo redondeo que el resto de la página
+  const p$ = n => '$' + Math.round(n).toLocaleString('es-AR');
+  const u$ = n => 'US$ ' + Math.ceil(n).toLocaleString('es-AR');
+  const cl = it => (typeof claveIt === 'function' ? claveIt(it) : JSON.stringify(it));
+  let F = null;   // ficha abierta: {it, ops, sel, mas}
+
+  function opciones(it){
+    const dol = S.dolar.valor, arsBase = it.moneda === 'ARS';
+    const usd = arsBase ? it.precio / dol : it.precio;
+    const efe = arsBase ? it.precio : up(usd * dol, R);
+    const o = { usd, efe, contado: [], tj: [], dni: [] };
+    if (!arsBase) o.contado.push({k:'usd', ico:'usd', l:'Dólares o USDT', v:u$(usd), msg:'Contado en dólares o USDT: ' + u$(usd)});
+    o.contado.push({k:'ars', ico:'ars', l:'Efectivo en pesos', v:p$(efe), msg:'Efectivo en pesos: ' + p$(efe)});
+    const trf = up(efe * (1 + FP_TRANSFERENCIA / 100), R);
+    o.contado.push({k:'trf', ico:'trf', l:'Transferencia', v:p$(trf), msg:'Transferencia: ' + p$(trf)});
+    FP_TARJETA.forEach(p => { const c = up(usd * dol * (1 + p.r) / p.n, R);
+      o.tj.push({k:'tj' + p.n, n:p.n, ico:'tj', l:p.n === 1 ? '1 pago de' : p.n + ' cuotas de', v:p$(c), msg:'Tarjeta de crédito: ' + (p.n === 1 ? '1 pago de ' : p.n + ' cuotas de ') + p$(c)}); });
+    FP_PLANES.forEach(p => { const c = usd * p.f / p.n;
+      o.dni.push({k:'dni' + p.n, n:p.n, ico:'dni', l:p.n + ' cuotas de', v:u$(c), sub:'≈ ' + p$(up(c * dol, R)), msg:'Financiación con DNI: ' + p.n + ' cuotas de ' + u$(c)}); });
+    return o;
+  }
+  window.FP_OPCIONES = it => opciones(it);
+  if (S.items && S.items.length && typeof renderList === 'function') renderList();
+  const fila = x => `<button type="button" class="fp-row" role="radio" aria-checked="${F.sel === x.k}" data-fpk="${x.k}">${ICO[x.ico]}<span class="l">${x.l}</span><span class="v">${x.v}${x.sub ? '<small>' + x.sub + '</small>' : ''}</span></button>`;
+
+  function wspHref(it, x){
+    const cond = {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond;
+    const l = [`Equipo: ${it.modelo}`, it.gb ? `Capacidad: ${it.gb}` : '', `Condición: ${cond}`, it.bat ? `Batería: ${it.bat}` : '',
+      it.color ? `Colores: ${it.color}` : '', x ? 'Forma de pago: ' + x.msg : ''].filter(Boolean);
+    return `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent('Hola, me interesa este modelo:\n\n' + l.join('\n'))}`;
+  }
+
+  function pintar(){
+    const it = F.it, o = F.o, dol = S.dolar.valor;
+    const det = [it.gb, {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond, it.color, it.bat ? 'Batería ' + it.bat : ''].filter(Boolean).map(esc).join(' · ');
+    const tjVis = o.tj.filter(x => F.mas || FP_TARJETA_VISIBLES.includes(x.n) || F.sel === x.k);
+    const todas = [...o.contado, ...o.tj, ...o.dni], el = todas.find(x => x.k === F.sel);
+    document.getElementById('fpBody').innerHTML = `
+      <div class="fp-h"><div class="fp-mod" id="fpMod">${esc(it.modelo)}</div>${det ? `<div class="fp-det">${det}</div>` : ''}
+        <div class="fp-pre">Precio de contado</div>
+        <div class="fp-big">${it.moneda === 'ARS' ? p$(o.efe) : '<small>US$</small>' + Math.ceil(o.usd).toLocaleString('es-AR')}</div></div>
+      <div class="fp-sec"><div class="fp-st">Contado</div><div class="fp-rows" role="radiogroup" aria-label="Contado">${o.contado.map(fila).join('')}</div></div>
+      <div class="fp-sec"><div class="fp-st">Con tarjeta de crédito</div><div class="fp-ss">Cuotas fijas en pesos.</div>
+        <div class="fp-rows" role="radiogroup" aria-label="Tarjeta de crédito">${tjVis.map(fila).join('')}</div>
+        ${F.mas ? '' : `<button type="button" class="fp-mas" data-fpmas>Ver más cuotas (1, 9, 18 y 24)</button>`}</div>
+      <div class="fp-sec"><div class="fp-st">Con DNI, sin tarjeta</div><div class="fp-ss">Cuotas fijas en dólares. La primera se paga al retirar.</div>
+        <div class="fp-rows" role="radiogroup" aria-label="Financiación con DNI">${o.dni.map(fila).join('')}</div></div>
+      <div class="fp-nota">Pesos al dólar blue de hoy (${p$(dol)}). Con DNI: sujeto a aprobación.</div>
+      <div class="fp-wsp"><div class="el">${el ? 'Elegiste: ' + esc(el.msg) : 'Tocá la forma de pago que te interesa'}</div>
+        <a href="${wspHref(it, el)}" target="_blank" rel="noopener" data-track="${esc([it.modelo, it.gb, '(' + it.cond + ')'].filter(Boolean).join(' '))}">${typeof WSP_ICON === 'string' ? WSP_ICON : ''}<span>Consultar por WhatsApp</span></a></div>`;
+  }
+
+  function abrir(k){
+    const it = (S.items || []).find(x => cl(x) === k); if (!it || !S.dolar) return;
+    F = { it, o: opciones(it), sel: null, mas: false };
+    pintar(); const m = document.getElementById('fp'); m.hidden = false; document.body.style.overflow = 'hidden';
+    m.querySelector('.fp-box').scrollTop = 0;
+    if (typeof track === 'function') track('formas_pago', [it.modelo, it.gb].filter(Boolean).join(' '));
+  }
+  function cerrar(){ document.getElementById('fp').hidden = true; document.body.style.overflow = ''; F = null; }
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-fp]'); if (b){ abrir(b.dataset.fp); return; }
+    const cd = e.target.closest('[data-fpcard]'); if (cd && !e.target.closest('a,button,input,label')){ abrir(cd.dataset.fpcard); return; }
+    if (!F) return;
+    if (e.target.id === 'fp' || e.target.id === 'fpX'){ cerrar(); return; }
+    const r = e.target.closest('[data-fpk]'); if (r){ F.sel = F.sel === r.dataset.fpk ? null : r.dataset.fpk; const y = document.querySelector('.fp-box').scrollTop; pintar(); document.querySelector('.fp-box').scrollTop = y; return; }
+    if (e.target.closest('[data-fpmas]')){ F.mas = true; const y = document.querySelector('.fp-box').scrollTop; pintar(); document.querySelector('.fp-box').scrollTop = y; }
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && F) cerrar(); });
 })();
 </script>
 </body>
