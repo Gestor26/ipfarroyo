@@ -867,6 +867,18 @@ function resumenFP(it){
       : `<div class="pc-p"><small>USD</small>$${Math.ceil(o.usd).toLocaleString('es-AR')}</div><div class="pc-ars"><small>PESOS</small>${pes(o.efe)}</div>`}
     <div class="pc-fp"><div><span>Tarjeta</span><b>12 cuotas x ${t.v}</b></div>${d ? `<div><span>DNI</span><b>${d.n} cuotas x ${pes(d.ars)}</b></div>` : ''}</div>`;
 }
+/* Precio contado en USD y pesos para el mensaje de WhatsApp (mismos valores que la tarjeta del equipo) */
+function preciosContado(it, cuo){
+  if (S.modo !== 'contado' || cuo || !S.dolar) return [];
+  const pes = n => '$' + Math.round(n).toLocaleString('es-AR');
+  if (typeof window.FP_OPCIONES === 'function'){
+    const o = window.FP_OPCIONES(it);
+    return [it.moneda === 'ARS' ? '' : 'Precio contado: USD $' + Math.ceil(o.usd).toLocaleString('es-AR'), 'Precio en pesos (efectivo): ' + pes(o.efe)].filter(Boolean);
+  }
+  const dol = S.dolar.valor, ars = it.moneda === 'ARS';
+  const usd = ars ? it.precio / dol : it.precio, efe = ars ? it.precio : Math.ceil(usd * dol / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS;
+  return [ars ? '' : 'Precio contado: USD $' + Math.ceil(usd).toLocaleString('es-AR'), 'Precio en pesos (efectivo): ' + pes(efe)].filter(Boolean);
+}
 function wspBtn(it, cuo){
   if (!CONFIG.WHATSAPP) return '';
   const cond = {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond;
@@ -877,6 +889,7 @@ function wspBtn(it, cuo){
     it.bat ? `Batería: ${it.bat}` : '',
     it.color ? `Colores: ${it.color}` : '',
     MODOS[S.modo].pago ? 'Forma de pago: ' + MODOS[S.modo].pago : '',
+    ...preciosContado(it, cuo),
     cuo ? 'Cuotas: ' + (cuo.n === 1 ? '1 pago de $' : cuo.n + ' cuotas de $') + Math.round(cuo.ars).toLocaleString('es-AR') : ''
   ].filter(Boolean);
   const txt = `Hola, me interesa este modelo:\n\n${lineas.join('\n')}`;
