@@ -205,7 +205,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .pc-fp span{font-size:11.5px}
 .pc-fp b{white-space:nowrap}
 .pc-ars{font-size:15px;font-weight:700;color:var(--navy);white-space:nowrap}
-.pc-ars small{font-size:11px;font-weight:700;color:var(--gris);margin-right:4px}
+.pc-ars small{font-size:11px;font-weight:600;color:var(--gris);margin-left:2px}
 .pc-fp b{font-size:13px}
 .pc-fp span{color:var(--gris)}
 .pc-fp b{color:var(--navy);white-space:nowrap}
@@ -259,7 +259,8 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .pc-c{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:7px;font-size:12px;font-weight:600;color:var(--gris);cursor:pointer}
 .pc-c input{accent-color:#0B2A5B;width:15px;height:15px}
 .pc.comp{outline:2px solid #0B2A5B;outline-offset:-1px}
-.fab-wsp{position:fixed;right:16px;bottom:18px;z-index:20;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(0,0,0,.22)}
+.fab-wsp.fab-off{opacity:0;pointer-events:none;transform:scale(.8)}
+.fab-wsp{transition:opacity .2s,transform .2s;position:fixed;right:16px;bottom:18px;z-index:20;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(0,0,0,.22)}
 .fab-top{position:fixed;right:22px;bottom:86px;z-index:20;width:44px;height:44px;border-radius:50%;border:1px solid var(--linea);background:#fff;color:var(--navy);font-size:20px;font-weight:700;box-shadow:0 6px 16px rgba(11,42,91,.15);cursor:pointer}
 .fab-top[hidden]{display:none}
 .compbar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:19;display:flex;align-items:center;gap:10px;background:#0B2A5B;color:#fff;border-radius:999px;padding:8px 8px 8px 16px;box-shadow:0 10px 26px rgba(11,42,91,.3);font-size:13px;font-weight:600;max-width:calc(100% - 100px)}
@@ -270,6 +271,9 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 #compTxt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .promo{position:fixed;inset:0;z-index:40;background:rgba(11,18,32,.6);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .25s}
 .promo.on{opacity:1}.promo[hidden]{display:none}
+.franja{background:var(--navy);color:#fff;text-align:center;font-size:12.5px;line-height:1.35;padding:7px 14px}
+.franja b{font-weight:700}.franja span{opacity:.85;margin-left:6px}
+@media (max-width:480px){.franja span{display:block;margin:1px 0 0}}
 .promo-box{position:relative;width:100%;max-width:380px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35);transform:translateY(14px) scale(.97);transition:transform .25s}
 .promo.on .promo-box{transform:none}
 .promo-top{background:linear-gradient(150deg,var(--navy),var(--azul));color:#fff;padding:30px 22px 24px;text-align:center}
@@ -383,8 +387,10 @@ const CONFIG = {
   WHATSAPP: '5493413105554',             // sin +, sin espacios
   NOMBRE: 'Farroyo',
   // Cartel publicitario al entrar (ACTIVO: false para apagarlo)
+  // FRANJA: true = en vez del cartel que tapa la página, muestra TITULO y SUBTITULO en una franja fina arriba
   PROMO: {
     ACTIVO: true,
+    FRANJA: true,
     MEDALLA: false,                      // medalla de 1er puesto arriba del título
     MEMOJI: '/memoji-medalla.png',               // memoji arriba del título ('' para sacarlo)
     ETIQUETA: '',
@@ -419,7 +425,7 @@ const CONFIG = {
    ============================================================ */
 const $ = s => document.querySelector(s);
 const fmtUSD = n => 'USD ' + Math.ceil(n).toLocaleString('es-AR');
-const fmtARS = n => '$ ' + (Math.ceil(n / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS).toLocaleString('es-AR');
+const fmtARS = n => '$' + (Math.ceil(n / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS).toLocaleString('es-AR');
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const hhmm = d => new Date(d).toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit', hourCycle:'h23'});
 async function withTimeout(p, ms){ return Promise.race([p, new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')), ms))]); }
@@ -682,7 +688,7 @@ function enTope(c){
   return S.moneda === 'USD' ? Math.ceil(c.usd) <= v
     : Math.ceil(c.ars / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS <= v;
 }
-const topeTxt = () => S.moneda === 'USD' ? 'USD ' + S.tope : '$ ' + S.tope;
+const topeTxt = () => S.moneda === 'USD' ? 'USD ' + S.tope : '$' + S.tope;
 
 function renderActualizado(){
   const el = $('#actualizado'), b = document.getElementById('actbadge');
@@ -870,8 +876,8 @@ function resumenFP(it){
   if (typeof window.FP_OPCIONES !== 'function' || !S.dolar) return '';
   const o = window.FP_OPCIONES(it), t = o.tj.find(x => x.n === 12), d = o.dni[o.dni.length - 1];
   const pes = n => '$' + Math.round(n).toLocaleString('es-AR');
-  return `${it.moneda === 'ARS' ? `<div class="pc-p"><small>PESOS</small>${pes(o.efe)}</div>`
-      : `<div class="pc-p"><small>USD</small>$${Math.ceil(o.usd).toLocaleString('es-AR')}</div><div class="pc-ars"><small>PESOS</small>${pes(o.efe)}</div>`}
+  return `${it.moneda === 'ARS' ? `<div class="pc-p">${pes(o.efe)}</div>`
+      : `<div class="pc-p"><small>USD</small>${Math.ceil(o.usd).toLocaleString('es-AR')}</div><div class="pc-ars">${pes(o.efe)}<small> en pesos</small></div>`}
     <div class="pc-fp"><div><span>Tarjeta</span><b>12 cuotas x ${t.v}</b></div>${d ? `<div><span>DNI</span><b>${d.n} cuotas x ${pes(d.ars)}</b></div>` : ''}</div>`;
 }
 /* Precio contado en USD y pesos para el mensaje de WhatsApp (mismos valores que la tarjeta del equipo) */
@@ -880,11 +886,11 @@ function preciosContado(it, cuo){
   const pes = n => '$' + Math.round(n).toLocaleString('es-AR');
   if (typeof window.FP_OPCIONES === 'function'){
     const o = window.FP_OPCIONES(it);
-    return [it.moneda === 'ARS' ? '' : 'Precio contado: USD $' + Math.ceil(o.usd).toLocaleString('es-AR'), 'Precio en pesos (efectivo): ' + pes(o.efe)].filter(Boolean);
+    return [it.moneda === 'ARS' ? '' : 'Precio contado: USD ' + Math.ceil(o.usd).toLocaleString('es-AR'), 'Precio en pesos (efectivo): ' + pes(o.efe)].filter(Boolean);
   }
   const dol = S.dolar.valor, ars = it.moneda === 'ARS';
   const usd = ars ? it.precio / dol : it.precio, efe = ars ? it.precio : Math.ceil(usd * dol / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS;
-  return [ars ? '' : 'Precio contado: USD $' + Math.ceil(usd).toLocaleString('es-AR'), 'Precio en pesos (efectivo): ' + pes(efe)].filter(Boolean);
+  return [ars ? '' : 'Precio contado: USD ' + Math.ceil(usd).toLocaleString('es-AR'), 'Precio en pesos (efectivo): ' + pes(efe)].filter(Boolean);
 }
 function wspBtn(it, cuo){
   if (!CONFIG.WHATSAPP) return '';
@@ -1064,7 +1070,7 @@ function abrirComp(){
   const fila = (lab, f) => `<tr><th>${lab}</th>${its.map(it => `<td>${f(it)}</td>`).join('')}</tr>`;
   const pr = it => { const cs = cuotas(it.precio, it);
     if (S.modo === 'tarjeta' && cs.length > 1) return cs.map(x => `${x.n === 1 ? '1 pago' : x.n + ' cuotas'}: $${Math.round(x.ars).toLocaleString('es-AR')}`).join('<br>');
-    const c = cs[0]; return c.soloArs ? '$ ' + Math.round(c.ars).toLocaleString('es-AR') : 'USD ' + Math.ceil(c.usd).toLocaleString('es-AR') + `<small>≈ ${fmtARS(c.ars).replace('$ ','$')}</small>`; };
+    const c = cs[0]; return c.soloArs ? '$' + Math.round(c.ars).toLocaleString('es-AR') : 'USD ' + Math.ceil(c.usd).toLocaleString('es-AR') + `<small>≈ ${fmtARS(c.ars).replace('$ ','$')}</small>`; };
   $('#compTabla').innerHTML = `<div class="tabla-w"><table><thead><tr><th></th>${its.map(it => `<th>${esc(it.modelo)}</th>`).join('')}</tr></thead><tbody>
     ${fila('Precio', pr)}${fila('Capacidad', it => esc(it.gb || '—'))}${fila('Condición', it => esc({'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond))}
     ${fila('Batería', it => esc(it.bat || (it.cond === 'Usado' ? '—' : 'Nueva')))}${fila('Colores', it => it.color ? colorChips(it.color) : '—')}
@@ -1087,6 +1093,13 @@ function iniciarFlotantes(){
   $('#compVer').onclick = abrirComp; $('#compBorrar').onclick = () => { S.comp = []; pintarComp(); renderList(); };
   $('#modalX').onclick = cerrarComp; $('#modal').addEventListener('click', e => { if (e.target.id === 'modal') cerrarComp(); });
   addEventListener('keydown', e => { if (e.key === 'Escape') cerrarComp(); });
+  (() => { const f = $('#fabWsp'); let pend = false;
+    const chk = () => { pend = false; const r = f.getBoundingClientRect(), m = 8;
+      const tapa = [...document.querySelectorAll('.pc-w, .fp-btn, .wsp-btn:not(.fab-wsp)')].some(b => { const q = b.getBoundingClientRect();
+        return q.width && q.right > r.left - m && q.left < r.right + m && q.bottom > r.top - m && q.top < r.bottom + m; });
+      f.classList.toggle('fab-off', tapa); };
+    const pedir = () => { if (!pend) { pend = true; requestAnimationFrame(chk); } };
+    addEventListener('scroll', pedir, {passive:true}); addEventListener('resize', pedir); new MutationObserver(pedir).observe(document.body, {childList:true, subtree:true}); })();
   $('#fabWsp').href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent('Hola! Estoy viendo el catálogo y quería hacer una consulta.')}`;
   $('#fabTop').onclick = () => scrollTo({top: 0, behavior: 'smooth'});
   addEventListener('scroll', () => { $('#fabTop').hidden = scrollY < 900; }, {passive: true});
@@ -1229,6 +1242,12 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 <script>
 (function(){
   const P = CONFIG.PROMO; if (!P || !P.ACTIVO) return;
+  if (P.FRANJA) {
+    const f = document.createElement('div'); f.className = 'franja';
+    f.innerHTML = `<b></b>${P.SUBTITULO ? '<span></span>' : ''}`;
+    f.querySelector('b').textContent = P.TITULO || ''; if (P.SUBTITULO) f.querySelector('span').textContent = P.SUBTITULO;
+    document.body.prepend(f); return;
+  }
   const K = 'farroyo_promo_visto';
   try { if (P.UNA_VEZ_POR_VISITA && sessionStorage.getItem(K)) return; } catch(e){}
   const el = document.getElementById('promo'), g = id => document.getElementById(id);
@@ -1311,7 +1330,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
   const up = (n, m) => Math.ceil(n / m) * m;
   const R = (typeof CONFIG !== 'undefined' && CONFIG.REDONDEO_PESOS) || 100;   // mismo redondeo que el resto de la página
   const p$ = n => '$' + Math.round(n).toLocaleString('es-AR');
-  const u$ = n => 'US$ ' + Math.ceil(n).toLocaleString('es-AR');
+  const u$ = n => 'USD ' + Math.ceil(n).toLocaleString('es-AR');
   const cl = it => (typeof claveIt === 'function' ? claveIt(it) : JSON.stringify(it));
   let F = null;   // ficha abierta: {it, ops, sel, mas}
 
@@ -1349,7 +1368,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
     document.getElementById('fpBody').innerHTML = `
       <div class="fp-h"><div class="fp-mod" id="fpMod">${esc(it.modelo)}</div>${det ? `<div class="fp-det">${det}</div>` : ''}
         <div class="fp-pre">Precio de contado</div>
-        <div class="fp-big">${it.moneda === 'ARS' ? p$(o.efe) : '<small>US$</small>' + Math.ceil(o.usd).toLocaleString('es-AR')}</div></div>
+        <div class="fp-big">${it.moneda === 'ARS' ? p$(o.efe) : '<small>USD</small>' + Math.ceil(o.usd).toLocaleString('es-AR')}</div></div>
       <div class="fp-sec"><div class="fp-st">Contado</div><div class="fp-rows" role="radiogroup" aria-label="Contado">${o.contado.map(fila).join('')}</div></div>
       <div class="fp-sec"><div class="fp-st">Con tarjeta de crédito</div><div class="fp-ss">Cuotas fijas en pesos.</div>
         <div class="fp-rows" role="radiogroup" aria-label="Tarjeta de crédito">${tjVis.map(fila).join('')}</div>
