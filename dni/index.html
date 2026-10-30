@@ -219,7 +219,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
     <h2 id="como">Cómo funciona</h2>
     <ol>
       <li class="step"><strong>Elegí tu equipo</strong><span>Mirá el stock disponible y el valor de cada cuota.</span></li>
-      <li class="step"><strong>Escribinos por WhatsApp</strong><span>Tocá «Contactanos» en el equipo que te interesa.</span></li>
+      <li class="step"><strong>Escribinos por WhatsApp</strong><span>Tocá «Consultar» en el equipo que te interesa.</span></li>
       <li class="step"><strong>Aprobamos y lo retirás</strong><span>Te confirmamos la aprobación y retirás tu equipo.</span></li>
     </ol>
   </div>
@@ -568,12 +568,12 @@ function renderFilters(){
 const claveIt = it => [it.cat, it.cond, it.modelo, it.gb, it.color, it.bat, it.precio, it.nota].join('|');
 function varHTML(it){
   const meta = [it.gb, it.color, it.bat ? `Batería ${it.bat}` : '', it.nota].filter(Boolean).map(esc).join('  |  ');
-  const k = claveIt(it), cs = cuotas(it.precio), el = cs.find(c => c.n === S.sel[k]);
+  const k = claveIt(it), cs = cuotas(it.precio), el = cs.find(c => c.n === S.sel[k]) || cs.find(c => c.n === 12) || cs[cs.length - 1];
   const btn = el ? wspBtn(it, el)
-    : `<button type="button" class="wsp-btn need" data-need="${esc(k)}">${WSP_ICON}<span>Contactanos</span></button>`;
+    : `<button type="button" class="wsp-btn need" data-need="${esc(k)}">${WSP_ICON}<span>Consultar</span></button>`;
   return `<div class="var" data-var="${esc(k)}">
     <div class="var-info"><div class="meta">${meta}</div>${btn}</div>
-    <div class="pl-w"><div class="elegi">${el ? 'Plan elegido: ' + el.n + ' cuotas' : 'Tocá un plan para elegir la cantidad de cuotas'}</div>
+    <div class="pl-w"><div class="elegi">${el ? 'Plan elegido: ' + el.n + ' cuotas · tocá otro para cambiar' : 'Tocá un plan para elegir la cantidad de cuotas'}</div>
     <div class="plans" role="radiogroup" aria-label="Cantidad de cuotas">${cs.map(c => `<button type="button" role="radio" aria-checked="${!!el && el.n === c.n}" data-pl="${esc(k)}" data-n="${c.n}" class="plan${enTope(c) ? '' : ' off'}">
       <div class="n">${c.n} cuotas</div>
       <div class="u"><small>USD</small>${Math.ceil(c.usd).toLocaleString('es-AR')}</div>
@@ -595,7 +595,7 @@ function wspBtn(it, cuo){
     cuo ? `Cuotas: ${cuo.n} cuotas de USD ${Math.ceil(cuo.usd).toLocaleString('es-AR')}` : ''
   ].filter(Boolean);
   const txt = `Hola, me interesa este modelo:\n\n${lineas.join('\n')}`;
-  return `<a class="wsp-btn" data-track="${esc([it.modelo, it.gb, '(' + it.cond + ')'].filter(Boolean).join(' '))}" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(txt)}" aria-label="Contactanos por ${esc(it.modelo)} ${esc(it.gb)} por WhatsApp">${WSP_ICON}<span>Contactanos</span></a>`;
+  return `<a class="wsp-btn" data-track="${esc([it.modelo, it.gb, '(' + it.cond + ')'].filter(Boolean).join(' '))}" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(txt)}" aria-label="Contactanos por ${esc(it.modelo)} ${esc(it.gb)} por WhatsApp">${WSP_ICON}<span>Consultar</span></a>`;
 }
 
 function renderList(){
@@ -673,7 +673,7 @@ document.addEventListener('click', e => {
   const nd = e.target.closest('[data-need]');
   if (nd){ const v = nd.closest('.var'), p = v.querySelector('.plans');
     p.classList.remove('alerta'); void p.offsetWidth; p.classList.add('alerta');
-    if (!v.querySelector('.aviso-cuotas')) p.insertAdjacentHTML('afterend', '<div class="aviso-cuotas">Elegí la cantidad de cuotas para contactarnos</div>');
+    if (!v.querySelector('.aviso-cuotas')) p.insertAdjacentHTML('afterend', '<div class="aviso-cuotas">Elegí la cantidad de cuotas para consultar</div>');
     return; }
   const cat = e.target.closest('[data-cat]');
   if (cat){ S.cat = cat.dataset.cat; S.cond = 'Todos'; S.q = ''; renderAll(); return; }
