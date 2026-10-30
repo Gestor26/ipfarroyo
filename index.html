@@ -253,6 +253,12 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .pc-dots{position:absolute;right:8px;bottom:7px;display:flex;gap:3px}
 .pc-dots i{width:10px;height:10px;border-radius:50%;border:1px solid rgba(11,42,91,.25)}
 .cdot{white-space:nowrap}
+.cpick{display:flex;flex-wrap:wrap;gap:4px;margin:2px 0 1px}
+.cbtn{font:inherit;font-size:11.5px;color:var(--gris);background:#fff;border:1px solid var(--linea);border-radius:999px;padding:2px 8px 2px 5px;cursor:pointer;line-height:1.4}
+.cbtn:hover{border-color:var(--azul)}
+.cbtn[aria-checked="true"]{border-color:var(--navy);color:var(--navy);font-weight:700;box-shadow:0 0 0 1px var(--navy)}
+.pc-cols{font-size:11.5px;color:var(--gris);margin-top:2px}
+.pc-ctx{font-size:10.5px;color:var(--gris);margin-top:4px}
 .cdot i{display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 4px 0 1px;vertical-align:-.5px;border:1px solid rgba(11,42,91,.28);box-sizing:border-box}
 .pc-b{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
 .pc-b span{font-size:10.5px;font-weight:700;color:var(--navy);background:#EEF3FA;border-radius:6px;padding:3px 6px}
@@ -349,7 +355,7 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
     <h2 id="como">Cómo funciona</h2>
     <ol>
       <li class="step"><strong>Elegí tu equipo</strong><span id="s1d">Mirá el stock disponible y el valor de cada cuota.</span></li>
-      <li class="step"><strong>Escribinos por WhatsApp</strong><span>Tocá «Contactanos» en el equipo que te interesa.</span></li>
+      <li class="step"><strong>Escribinos por WhatsApp</strong><span>Tocá «Consultar» en el equipo que te interesa.</span></li>
       <li class="step"><strong id="s3t">Coordinamos y lo retirás</strong><span id="s3d">Agendamos tu cita y retirás tu equipo.</span></li>
     </ol>
   </div>
@@ -627,7 +633,7 @@ async function getDolar(){
 }
 
 /* ============================================================
-   Estadísticas (visitas y clics en Contactanos)
+   Estadísticas (visitas y clics en Consultar)
    ============================================================ */
 function track(evento, detalle){
   if (!CONFIG.API_URL) return;
@@ -824,8 +830,19 @@ const COLORES = [['rose gold','#E6C2B4'],['deep blue','#2B3F6B'],['mist','#B9C9D
   ['bronze','#B08D6E'],['bronce','#B08D6E'],['coral','#F08A72'],['lilac','#C8B6E2'],['lila','#C8B6E2'],['violeta','#B8A6D9'],['celeste','#BBD6EE'],['azul','#3E5C8A'],['rosa','#F2C9CF'],['verde','#A9C7A3'],
   ['gris espacial','#6B6C70'],['gris','#8A8B8F'],['dorado','#E9D8B4'],['plata','#E3E4E6'],['plateado','#E3E4E6'],['rojo','#C2272D'],['amarillo','#F2D96B'],['naranja','#E2783A']];
 /* Nombre de cada color con su puntito al lado ("Deep Blue" → ● Deep Blue) */
-const colorChips = txt => String(txt || '').split(/\s*[,/]\s*/).filter(Boolean)
+const listaColores = txt => String(txt || '').split(/\s*[,/]\s*/).filter(Boolean);
+const colorChips = txt => listaColores(txt)
   .map(c => `<span class="cdot"><i style="background:${colorHex(c)}"></i>${esc(c)}</span>`).join(', ');
+/* Color que eligió el cliente para un equipo (si hay uno solo, ese) */
+function colorElegido(it){ const l = listaColores(it.color); return l.length === 1 ? l[0] : (S.colores || {})[claveIt(it)] || ''; }
+/* Puntitos tocables: el cliente elige el color y llega en el mensaje de WhatsApp */
+function colorPick(it){
+  const l = listaColores(it.color); if (l.length < 2) return colorChips(it.color);
+  const k = claveIt(it), sel = colorElegido(it);
+  return `<span class="cpick" role="radiogroup" aria-label="Elegí el color">${l.map(c => `<button type="button" class="cdot cbtn" role="radio" aria-checked="${c === sel}" data-col="${esc(k)}" data-c="${esc(c)}"><i style="background:${colorHex(c)}"></i>${esc(c)}</button>`).join('')}</span>`;
+}
+/* Línea de color para los mensajes */
+const lineaColor = it => { const c = colorElegido(it); return c ? `Color: ${c}` : it.color ? `Colores: ${it.color}` : ''; };
 function colorHex(nombre){ const n = norm(nombre); const c = COLORES.find(([k]) => n.includes(k)); return c ? c[1] : '#C9D2DE'; }
 function iconoEquipo(it, hex){
   const t = norm(it.cat + ' ' + it.modelo), st = 'stroke="#0B2A5B" stroke-opacity=".25" stroke-width="1.5"';
@@ -846,16 +863,17 @@ function badgesDe(it){
 const claveIt = it => [it.cat, it.cond, it.modelo, it.gb, it.precio, it.nota].join('|');
 function cardHTML(it){
   const cs = cuotas(it.precio, it), tj = S.modo === 'tarjeta' && cs.length > 1;
-  const elegida = tj ? cs.find(x => x.n === S.sel[claveIt(it)]) : null;
+  const elegida = tj ? (cs.find(x => x.n === S.sel[claveIt(it)]) || cs.find(x => x.n === 12) || cs[cs.length - 1]) : null;
   const c = tj ? (elegida || cs.find(x => x.n === 12) || cs[0]) : cs[0];
-  const det = [it.color ? colorChips(it.color) : '', ...[it.bat ? 'Bat. ' + it.bat : '', it.nota].filter(Boolean).map(esc)].filter(Boolean).join(' · ');
+  const det = [it.bat ? 'Bat. ' + it.bat : '', it.nota].filter(Boolean).map(esc).join(' · ');
+  const nCol = listaColores(it.color).length;
   const precio = c.soloArs ? '<small>$</small>' + Math.round(c.ars).toLocaleString('es-AR')
                            : '<small>USD</small>' + Math.ceil(c.usd).toLocaleString('es-AR');
-  const hex = colorHex((it.colores && it.colores[0]) || it.color || ''), k = claveIt(it), enComp = S.comp.includes(k);
+  const hex = colorHex(colorElegido(it) || (it.colores && it.colores[0]) || it.color || ''), k = claveIt(it), enComp = S.comp.includes(k);
   const bd = badgesDe(it);
   const kk = claveIt(it);
   const precioH = tj ? `<div class="pc-p"><small>${c.n === 1 ? '1 pago de' : c.n + ' cuotas de'}</small><br>$${Math.round(c.ars).toLocaleString('es-AR')}</div>
-    <div class="pc-tl">${elegida ? 'Cuotas elegidas' : 'Elegí la cantidad de cuotas'}</div>
+    <div class="pc-tl">Cuotas · tocá para cambiar</div>
     <div class="pc-t" role="radiogroup" aria-label="Cantidad de cuotas">${cs.map(x => `<button type="button" role="radio" aria-checked="${elegida && elegida.n === x.n}" data-cuo="${esc(kk)}" data-n="${x.n}"${enTope(x) ? '' : ' class="off"'}><span>${x.n === 1 ? '1 pago' : x.n + ' cuotas'}</span><b>$${Math.round(x.ars).toLocaleString('es-AR')}</b></button>`).join('')}</div>`
     : S.modo === 'contado' && resumenFP(it) ? resumenFP(it)
     : `<div class="pc-p">${precio}</div>
@@ -864,11 +882,12 @@ function cardHTML(it){
     ${bd.length ? `<div class="pc-b">${bd.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
     <div class="pc-m">${esc(it.modelo)}</div>
     ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
+    ${nCol ? `<div class="pc-cols">${nCol > 1 ? `<div class="pc-ctx">${colorElegido(it) ? 'Color elegido' : 'Tocá el color que querés'}</div>` : ''}${colorPick(it)}</div>` : ''}
     ${det ? `<div class="pc-d">${det}</div>` : ''}
     ${precioH}
     ${tj && !elegida ? `<button type="button" class="wsp-btn pc-w pc-need" data-need="${esc(kk)}">${WSP_ICON}<span>Consultar</span></button>`
       : wspBtn(it, elegida).replace('<span>Contactanos</span>', '<span>Consultar</span>').replace('class="wsp-btn"', 'class="wsp-btn pc-w"')}
-    <button type="button" class="fp-btn" data-fp="${esc(k)}">Más opciones de pago</button>
+    <button type="button" class="fp-btn" data-fp="${esc(k)}">Ver todas las formas de pago ›</button>
   </article>`;
 }
 /* Resumen de cuotas en la tarjeta del equipo (tarjeta y DNI); el detalle completo está en la ficha */
@@ -900,13 +919,13 @@ function wspBtn(it, cuo){
     it.gb ? `Capacidad: ${it.gb}` : '',
     `Condición: ${cond}`,
     it.bat ? `Batería: ${it.bat}` : '',
-    it.color ? `Colores: ${it.color}` : '',
+    lineaColor(it),
     MODOS[S.modo].pago ? 'Forma de pago: ' + MODOS[S.modo].pago : '',
     ...preciosContado(it, cuo),
     cuo ? 'Cuotas: ' + (cuo.n === 1 ? '1 pago de $' : cuo.n + ' cuotas de $') + Math.round(cuo.ars).toLocaleString('es-AR') : ''
   ].filter(Boolean);
   const txt = `Hola, me interesa este modelo:\n\n${lineas.join('\n')}`;
-  return `<a class="wsp-btn" data-track="${esc([it.modelo, it.gb, '(' + it.cond + ')'].filter(Boolean).join(' '))}" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(txt)}" aria-label="Contactanos por ${esc(it.modelo)} ${esc(it.gb)} por WhatsApp">${WSP_ICON}<span>Contactanos</span></a>`;
+  return `<a class="wsp-btn" data-track="${esc([it.modelo, it.gb, '(' + it.cond + ')'].filter(Boolean).join(' '))}" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(txt)}" aria-label="Contactanos por ${esc(it.modelo)} ${esc(it.gb)} por WhatsApp">${WSP_ICON}<span>Consultar</span></a>`;
 }
 
 function renderList(){
@@ -1075,7 +1094,7 @@ function abrirComp(){
     ${fila('Precio', pr)}${fila('Capacidad', it => esc(it.gb || '—'))}${fila('Condición', it => esc({'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond))}
     ${fila('Batería', it => esc(it.bat || (it.cond === 'Usado' ? '—' : 'Nueva')))}${fila('Colores', it => it.color ? colorChips(it.color) : '—')}
     ${filaSpec('Pantalla', 'pantalla')}${filaSpec('Chip', 'chip')}${filaSpec('Cámaras', 'camara')}${filaSpec('Autonomía', 'bateria')}${filaSpec('Destacado', 'extra')}
-    ${fila('', it => { const cs = cuotas(it.precio, it), el = cs.find(x => x.n === S.sel[claveIt(it)]);
+    ${fila('', it => { const cs = cuotas(it.precio, it), el = cs.find(x => x.n === S.sel[claveIt(it)]) || cs.find(x => x.n === 12) || cs[cs.length - 1];
       return S.modo === 'tarjeta' && cs.length > 1 && !el ? `<button type="button" class="wsp-btn pc-need" data-need="${esc(claveIt(it))}">${WSP_ICON}<span>Elegir cuotas</span></button>`
         : wspBtn(it, S.modo === 'tarjeta' ? el : null).replace('<span>Contactanos</span>', '<span>Consultar</span>'); })}</tbody></table></div>`;
   $('#modal').hidden = false; document.body.style.overflow = 'hidden';
@@ -1112,12 +1131,15 @@ function renderAll(){
 
 function repintarCard(k){
   const it = S.items.find(x => claveIt(x) === k); if (!it) return;
-  const old = [...document.querySelectorAll('[data-cuo]')].find(b => b.dataset.cuo === k);
-  const art = old ? old.closest('article') : null; if (!art) return;
+  const art = [...document.querySelectorAll('article[data-fpcard]')].find(a => a.dataset.fpcard === k); if (!art) return;
   const tmp = document.createElement('div'); tmp.innerHTML = cardHTML(it); art.replaceWith(tmp.firstElementChild);
 }
 function cardDe(k){ const b = [...document.querySelectorAll('[data-cuo]')].find(x => x.dataset.cuo === k); return b ? b.closest('article') : null; }
 document.addEventListener('click', e => {
+  const co = e.target.closest('[data-col]');
+  if (co){ S.colores = S.colores || {}; const k = co.dataset.col;
+    S.colores[k] = S.colores[k] === co.dataset.c ? '' : co.dataset.c; repintarCard(k);
+    if (typeof window.FP_REPINTAR === 'function') window.FP_REPINTAR(); return; }
   const cu = e.target.closest('[data-cuo]');
   if (cu){ S.sel[cu.dataset.cuo] = +cu.dataset.n; repintarCard(cu.dataset.cuo); if (!$('#modal').hidden) abrirComp(); return; }
   const nd = e.target.closest('[data-need]');
@@ -1282,9 +1304,9 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 
 <!-- ===== Ficha "Formas de pago": todas las opciones de un equipo en un mismo lugar ===== -->
 <style>
-.fp-btn{display:block;width:100%;margin-top:7px;border:1px solid var(--linea);background:#fff;color:var(--navy);font:inherit;font-weight:700;font-size:13px;border-radius:10px;padding:8px 6px;cursor:pointer}
-.fp-btn:hover{background:var(--celeste)}
-@media (max-width:480px){.fp-btn{font-size:12px;letter-spacing:-.1px;white-space:nowrap;padding:8px 2px}}
+.fp-btn{display:block;width:100%;margin-top:4px;border:0;background:none;color:var(--azul);font:inherit;font-weight:700;font-size:12.5px;padding:8px 2px 2px;cursor:pointer}
+.fp-btn:hover{text-decoration:underline}
+@media (max-width:480px){.fp-btn{font-size:11.5px;letter-spacing:-.1px;white-space:nowrap}}
 .fp{position:fixed;inset:0;z-index:35;background:rgba(11,18,32,.55);display:flex;align-items:flex-end;justify-content:center}
 .fp[hidden]{display:none}
 .fp-box{position:relative;background:#fff;width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:22px 18px 18px;overscroll-behavior:contain}
@@ -1309,6 +1331,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 .fp-row .v small{display:block;font-weight:500;font-size:12.5px;color:var(--gris)}
 .fp-mas{border:0;background:none;color:var(--azul);font:inherit;font-weight:700;font-size:13.5px;padding:10px 6px 0;cursor:pointer}
 .fp-nota{margin-top:16px;font-size:12px;color:var(--gris);text-align:center;line-height:1.5}
+.fp-cols .cpick{justify-content:center}.fp-cols{margin-top:6px}
 .fp-wsp{position:sticky;bottom:0;background:#fff;padding-top:12px;margin-top:6px}
 .fp-wsp a{display:flex;align-items:center;justify-content:center;gap:8px;background:#1FA855;color:#fff;text-decoration:none;font-weight:700;font-size:15.5px;border-radius:12px;padding:14px}
 .fp-wsp .el{font-size:12.5px;color:var(--gris);text-align:center;margin-bottom:8px;min-height:18px}
@@ -1350,23 +1373,25 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
     return o;
   }
   window.FP_OPCIONES = it => opciones(it);
+  window.FP_REPINTAR = () => { if (!F) return; const bx = document.querySelector('.fp-box'), y = bx.scrollTop; pintar(); bx.scrollTop = y; };
   if (S.items && S.items.length && typeof renderList === 'function') renderList();
   const fila = x => `<button type="button" class="fp-row" role="radio" aria-checked="${F.sel === x.k}" data-fpk="${x.k}">${ICO[x.ico]}<span class="l">${x.l}</span><span class="v">${x.v}${x.sub ? '<small>' + x.sub + '</small>' : ''}</span></button>`;
 
   function wspHref(it, x){
     const cond = {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond;
     const l = [`Equipo: ${it.modelo}`, it.gb ? `Capacidad: ${it.gb}` : '', `Condición: ${cond}`, it.bat ? `Batería: ${it.bat}` : '',
-      it.color ? `Colores: ${it.color}` : '', x ? 'Forma de pago: ' + x.msg : ''].filter(Boolean);
+      lineaColor(it), x ? 'Forma de pago: ' + x.msg : ''].filter(Boolean);
     return `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent('Hola, me interesa este modelo:\n\n' + l.join('\n'))}`;
   }
 
   function pintar(){
     const it = F.it, o = F.o, dol = S.dolar.valor;
-    const det = [it.gb, {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond, it.color ? '\u0000C' : '', it.bat ? 'Batería ' + it.bat : ''].filter(Boolean).map(esc).join(' · ').replace('\u0000C', it.color ? colorChips(it.color) : '');
+    const det = [it.gb, {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond, it.color && listaColores(it.color).length < 2 ? '\u0000C' : '', it.bat ? 'Batería ' + it.bat : ''].filter(Boolean).map(esc).join(' · ').replace('\u0000C', colorChips(it.color));
+    const colsFicha = listaColores(it.color).length > 1 ? `<div class="fp-cols"><div class="pc-ctx">${colorElegido(it) ? 'Color elegido' : 'Tocá el color que querés'}</div>${colorPick(it)}</div>` : '';
     const tjVis = o.tj.filter(x => F.mas || FP_TARJETA_VISIBLES.includes(x.n) || F.sel === x.k);
     const todas = [...o.contado, ...o.tj, ...o.dni], el = todas.find(x => x.k === F.sel);
     document.getElementById('fpBody').innerHTML = `
-      <div class="fp-h"><div class="fp-mod" id="fpMod">${esc(it.modelo)}</div>${det ? `<div class="fp-det">${det}</div>` : ''}
+      <div class="fp-h"><div class="fp-mod" id="fpMod">${esc(it.modelo)}</div>${det ? `<div class="fp-det">${det}</div>` : ''}${colsFicha}
         <div class="fp-pre">Precio de contado</div>
         <div class="fp-big">${it.moneda === 'ARS' ? p$(o.efe) : '<small>USD</small>' + Math.ceil(o.usd).toLocaleString('es-AR')}</div></div>
       <div class="fp-sec"><div class="fp-st">Contado</div><div class="fp-rows" role="radiogroup" aria-label="Contado">${o.contado.map(fila).join('')}</div></div>
