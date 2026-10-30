@@ -1369,7 +1369,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
     FP_TARJETA.forEach(p => { const c = up(usd * dol * (1 + p.r) / p.n, R);
       o.tj.push({k:'tj' + p.n, n:p.n, ico:'tj', l:p.n === 1 ? '1 pago de' : p.n + ' cuotas de', v:p$(c), msg:'Tarjeta de crédito: ' + (p.n === 1 ? '1 pago de ' : p.n + ' cuotas de ') + p$(c)}); });
     FP_PLANES.forEach(p => { const c = usd * p.f / p.n;
-      o.dni.push({k:'dni' + p.n, n:p.n, ico:'dni', l:p.n + ' cuotas de', v:u$(c), ars:up(c * dol, R), sub:'≈ ' + p$(up(c * dol, R)), msg:'Financiación con DNI: ' + p.n + ' cuotas de ' + u$(c)}); });
+      o.dni.push({k:'dni' + p.n, n:p.n, ico:'dni', l:p.n + ' cuotas de', v:u$(c), ars:up(c * dol, R), sub:'≈ ' + p$(up(c * dol, R)), msg:'Financiación con DNI: ' + p.n + ' cuotas de ' + u$(c) + ' (aprox. ' + p$(up(c * dol, R)) + ' por cuota)'}); });
     return o;
   }
   window.FP_OPCIONES = it => opciones(it);
