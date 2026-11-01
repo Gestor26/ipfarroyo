@@ -204,6 +204,10 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .pc-fp div{display:flex;flex-direction:column;gap:0}
 .pc-fp span{font-size:11.5px}
 .pc-fp b{white-space:nowrap}
+.pc-antes{margin-top:auto;padding-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:12.5px;color:var(--gris)}
+.pc-antes s{font-weight:600}
+.pc-antes span{background:#05081A;color:#39D5FF;font-weight:800;font-size:10.5px;letter-spacing:.04em;padding:2px 7px;border-radius:99px;white-space:nowrap}
+.pc-antes + .pc-p{margin-top:0;padding-top:2px}
 .pc-ars{font-size:15px;font-weight:700;color:var(--navy);white-space:nowrap}
 .pc-ars small{font-size:11px;font-weight:600;color:var(--gris);margin-left:2px}
 .pc-fp b{font-size:13px}
@@ -423,6 +427,9 @@ const CONFIG = {
     UNA_VEZ_POR_VISITA: true,            // false = aparece cada vez que recarga la página
     OBLIGATORIO: false                   // true = no se puede cerrar: hay que elegir una opción
   },
+  // Descuento en USD que se resta a todos los precios de la web (0 = sin descuento)
+  DESCUENTO_USD: 20,
+  DESCUENTO_ETIQUETA: 'Cyber Monday',
   // Financiación con DNI: multiplicador sobre el precio contado (no se muestra al cliente)
   PLANES: [ {n:3, f:1.45}, {n:6, f:1.84}, {n:12, f:2.56} ],
   DOLAR_FIJO: null,                      // forzar una cotización (ej: 1600). null = automático
@@ -904,7 +911,8 @@ function resumenFP(it){
   if (typeof window.FP_OPCIONES !== 'function' || !S.dolar) return '';
   const o = window.FP_OPCIONES(it), t = o.tj.find(x => x.n === 12), d = o.dni[o.dni.length - 1];
   const pes = n => '$' + Math.round(n).toLocaleString('es-AR');
-  return `${it.moneda === 'ARS' ? `<div class="pc-p">${pes(o.efe)}</div>`
+  const antes = it.precioAntes ? `<div class="pc-antes"><s>${it.moneda === 'ARS' ? pes(it.precioAntes) : 'USD ' + Math.ceil(it.precioAntes).toLocaleString('es-AR')}</s><span>-USD ${CONFIG.DESCUENTO_USD} ${esc(CONFIG.DESCUENTO_ETIQUETA || '')}</span></div>` : '';
+  return antes + `${it.moneda === 'ARS' ? `<div class="pc-p">${pes(o.efe)}</div>`
       : `<div class="pc-p"><small>USD</small>${Math.ceil(o.usd).toLocaleString('es-AR')}</div><div class="pc-ars">${pes(o.efe)}<small> en pesos</small></div>`}
     <div class="pc-fp"><div><span>Tarjeta</span><b>12 cuotas x ${t.v}</b></div>${d ? `<div><span>DNI</span><b>${d.n} cuotas x ${pes(d.ars)}</b></div>` : ''}</div>`;
 }
@@ -1197,6 +1205,10 @@ function showLoader(msg){
 
 function mostrar(items){
   if (CONFIG.CATEGORIAS_VISIBLES.length) items = items.filter(it => CONFIG.CATEGORIAS_VISIBLES.includes(it.cat));
+  const DTO = +CONFIG.DESCUENTO_USD || 0;
+  if (DTO > 0) items = items.map(it => { if (!(it.precio > 0)) return it;
+    const menos = it.moneda === 'ARS' ? Math.ceil(DTO * ((S.dolar && S.dolar.valor) || CONFIG.DOLAR_RESPALDO) / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS : DTO;
+    return it.precio > menos ? {...it, precio: it.precio - menos, precioAntes: it.precio} : it; });
   items = items.map(it => it.cat === 'iPhone' && CONFIG.PESTANAS_IPHONE[it.cond] ? {...it, cat: CONFIG.PESTANAS_IPHONE[it.cond]} : it);
   if (!items.length){ showLoader('No se encontraron equipos publicables en la planilla. Revisá que tenga modelo y precio.'); return; }
   S.items = items; $('#state').innerHTML = ''; renderDolar(); renderActualizado(); renderAll();
