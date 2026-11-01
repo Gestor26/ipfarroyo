@@ -308,6 +308,14 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .promo-ind{color:var(--navy);font-weight:700;font-size:15px;line-height:1.4;background:var(--celeste);border-radius:12px;padding:12px 14px}
 .promo-ind[hidden],.promo-cta[hidden]{display:none}
 .promo-x[hidden]{display:none}
+/* Tema Cyber Monday */
+.promo.cyber .promo-top{background:radial-gradient(120% 90% at 50% 0%,#1B3A8A 0%,#0A1230 55%,#05081A 100%);padding:60px 22px 30px}
+.promo.cyber .promo-et{background:none;border:1.5px solid #39D5FF;color:#39D5FF;font-weight:800;font-size:13px;letter-spacing:.22em;padding:7px 14px;box-shadow:0 0 14px rgba(57,213,255,.35)}
+.promo.cyber .promo-top h2{font-size:46px;letter-spacing:-1px;color:#fff;text-shadow:0 0 22px rgba(57,213,255,.55)}
+.promo.cyber .promo-top .promo-sub{color:#BFEFFF;font-size:17px;margin-top:8px}
+.promo.cyber .promo-ops{margin-top:22px}
+.promo.cyber .promo-ops a{background:#39D5FF;color:#05081A;box-shadow:0 6px 20px rgba(57,213,255,.35)}
+.promo.cyber .promo-ops a:hover{background:#7FE6FF}
 .promo-bot p:last-child{margin:0}
 .modal{position:fixed;inset:0;z-index:30;background:rgba(11,18,32,.55);display:flex;align-items:flex-end;justify-content:center}
 .modal[hidden]{display:none}
@@ -396,21 +404,22 @@ const CONFIG = {
   // FRANJA: true = en vez del cartel que tapa la página, muestra TITULO y SUBTITULO en una franja fina arriba
   PROMO: {
     ACTIVO: true,
-    FRANJA: true,
+    FRANJA: false,
+    TEMA: 'cyber',                       // 'cyber' = estilo oscuro de Cyber Monday ('' = azul normal)
     MEDALLA: false,                      // medalla de 1er puesto arriba del título
-    MEMOJI: '/memoji-medalla.png',               // memoji arriba del título ('' para sacarlo)
-    ETIQUETA: '',
-    TITULO: 'Somos líderes en ventas',
-    SUBTITULO: 'Destacamos por calidad y confianza.',
+    MEMOJI: '',                          // memoji arriba del título ('' para sacarlo)
+    ETIQUETA: 'CYBER MONDAY',
+    TITULO: '$20 USD OFF',
+    SUBTITULO: 'en todos nuestros productos',
     OPCIONES: [                          // botones debajo del título
-      { TEXTO: 'Ingresá para ver todo nuestro stock disponible', LINK: '#catalogo' }  // #catalogo = cierra y va al catálogo
+      { TEXTO: 'Ver productos', LINK: '#catalogo' }  // #catalogo = cierra y va al catálogo
     ],
     TEXTO: '',
     INDICACION: '',
     IMAGEN: '',                          // opcional: URL de una imagen (ej: /promo.jpg)
     BOTON: '',                           // vacío = sin botón
     LINK: '',                       // dejar vacío para que el botón abra WhatsApp
-    MENSAJE_WSP: 'Hola! Vi la promo en la web y quería consultar.',
+    MENSAJE_WSP: 'Hola! Vi la promo de Cyber Monday en la web y quería consultar.',
     UNA_VEZ_POR_VISITA: true,            // false = aparece cada vez que recarga la página
     OBLIGATORIO: false                   // true = no se puede cerrar: hay que elegir una opción
   },
@@ -1273,6 +1282,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
   const K = 'farroyo_promo_visto';
   try { if (P.UNA_VEZ_POR_VISITA && sessionStorage.getItem(K)) return; } catch(e){}
   const el = document.getElementById('promo'), g = id => document.getElementById(id);
+  if (P.TEMA) el.classList.add(P.TEMA);
   g('promoEt').textContent = P.ETIQUETA || ''; g('promoEt').hidden = !P.ETIQUETA;
   g('promoMed').toggleAttribute('hidden', !P.MEDALLA);
   if (P.MEMOJI){ g('promoMemo').src = P.MEMOJI; g('promoMemo').hidden = false; }
