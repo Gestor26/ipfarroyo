@@ -190,6 +190,10 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .grilla{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 @media (min-width:600px){.grilla{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (min-width:900px){.grilla{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}}
+.pc-foto{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;margin:2px 0 10px}
+.pc-foto img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.fp-foto{height:190px;display:flex;align-items:center;justify-content:center;margin:0 0 14px}
+.fp-foto img{max-width:100%;max-height:100%;object-fit:contain;display:block}
 .pc{background:#fff;border:1px solid var(--linea);border-radius:12px;padding:12px 12px 10px;display:flex;flex-direction:column;gap:3px;min-width:0}
 .pc.off{opacity:.35}
 .pc-m{font-weight:700;color:var(--navy);font-size:14.5px;line-height:1.2}
@@ -833,6 +837,85 @@ function iconoSec(t){
   if (t.includes('pencil')) return '✏️';
   return '📱';
 }
+/* ===== Fotos de los equipos (imágenes oficiales de Apple) ===== */
+const FOTOS_BASE = 'https://cdsassets.apple.com/live/7WUAS350/images/';
+const FOTOS = [
+  [/iphone 18 pro max/, 'iphone/iphone-18-pro-max-colors.png'],
+  [/iphone 18 pro/, 'iphone/iphone-18-pro-colors.png'],
+  [/iphone 17 ?e\b/, 'iphone/iphone-17e/iphone-17e-colors.png'],
+  [/iphone 17 pro max/, 'iphone/iphone-17-pro-max-colors.png'],
+  [/iphone 17 pro/, 'iphone/iphone-17-pro-colors.png'],
+  [/iphone 17/, 'iphone/iphone-17-colors.png'],
+  [/iphone air/, 'iphone/iphone-air-colors.png'],
+  [/iphone 16 ?e\b/, 'iphone/iphone-16e/iphone-16e-colors.png'],
+  [/iphone 16 pro max/, 'iphone/iphone-16-pro-max-colors.png'],
+  [/iphone 16 pro/, 'iphone/iphone-16-pro-colors.png'],
+  [/iphone 16 plus/, 'iphone/iphone-16-plus-colors.png'],
+  [/iphone 16/, 'iphone/iphone-16-colors.png'],
+  [/iphone 15 pro max/, 'iphone/fall-2023-iphone-colors-iphone-15-pro-max.png'],
+  [/iphone 15 pro/, 'iphone/fall-2023-iphone-colors-iphone-15-pro.png'],
+  [/iphone 15 plus/, 'iphone/fall-2023-iphone-colors-iphone-15-plus.png'],
+  [/iphone 15/, 'iphone/fall-2023-iphone-colors-iphone-15.png'],
+  [/iphone 14 pro max/, 'iphone/iphone-14-pro-max-colors.png'],
+  [/iphone 14 pro/, 'iphone/iphone-14-pro-colors.png'],
+  [/iphone 14 plus/, 'iphone/iphone-14-plus-colors-spring-2023.png'],
+  [/iphone 14/, 'iphone/iphone-14-colors-spring-2023.png'],
+  [/iphone 13 pro max/, 'iphone/2022-spring-iphone13-pro-max-colors.png'],
+  [/iphone 13 pro/, 'iphone/2022-spring-iphone13-pro-colors.png'],
+  [/iphone 13 mini/, 'iphone/2022-iphone13-mini-colors.png'],
+  [/iphone 13/, 'iphone/2022-spring-iphone13-colors.png'],
+  [/iphone 12 pro max/, 'iphone/iphone-12-pro-max/iphone12-pro-max-colors.jpg'],
+  [/iphone 12 pro/, 'iphone/iphone-12-pro/iphone12-pro-colors.jpg'],
+  [/iphone 12 mini/, 'iphone/2021-iphone12-mini-colors.png'],
+  [/iphone 12/, 'iphone/2021-iphone12-colors.png'],
+  [/iphone 11 pro max/, 'iphone/identify-iphone-11pro-max.jpg'],
+  [/iphone 11 pro/, 'iphone/identify-iphone-11pro.jpg'],
+  [/iphone 11/, 'iphone/identify-iphone-11-colors.jpg'],
+  [/iphone se ?(3|3ra|tercera)/, 'iphone/iphone-se-3rd-gen-colors.png'],
+  [/iphone se ?(2|2da|segunda)/, 'iphone/iphone-se/iphone-se-2nd-gen-colors.jpg'],
+  [/ipad mini/, 'ipad/ipad-mini/ipad-mini-2024-colors.png'],
+  [/ipad.*pro.*13|ipad.*13.*pro/, 'ipad/fall-2025-ipad-pro-m5-13in.png'],
+  [/ipad.*pro/, 'ipad/fall-2025-ipad-pro-m5-11in.png'],
+  [/ipad air.*m4.*13|ipad air.*13.*m4/, 'ipad/spring-2026-ipad-air-13.png'],
+  [/ipad air.*m4/, 'ipad/spring-2026-ipad-air-11.png'],
+  [/ipad air.*13/, 'ipad/spring-2025-ipad-air-13.png'],
+  [/ipad air/, 'ipad/spring-2025-ipad-air-11.png'],
+  [/ipad.*(9|9na|novena) ?gen/, 'ipad/ipad/ipad-2021-colors.png'],
+  [/ipad.*(10|10ma|decima) ?gen/, 'ipad/ipad/fall-2022-10-gen-ipad.png'],
+  [/ipad/, 'ipad/spring-2025-ipad.png'],
+  [/watch ultra 3/, 'apple-watch/apple-watch-ultra-3-colors.png'],
+  [/watch ultra/, 'apple-watch/apple-watch-ultra-2-colors.png'],
+  [/watch se\b/, 'apple-watch/apple-watch-se-3.png'],
+  [/series 12.*cel/, 'apple-watch/apple-watch-series-12-aluminum-gps-cell.png'],
+  [/series 12/, 'apple-watch/apple-watch-series-12-aluminum-gps.png'],
+  [/series 11.*cel/, 'apple-watch/apple-watch-series-11-aluminum-gps-cell.png'],
+  [/series 11/, 'apple-watch/apple-watch-series-11-aluminum-gps.png'],
+  [/series 10.*cel/, 'apple-watch/apple-watch-series-10-aluminum-gps-cell.png'],
+  [/series 10/, 'apple-watch/apple-watch-series-10-aluminum-gps.png'],
+  [/series 9.*cel/, 'apple-watch/apple-watch-series-9-gps-cellular.png'],
+  [/series 9/, 'apple-watch/apple-watch-series-9-gps.png'],
+  [/macbook air.*15/, 'macbook-air/macbook-air-15in-m5-colors.png'],
+  [/macbook air/, 'macbook-air/macbook-air-13in-m5-colors.png'],
+  [/airpods.*(pro 3|3 pro)/, 'airpods/charging-case-for-airpods-pro-3.png'],
+  [/airpods.*(pro 2|2 pro|pro 2da)/, 'airpods/airpods-pro-magsafe-charging-case-usb-c.png'],
+  [/airpods 5/, 'airpods/charging-case-for-airpods-5.png'],
+  [/airpods 4/, 'airpods/charging-case-for-airpods-4.png'],
+  [/pencil pro/, 'accessories/apple-pencil/apple-pencil-pro-landscape-crop.png'],
+  [/pencil usb/, 'accessories/new-apple-pencil-landscape-crop.png'],
+  [/pencil (2|2da)/, 'accessories/apple-pencil-landscape-second-gen-crop.png'],
+  [/pencil (1|1era)/, 'accessories/apple-pencil-landscape-first-gen-crop.png']
+];
+function fotoDe(it){
+  const m = (it.modelo || '').toLowerCase().replace(/\s+/g, ' ');
+  const f = FOTOS.find(([re]) => re.test(m));
+  return f ? FOTOS_BASE + f[1] : '';
+}
+/* Versión liviana (webp, ~480px) servida por wsrv.nl; si falla, usa la original de Apple */
+function fotoHTML(it, cls, w){
+  const src = fotoDe(it); if (!src) return '';
+  const chica = 'https://wsrv.nl/?url=' + encodeURIComponent(src) + '&w=' + (w || 480) + '&output=webp&q=85';
+  return `<div class="${cls}"><img src="${chica}" alt="${esc(it.modelo)}" loading="lazy" decoding="async" onerror="if(this.src!=='${src}'){this.src='${src}'}else{this.parentNode.remove()}"></div>`;
+}
 /* ---------- Ayudas: generación, precio en USD, colores e íconos ---------- */
 function genDe(it){
   const m = String(it.modelo).match(/iPhone\s+(\d{1,2}|SE)/i);
@@ -899,6 +982,7 @@ function cardHTML(it){
     : `<div class="pc-p">${precio}</div>
     ${c.soloArs ? '' : `<div class="pc-a">≈ ${fmtARS(c.ars).replace('$ ','$')}</div>`}`;
   return `<article data-fpcard="${esc(k)}" class="pc${(tj ? cs.some(enTope) : enTope(c)) ? '' : ' off'}${enComp ? ' comp' : ''}">
+    ${fotoHTML(it, 'pc-foto')}
     ${bd.length ? `<div class="pc-b">${bd.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
     <div class="pc-m">${esc(it.modelo)}</div>
     ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
@@ -1417,7 +1501,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
     const tjVis = o.tj.filter(x => F.mas || FP_TARJETA_VISIBLES.includes(x.n) || F.sel === x.k);
     const todas = [...o.contado, ...o.tj, ...o.dni], el = todas.find(x => x.k === F.sel);
     document.getElementById('fpBody').innerHTML = `
-      <div class="fp-h"><div class="fp-mod" id="fpMod">${esc(it.modelo)}</div>${det ? `<div class="fp-det">${det}</div>` : ''}${colsFicha}
+      <div class="fp-h">${typeof fotoHTML === 'function' ? fotoHTML(it, 'fp-foto', 720) : ''}<div class="fp-mod" id="fpMod">${esc(it.modelo)}</div>${det ? `<div class="fp-det">${det}</div>` : ''}${colsFicha}
         <div class="fp-pre">Precio de contado</div>
         <div class="fp-big">${it.moneda === 'ARS' ? p$(o.efe) : '<small>USD</small>' + Math.ceil(o.usd).toLocaleString('es-AR')}</div></div>
       <div class="fp-sec"><div class="fp-st">Contado</div><div class="fp-rows" role="radiogroup" aria-label="Contado">${o.contado.map(fila).join('')}</div></div>
