@@ -254,6 +254,8 @@ const CONFIG = {
   ARCHIVO_EXCEL: 'stock.xlsx',
   WHATSAPP: '5493413105554',             // sin +, sin espacios
   NOMBRE: 'Farroyo',
+  // Descuento en USD que se resta a todos los precios (0 = sin descuento)
+  DESCUENTO_USD: 20,
   // Financiación con DNI: multiplicador sobre el precio contado (no se muestra al cliente)
   PLANES: [ {n:3, f:1.45}, {n:6, f:1.84}, {n:12, f:2.56} ],
   DOLAR_FIJO: null,                      // forzar una cotización (ej: 1600). null = automático
@@ -714,6 +716,10 @@ function showLoader(msg){
 
 function mostrar(items){
   if (CONFIG.CATEGORIAS_VISIBLES.length) items = items.filter(it => CONFIG.CATEGORIAS_VISIBLES.includes(it.cat));
+  const DTO = +CONFIG.DESCUENTO_USD || 0;
+  if (DTO > 0) items = items.map(it => { if (!(it.precio > 0)) return it;
+    const menos = it.moneda === 'ARS' ? Math.ceil(DTO * ((S.dolar && S.dolar.valor) || CONFIG.DOLAR_RESPALDO) / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS : DTO;
+    return it.precio > menos ? {...it, precio: it.precio - menos} : it; });
   items = items.map(it => it.cat === 'iPhone' && CONFIG.PESTANAS_IPHONE[it.cond] ? {...it, cat: CONFIG.PESTANAS_IPHONE[it.cond]} : it);
   if (!items.length){ showLoader('No se encontraron equipos publicables en la planilla. Revisá que tenga modelo y precio.'); return; }
   S.items = items; $('#state').innerHTML = ''; renderDolar(); renderActualizado(); renderAll();
