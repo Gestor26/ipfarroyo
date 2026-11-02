@@ -343,22 +343,184 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .tabla-w .wsp-btn{font-size:12px;padding:7px 10px}
 </style>
 <script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","z76dg2trpj");</script>
+<style>
+/* ===================== Rediseño 2026 ===================== */
+:root{--fondo:#F5F5F7;--linea:#E6E8EC;--sombra:0 1px 2px rgba(16,24,40,.04),0 4px 14px rgba(16,24,40,.05)}
+body{background:var(--fondo)}
+.wrap{max-width:1160px}
+/* Encabezado */
+.top{position:relative;z-index:6;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--linea)}
+.top .wrap{height:64px;gap:18px}
+.top-tag{display:none}
+.topnav{display:none;gap:4px;margin-left:auto}
+.topnav a{color:var(--tinta);text-decoration:none;font-weight:600;font-size:14px;padding:8px 14px;border-radius:999px}
+.topnav a:hover{background:#F1F3F6}
+.topnav a[aria-current="page"]{color:var(--navy);background:var(--celeste)}
+.top-acc{display:flex;align-items:center;gap:8px}
+.top-ig{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--navy);border:1px solid var(--linea);background:#fff}
+.top-ig svg{width:19px;height:19px}
+.top-ig:hover{background:#F1F3F6}
+.top-wsp{display:inline-flex;align-items:center;gap:7px;background:#1FA855;color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;padding:9px 15px;border-radius:999px}
+.top-wsp svg{width:18px;height:18px}
+.top-wsp:hover{background:#178F47}
+@media (min-width:880px){.topnav{display:flex}.secnav{display:none}}
+@media (max-width:480px){.top-wsp span{display:none}.top-wsp{padding:9px}.top .wrap{height:58px}}
+.secnav{border-bottom:1px solid var(--linea)}
+/* Portada */
+.intro.hero{padding:40px 0 18px;background:linear-gradient(180deg,#fff 0%,#fff 55%,var(--fondo) 100%)}
+.hero-in{display:grid;gap:26px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--azul);margin-bottom:12px}
+.eyebrow::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--azul)}
+.intro.hero h1{font-size:32px;line-height:1.08;letter-spacing:-.8px;font-weight:800;max-width:17ch}
+.intro.hero p{font-size:16px;line-height:1.55;max-width:52ch;margin-top:14px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn-p,.btn-s{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:700;font-size:15px;padding:13px 22px;border-radius:999px;transition:background .15s,transform .15s}
+.btn-p{background:var(--navy);color:#fff}
+.btn-p:hover{background:var(--azul)}
+.btn-s{background:#fff;color:var(--navy);border:1px solid var(--linea)}
+.btn-s svg{width:18px;height:18px;color:#1FA855}
+.btn-s:hover{background:#F1F3F6}
+.trust{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.trust li{background:#fff;border:1px solid var(--linea);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px;box-shadow:var(--sombra)}
+.trust .ti{width:34px;height:34px;border-radius:10px;background:var(--celeste);color:var(--azul);display:flex;align-items:center;justify-content:center}
+.trust .ti svg{width:19px;height:19px}
+.trust b{display:block;font-size:14px;color:var(--navy);line-height:1.25}
+.trust li div span{display:block;margin-top:3px}
+.trust span{font-size:12.5px;color:var(--gris);line-height:1.4}
+@media (min-width:720px){.intro.hero{padding:56px 0 26px}.intro.hero h1{font-size:46px}.trust{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.trust li{padding:16px 16px 18px}}
+/* Cómo funciona: más liviano */
+.steps{padding:6px 0 26px}
+.step{border-radius:16px;box-shadow:none;background:transparent;border:1px dashed #D5DBE4}
+/* Barra de categorías */
+.nav{background:rgba(245,245,247,.92)}
+.tab{font-size:14.5px}
+.search{border-radius:999px;height:38px;padding:0 16px}
+select.orden,.orden{border-radius:999px}
+.budget{border-radius:16px;border-color:var(--linea);box-shadow:var(--sombra)}
+/* Tarjetas de equipos */
+.grilla{gap:12px}
+@media (min-width:900px){.grilla{gap:16px}}
+.pc{border:1px solid transparent;border-radius:20px;padding:14px 14px 12px;box-shadow:var(--sombra);transition:box-shadow .2s,transform .2s,border-color .2s}
+@media (hover:hover){.pc:hover{box-shadow:0 2px 4px rgba(16,24,40,.05),0 14px 34px rgba(16,24,40,.10);transform:translateY(-2px)}}
+.pc.comp{border-color:var(--azul)}
+.pc-ft{cursor:pointer;margin:-2px -4px 6px;border-radius:14px}
+.pc-foto{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;margin:0;overflow:hidden}
+.pc-foto img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.foto-1 img{max-height:90%}
+.foto-n .lu{display:flex;align-items:center;justify-content:center;height:100%;width:100%}
+.foto-n .lu-s{flex:none;width:var(--tira);height:100%;overflow:hidden;display:flex;align-items:center}
+.foto-n .lu-s img,.foto-n .lu-f{height:var(--alto);width:auto;max-width:none;max-height:none;flex:none}
+.pc-b span{border-radius:999px}
+.pc-m{font-size:15px;letter-spacing:-.1px}
+.cpick{display:flex;flex-wrap:wrap;gap:5px}
+.wsp-btn{border-radius:999px}
+.pc .wsp-btn.pc-w{border-radius:999px}
+.sec-band h2{border-radius:999px}
+/* Ficha */
+.fp-box{border-radius:24px 24px 0 0}
+@media (min-width:720px){.fp-box{border-radius:24px}}
+.fp-foto{height:210px}
+.fp-foto.foto-n .lu-s img,.fp-foto.foto-n .lu-f{height:var(--alto)}
+/* Por qué Farroyo, reseñas y preguntas */
+.blk{padding:46px 0 10px}
+.blk-h{margin:0 0 6px;font-size:26px;letter-spacing:-.5px;font-weight:800;color:var(--navy)}
+.blk-s{margin:0 0 20px;color:var(--gris);max-width:60ch}
+.pq{display:grid;grid-template-columns:1fr;gap:12px}
+.pq-i{background:#fff;border-radius:20px;padding:20px;box-shadow:var(--sombra)}
+.pq-i .ti{width:40px;height:40px;border-radius:12px;background:var(--celeste);color:var(--azul);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.pq-i .ti svg{width:22px;height:22px}
+.pq-i h3{margin:0 0 6px;font-size:16px;color:var(--navy)}
+.pq-i p{margin:0;font-size:14px;color:var(--gris);line-height:1.55}
+@media (min-width:720px){.pq{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){.pq{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.resenas{margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;background:var(--navy);color:#fff;border-radius:20px;padding:22px 24px}
+.resenas .st{display:flex;gap:2px;color:#FFC94D}
+.resenas .st svg{width:20px;height:20px}
+.resenas b{display:block;font-size:18px;margin-top:4px}
+.resenas span{font-size:13.5px;opacity:.8}
+.resenas a{background:#fff;color:var(--navy);text-decoration:none;font-weight:700;font-size:14px;padding:11px 18px;border-radius:999px;white-space:nowrap}
+.faq{display:grid;gap:10px;max-width:860px}
+.faq details{background:#fff;border-radius:16px;box-shadow:var(--sombra);padding:0 18px}
+.faq summary{list-style:none;cursor:pointer;padding:16px 28px 16px 0;font-weight:700;color:var(--navy);font-size:15px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:22px;font-weight:500;color:var(--azul)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin:0 0 16px;color:var(--gris);font-size:14.5px;line-height:1.6}
+/* Pie */
+footer{background:#fff;margin-top:46px}
+.fgrid{display:grid;grid-template-columns:1fr;gap:24px;padding:34px 20px 8px!important}
+.fgrid h4{margin:0 0 8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris)}
+.fgrid p,.fgrid a{margin:0 0 4px;font-size:14px;color:var(--tinta);line-height:1.6;text-decoration:none;display:block}
+.fgrid a:hover{color:var(--azul)}
+.fgrid .flogo img{height:30px;width:auto;display:block;margin-bottom:10px}
+.fgrid .fdesc{color:var(--gris);max-width:34ch}
+.fpagos{display:flex;flex-wrap:wrap;gap:6px}
+.fpagos span{font-size:12px;font-weight:600;color:var(--navy);background:var(--celeste);border-radius:999px;padding:4px 10px}
+@media (min-width:720px){.fgrid{grid-template-columns:1.3fr 1fr 1fr 1.2fr}}
+footer #foot{border-top:1px solid var(--linea);margin-top:18px}
+/* Ajustes celular */
+@media (max-width:719px){
+  .intro.hero{padding:22px 0 8px}
+  .intro.hero h1{font-size:28px}
+  .intro.hero p{font-size:15px;margin-top:10px}
+  .hero-in{gap:18px}
+  .hero-cta{display:grid;grid-template-columns:auto 1fr;gap:8px;margin-top:16px}
+  .btn-p,.btn-s{font-size:14px;padding:12px 16px}
+  .trust{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px;margin:0 -16px;padding:2px 16px 6px;scrollbar-width:none}
+  .trust::-webkit-scrollbar{display:none}
+  .trust li{flex:0 0 68%;scroll-snap-align:start;padding:12px 14px;flex-direction:row;align-items:flex-start;gap:10px}
+  .trust li>b,.trust li>span:not(.ti){display:block}
+  .trust .ti{flex:none}
+  .steps{display:none}
+  .blk{padding:34px 0 6px}
+  .blk-h{font-size:22px}
+}
+.intro.hero{overflow:hidden}
+.pc .fp-btn{white-space:normal}
+@media (min-width:900px){.intro.hero h1{max-width:none;font-size:44px}}
+/* Foto en la portada (escritorio) */
+.hero-foto{display:none}
+@media (min-width:900px){
+  .hero-in{grid-template-columns:1.05fr .95fr;align-items:center}
+  .hero-in .trust{grid-column:1/-1}
+  .hero-foto{display:flex;height:330px;--tira:16%;--alto:92%}
+}
+</style>
 </head>
 <body>
 
 <header class="top">
   <div class="wrap">
     <a class="logo" href="./" aria-label="Farroyo"><img src="logo.svg" alt="Farroyo · Premium Technology Seller" width="177" height="34"></a>
-    <div class="top-tag" id="toptag">Catálogo</div>
+    <nav class="topnav" aria-label="Secciones"><a href="/" aria-current="page">Catálogo</a><a href="/dni/">Cuotas con DNI</a><a href="/pagos/">Pagos y horarios</a></nav>
+    <div class="top-acc">
+      <a class="top-ig" href="https://www.instagram.com/iphonerosario.farroyo/" target="_blank" rel="noopener" aria-label="Instagram de Farroyo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a class="top-wsp" id="topWsp" href="https://wa.me/5493413105554" target="_blank" rel="noopener" data-track="header"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.6-.3z"/></svg><span>WhatsApp</span></a>
+    </div>
+    <div class="top-tag" id="toptag"></div>
   </div>
 </header>
 <nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/" aria-current="page">Catálogo</a><a href="/dni/">Cuotas con DNI</a><a href="/pagos/">Pagos y horarios</a></div></nav>
 
-<section class="intro">
-  <div class="wrap">
-    <div class="actbadge" id="actbadge" hidden></div>
-    <h1 id="titulo">Catálogo de equipos</h1>
-    <p id="bajada"></p>
+<section class="intro hero">
+  <div class="wrap hero-in">
+    <div class="hero-txt">
+      <div class="actbadge" id="actbadge" hidden></div>
+      <div class="eyebrow">Farroyo · Rosario</div>
+      <h1 id="titulo">Catálogo de equipos</h1>
+      <p id="bajada"></p>
+      <div class="hero-cta">
+        <a class="btn-p" href="#cats" id="verEquipos">Ver equipos</a>
+        <a class="btn-s" id="heroWsp" href="https://wa.me/5493413105554" target="_blank" rel="noopener" data-track="portada"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.6-.3z"/></svg>Consultar por WhatsApp</a>
+      </div>
+    </div>
+    <div class="hero-foto foto-n" aria-hidden="true"><div class="lu"><span class="lu-s"><img src="/fotos/iphone-17-pro-silver.webp" alt=""></span><span class="lu-s"><img src="/fotos/iphone-17-pro-deepblue.webp" alt=""></span><img class="lu-f" src="/fotos/iphone-17-pro-cosmicorange.webp" alt=""></div></div>
+    <ul class="trust">
+      <li><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b>Garantía en todos los equipos</b><span>1 año en nuevos y open box · 3 meses en usados</span></div></li>
+      <li><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/></svg></span><div><b>Hasta 24 cuotas</b><span>Con tarjeta de crédito, o en 3, 6 y 12 cuotas con DNI</span></div></li>
+      <li><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><div><b>Retiro en Zona Centro</b><span>Oficina en Rosario, con cita previa</span></div></li>
+      <li><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg></span><div><b>Atención por WhatsApp</b><span>Lun a vie 9 a 18 h · Sáb y feriados 9 a 13 h</span></div></li>
+    </ul>
     <dl class="facts" style="display:none">
       <div class="fact"><dt id="f1t">Formas de pago</dt><dd id="f1d">Efectivo, transferencia, tarjeta y planes de pago</dd></div>
       <div class="fact"><dt>Ubicación</dt><dd>Oficina en Rosario Zona Centro, Santa Fe</dd></div>
@@ -393,12 +555,49 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
   <div id="state"></div>
 </main>
 
+<section class="blk" aria-labelledby="pqH">
+  <div class="wrap">
+    <h2 class="blk-h" id="pqH">Por qué comprar en Farroyo</h2>
+    <p class="blk-s">Te acompañamos antes, durante y después de la compra.</p>
+    <div class="pq">
+      <div class="pq-i"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><h3>Garantía real</h3><p>Nuevos sellados con 1 año de garantía oficial. Open box con 1 año y usados con 3 meses de garantía.</p></div>
+      <div class="pq-i"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/></svg></span><h3>Pagás como te quede cómodo</h3><p>Efectivo en pesos o dólares, transferencia, tarjeta de crédito hasta 24 cuotas, financiación con DNI y cripto.</p></div>
+      <div class="pq-i"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><h3>Lo ves y lo retirás en persona</h3><p>Coordinamos una cita en nuestra oficina de Zona Centro, Rosario. Revisás el equipo antes de llevártelo.</p></div>
+      <div class="pq-i"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg></span><h3>Te respondemos por WhatsApp</h3><p>Consultá por cualquier equipo y te asesoramos. Lunes a viernes de 9 a 18 h, sábados y feriados de 9 a 13 h.</p></div>
+    </div>
+    <div class="resenas">
+      <div><div class="st"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg></div><b>Clientes que nos recomiendan</b><span>Mirá lo que opinan de Farroyo en Google.</span></div>
+      <a href="https://www.google.com/maps/search/?api=1&query=Farroyo%20iPhone%20Rosario" target="_blank" rel="noopener">Ver reseñas en Google</a>
+    </div>
+  </div>
+</section>
+<section class="blk" aria-labelledby="faqH">
+  <div class="wrap">
+    <h2 class="blk-h" id="faqH">Preguntas frecuentes</h2>
+    <p class="blk-s">Si te queda alguna duda, escribinos por WhatsApp.</p>
+    <div class="faq">
+      <details><summary>¿Cómo compro un equipo?</summary><p>Tocá «Consultar» en el equipo que te interesa y te escribimos por WhatsApp. Confirmamos stock, precio y forma de pago, y coordinamos una cita para que lo retires en nuestra oficina de Zona Centro. Al retirar verificamos tu identidad con tu DNI.</p></details>
+      <details><summary>¿Qué garantía tienen?</summary><p>Los nuevos sellados tienen 1 año de garantía oficial, los open box 1 año y los usados 3 meses. La garantía no cubre golpes, humedad, mal uso ni reparaciones de terceros.</p></details>
+      <details><summary>¿Qué formas de pago aceptan?</summary><p>Efectivo en pesos o dólares, transferencia, tarjeta de crédito en 1, 3, 6, 9, 12, 18 y 24 cuotas, financiación con DNI en 3, 6 y 12 cuotas, y cripto. En cada equipo tocá «Ver todas las formas de pago» para ver el valor exacto.</p></details>
+      <details><summary>¿Cómo funciona la financiación con DNI?</summary><p>Podés pagar en 3, 6 o 12 cuotas fijas en dólares, sin tarjeta de crédito. La primera cuota se paga al retirar el equipo. Está sujeta a aprobación: escribinos y te confirmamos en el momento.</p></details>
+      <details><summary>¿Por qué cambian los precios en pesos?</summary><p>Los precios están en dólares. El valor en pesos se calcula al dólar blue del día en Rosario y se confirma al momento de la operación.</p></details>
+      <details><summary>¿Dónde están y en qué horario atienden?</summary><p>Tenemos oficina en Rosario Zona Centro, Santa Fe. Atendemos de lunes a viernes de 9:00 a 18:00 h y sábados y feriados de 9:00 a 13:00 h, siempre con cita previa.</p></details>
+    </div>
+  </div>
+</section>
+
 <a class="fab-wsp" id="fabWsp" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp" href="#"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg></a>
 <button class="fab-top" id="fabTop" type="button" aria-label="Volver arriba" hidden>↑</button>
 <div class="compbar" id="compbar" hidden><span id="compTxt"></span><button type="button" id="compVer">Comparar</button><button type="button" class="link" id="compBorrar">Quitar</button></div>
 <div class="modal" id="modal" hidden><div class="modal-box" role="dialog" aria-modal="true" aria-label="Comparar equipos"><button class="modal-x" id="modalX" aria-label="Cerrar">×</button><h3>Comparar equipos</h3><div id="compTabla"></div></div></div>
 
 <footer>
+  <div class="wrap fgrid">
+    <div><a class="flogo" href="./" aria-label="Farroyo"><img src="logo.svg" alt="Farroyo · Premium Technology Seller" width="177" height="34"></a><p class="fdesc">iPhone, iPad, Mac y accesorios nuevos, open box y usados seleccionados en Rosario.</p></div>
+    <div><h4>Contacto</h4><a href="https://wa.me/5493413105554" target="_blank" rel="noopener" data-track="pie">WhatsApp 341 310-5554</a><a href="https://www.instagram.com/iphonerosario.farroyo/" target="_blank" rel="noopener">Instagram @iphonerosario.farroyo</a><p>Oficina en Zona Centro, Rosario, Santa Fe</p></div>
+    <div><h4>Horarios</h4><p>Lunes a viernes<br>9:00 a 18:00 h</p><p>Sábados y feriados<br>9:00 a 13:00 h</p></div>
+    <div><h4>Formas de pago</h4><div class="fpagos"><span>Efectivo</span><span>Dólares</span><span>Transferencia</span><span>Tarjeta hasta 24 cuotas</span><span>Cuotas con DNI</span><span>Cripto</span></div></div>
+  </div>
   <div class="wrap" id="foot"></div>
 </footer>
 
@@ -673,8 +872,8 @@ const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos',
 /* Formas de pago (pestañas de arriba) */
 const TARJETA = [ {n:1,r:.15},{n:3,r:.45},{n:6,r:.55},{n:9,r:.75},{n:12,r:.90},{n:18,r:1.05},{n:24,r:1.25} ];   // recargo total (no se muestra)
 const MODOS = {
-  contado: { tag:'Catálogo', h1:'Catálogo de equipos',
-    p:'iPhone, iPad, Mac, accesorios y más. Tocá un equipo para ver todos sus precios: contado, transferencia, tarjeta y cuotas con DNI.',
+  contado: { tag:'Catálogo', h1:'iPhone y Apple, con garantía y en cuotas',
+    p:'Nuevos sellados, open box y usados seleccionados en Rosario. Elegí tu equipo y mirá su precio de contado, con tarjeta y con DNI.',
     f1t:'Formas de pago', f1d:'Efectivo, transferencia, tarjeta y planes de pago', req:false, s1:'Mirá el stock disponible y el precio de cada equipo.',
     s3t:'Coordinamos y lo retirás', s3d:'Agendamos tu cita y retirás tu equipo.', budget:'¿Cuánto querés gastar?', pago:'' },
   tarjeta: { tag:'Tarjeta de crédito', h1:'Cuotas con tarjeta de crédito',
@@ -916,6 +1115,62 @@ function fotoHTML(it, cls, w){
   const chica = 'https://wsrv.nl/?url=' + encodeURIComponent(src) + '&w=' + (w || 480) + '&output=webp&q=85';
   return `<div class="${cls}"><img src="${chica}" alt="${esc(it.modelo)}" loading="lazy" decoding="async" onerror="if(this.src!=='${src}'){this.src='${src}'}else{this.parentNode.remove()}"></div>`;
 }
+/* ===== Fotos por color (solo los colores en stock) — archivos en /fotos ===== */
+const FOTOS_COLOR = {"iphone-air":"skyblue lightgold cloudwhite spaceblack","iphone-18-pro-max":"burgundy glacier silver black","iphone-16-pro":"deserttitanium naturaltitanium whitetitanium blacktitanium","iphone-16-pro-max":"deserttitanium naturaltitanium whitetitanium blacktitanium","iphone-16":"ultramarine teal pink white black","iphone-16-plus":"ultramarine teal pink white black","iphone-16e":"white black","iphone-15-pro":"naturaltitanium bluetitanium whitetitanium blacktitanium","iphone-15-pro-max":"naturaltitanium bluetitanium whitetitanium blacktitanium","iphone-15":"pink yellow green blue black","iphone-15-plus":"pink yellow green blue black","iphone-14-pro":"deeppurple gold silver spaceblack","iphone-14-pro-max":"deeppurple gold silver spaceblack","iphone-14":"blue purple yellow midnight starlight red","iphone-14-plus":"blue purple yellow midnight starlight red","iphone-13-pro":"alpinegreen silver gold graphite sierrablue","iphone-13-pro-max":"alpinegreen silver gold graphite sierrablue","iphone-13-mini":"green pink blue midnight starlight red","iphone-13":"green pink blue midnight starlight red","iphone-se-3rd-gen":"midnight starlight red","iphone-12-pro":"pacificblue gold graphite silver","iphone-12-pro-max":"pacificblue gold graphite silver","iphone-12-mini":"purple blue green red white black","iphone-12":"purple blue green red white black","iphone-11-pro":"midnightgreen silver spacegray gold","iphone-11-pro-max":"midnightgreen silver spacegray gold","iphone-11":"purple yellow green black white red","iphone-se-2nd-gen":"black white red","iphone-18-pro":"burgundy silver glacier black","iphone-17-pro":"cosmicorange silver deepblue","iphone-17-pro-max":"cosmicorange deepblue silver","iphone-17":"lavender sage mistblue black white","iphone-17e":"pink white black","ipad-pro-13-m5":"spaceblack silver","ipad-air-11-m4":"spacegray blue purple starlight","ipad-mini-a20pro":"midnight starlight","ipad-pro-11-m5":"spaceblack silver","ipad-air-13-m4":"spacegray blue purple starlight","ipad-11th-a16":"blue pink yellow silver","ipad-air-13-m3":"spacegray blue purple starlight","ipad-air-11-m3":"spacegray blue purple starlight","ipad-10th-gen":"blue pink yellow silver","ipad-9th-gen":"spacegray silver","ipad-mini-a17pro":"spacegray blue purple starlight","watch-series-12-aluminum":"dark-bronze light-gold black space-gray","watch-series-12-titanium":"radiant-gold natural","watch-series-12-ceramic":"pearl-white night-blue","watch-ultra-4-titanium":"natural black","watch-se-3-aluminum":"starlight midnight","watch-series-11-aluminum":"rose-gold silver space-gray jet-black","watch-series-11-titanium":"natural gold slate","watch-ultra-3-titanium":"natural black","watch-series-10-aluminum":"jet-black rose-gold silver","watch-series-10-titanium":"slate gold natural","watch-ultra-2-titanium":"black natural","watch-series-9-aluminum":"midnight","watch-ultra-titanium":"natural","macbook-air-m5":"skyblue silver starlight midnight"};
+function prefijoFoto(it){
+  const m = norm(it.modelo || '').replace(/[()"]/g, ' ').replace(/\s+/g, ' ');
+  let r;
+  if (/iphone/.test(m)){
+    if (/iphone air/.test(m)) return 'iphone-air';
+    if (/iphone se/.test(m)) return /\b(3|3ra|3era|tercera)\b/.test(m) ? 'iphone-se-3rd-gen' : 'iphone-se-2nd-gen';
+    if ((r = m.match(/iphone (\d{2}) ?(pro max|pro|plus|mini|e\b)?/))){ const s = r[2] || ''; return 'iphone-' + r[1] + (s === 'e' ? 'e' : s ? '-' + s.replace(' ', '-') : ''); }
+  }
+  if (/ipad/.test(m)){
+    const t = /\b13\b/.test(m) ? '13' : '11';
+    if (/mini/.test(m)) return /a20/.test(m) ? 'ipad-mini-a20pro' : 'ipad-mini-a17pro';
+    if (/pro/.test(m)) return 'ipad-pro-' + t + '-m5';
+    if (/air/.test(m)) return 'ipad-air-' + t + (/m4/.test(m) ? '-m4' : '-m3');
+    if (/a16/.test(m)) return 'ipad-11th-a16';
+    if (/\b10\s?(ma|th)?\s?gen|10ma/.test(m)) return 'ipad-10th-gen';
+    if (/\b9\s?(na|th)?\s?gen|9na/.test(m)) return 'ipad-9th-gen';
+  }
+  if (/watch/.test(m) && !/galaxy|samsung/.test(m)){
+    const ti = /titan/.test(m) ? 'titanium' : 'aluminum';
+    if ((r = m.match(/ultra(?: (\d))?\b/))) return r[1] ? 'watch-ultra-' + r[1] + '-titanium' : 'watch-ultra-titanium';
+    if (/\bse\b/.test(m)) return 'watch-se-3-aluminum';
+    if ((r = m.match(/series (\d+)/))) return 'watch-series-' + r[1] + '-' + ti;
+  }
+  if (/macbook air/.test(m) && /m5/.test(m)) return 'macbook-air-m5';
+  return '';
+}
+const ALIAS_COLOR = [[/misti/g,'mist'],[/soft pink/g,'pink'],[/\(?product\)?\s?red/g,'red'],[/grey/g,'gray'],[/gris espacial/g,'space gray'],[/negro/g,'black'],[/blanco/g,'white'],[/plateado|plata/g,'silver'],[/dorado/g,'gold'],[/azul/g,'blue'],[/rosa/g,'pink'],[/verde/g,'green'],[/titanio/g,'titanium']];
+function archivoColor(pref, color){
+  const lista = (FOTOS_COLOR[pref] || '').split(' ').filter(Boolean); if (!lista.length) return '';
+  let c = norm(color || ''); ALIAS_COLOR.forEach(([a, b]) => c = c.replace(a, b));
+  const pal = c.split(/[^a-z]+/).filter(Boolean), junto = pal.join('');
+  if (!junto) return '';
+  let mejor = '', puntos = 0;
+  lista.forEach(t => { const tt = t.replace(/-/g, ''); let p = 0;
+    if (tt === junto || tt.endsWith(junto) && t.split('-').slice(-pal.length).join('') === junto) p = 1000 - tt.length;
+    else if (pal.every(w => tt.includes(w))) p = 500 - tt.length;
+    if (p > puntos){ puntos = p; mejor = t; } });
+  return mejor ? '/fotos/' + pref + '-' + mejor + '.webp' : '';
+}
+/* Foto del equipo: si eligió color, ese; si no, todos los colores en stock juntos (como en Apple) */
+function fotoColorHTML(it, cls){
+  const pref = prefijoFoto(it); if (!pref || !FOTOS_COLOR[pref]) return fotoHTML(it, cls);
+  const cols = listaColores(it.color), sel = colorElegido(it);
+  const arch = [...new Set((sel ? [sel] : cols).map(c => archivoColor(pref, c)).filter(Boolean))];
+  if (!arch.length) return fotoHTML(it, cls);
+  const alt = esc(it.modelo) + (sel ? ' ' + esc(sel) : '');
+  const uno = /^watch|^macbook/.test(pref);
+  const lista = uno ? arch.slice(0, 1) : arch.slice(0, 6), n = lista.length;
+  if (n === 1) return `<div class="${cls} foto-1"><img src="${lista[0]}" alt="${alt}" loading="lazy" decoding="async"></div>`;
+  const tira = Math.min(18, 52 / (n - 1)).toFixed(1), alto = n >= 5 ? 74 : n >= 3 ? 80 : 86;
+  return `<div class="${cls} foto-n" style="--tira:${tira}%;--alto:${alto}%"><div class="lu">${lista.map((s, i) => i < n - 1
+    ? `<span class="lu-s"><img src="${s}" alt="" loading="lazy" decoding="async"></span>`
+    : `<img class="lu-f" src="${s}" alt="${alt}" loading="lazy" decoding="async">`).join('')}</div></div>`;
+}
 /* ---------- Ayudas: generación, precio en USD, colores e íconos ---------- */
 function genDe(it){
   const m = String(it.modelo).match(/iPhone\s+(\d{1,2}|SE)/i);
@@ -982,7 +1237,7 @@ function cardHTML(it){
     : `<div class="pc-p">${precio}</div>
     ${c.soloArs ? '' : `<div class="pc-a">≈ ${fmtARS(c.ars).replace('$ ','$')}</div>`}`;
   return `<article data-fpcard="${esc(k)}" class="pc${(tj ? cs.some(enTope) : enTope(c)) ? '' : ' off'}${enComp ? ' comp' : ''}">
-    ${fotoHTML(it, 'pc-foto')}
+    <div class="pc-ft" data-fp="${esc(k)}" title="Ver formas de pago">${fotoColorHTML(it, 'pc-foto')}</div>
     ${bd.length ? `<div class="pc-b">${bd.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
     <div class="pc-m">${esc(it.modelo)}</div>
     ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
@@ -1080,7 +1335,7 @@ function renderFooter(){
     <p>Las cuotas se expresan en dólares. El equivalente en pesos es estimado según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirma al momento de la operación.</p>`
     : S.modo === 'tarjeta' ? `<p>Pago con tarjeta de crédito en 1, 3, 6, 9, 12, 18 y 24 cuotas.</p>
     <p>Los valores en pesos se calculan según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirman al momento de la operación.</p>`
-    : `<p>Precios de contado. Consultá por otras formas de pago: efectivo, transferencia, tarjeta y planes de pago.</p>
+    : `<p>Precios de contado en dólares. Cada equipo muestra también el valor con tarjeta de crédito y con DNI; tocá «Ver todas las formas de pago» para ver el detalle.</p>
     <p>El equivalente en pesos es estimado según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirma al momento de la operación.</p>`}
     <p>Precios y disponibilidad sujetos a cambios sin previo aviso. Oficina en Rosario Zona Centro, Santa Fe.</p>
     <p>Horarios de atención: lunes a viernes de 9:00 hs a 18:00 hs · sábados y feriados de 9:00 hs a 13:00 hs.</p>
@@ -1501,7 +1756,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
     const tjVis = o.tj.filter(x => F.mas || FP_TARJETA_VISIBLES.includes(x.n) || F.sel === x.k);
     const todas = [...o.contado, ...o.tj, ...o.dni], el = todas.find(x => x.k === F.sel);
     document.getElementById('fpBody').innerHTML = `
-      <div class="fp-h">${typeof fotoHTML === 'function' ? fotoHTML(it, 'fp-foto', 720) : ''}<div class="fp-mod" id="fpMod">${esc(it.modelo)}</div>${det ? `<div class="fp-det">${det}</div>` : ''}${colsFicha}
+      <div class="fp-h">${typeof fotoColorHTML === 'function' ? fotoColorHTML(it, 'fp-foto') : ''}<div class="fp-mod" id="fpMod">${esc(it.modelo)}</div>${det ? `<div class="fp-det">${det}</div>` : ''}${colsFicha}
         <div class="fp-pre">Precio de contado</div>
         <div class="fp-big">${it.moneda === 'ARS' ? p$(o.efe) : '<small>USD</small>' + Math.ceil(o.usd).toLocaleString('es-AR')}</div></div>
       <div class="fp-sec"><div class="fp-st">Contado</div><div class="fp-rows" role="radiogroup" aria-label="Contado">${o.contado.map(fila).join('')}</div></div>
@@ -1533,6 +1788,18 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
     if (e.target.closest('[data-fpmas]')){ F.mas = true; const y = document.querySelector('.fp-box').scrollTop; pintar(); document.querySelector('.fp-box').scrollTop = y; }
   });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && F) cerrar(); });
+})();
+</script>
+<script>
+/* Rediseño: enlaces de WhatsApp con mensaje, botón "Ver equipos" y foto que abre la ficha */
+(function(){
+  const msj = 'Hola! Quería hacer una consulta.';
+  document.querySelectorAll('#topWsp, #heroWsp, .fgrid a[href^="https://wa.me"]').forEach(a => {
+    if (typeof CONFIG !== 'undefined' && CONFIG.WHATSAPP) a.href = 'https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(msj);
+  });
+  const ver = document.getElementById('verEquipos');
+  if (ver) ver.addEventListener('click', e => { const c = document.getElementById('bar'); if (!c) return; e.preventDefault();
+    window.scrollTo({ top: c.getBoundingClientRect().top + scrollY - 4, behavior: 'smooth' }); });
 })();
 </script>
 </body>
