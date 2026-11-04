@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Farroyo | iPhone en Rosario</title>
+<title>Cuotas con DNI | Farroyo</title>
 <meta name="description" content="Stock de iPhone y iPad nuevos, open box y usados en Zona Centro, Rosario. Consultá precios y planes de pago.">
 <meta name="theme-color" content="#FFFFFF">
 <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png">
@@ -47,6 +47,25 @@ button{cursor:pointer}
 .logo img{height:34px;width:auto;display:block}
 @media (max-width:420px){.logo img{height:28px}}
 .top-tag{font-size:13px;font-weight:600;color:var(--gris)}
+.modos{display:flex;gap:4px;background:#fff;border:1px solid var(--linea);border-radius:12px;padding:4px;margin:0 0 18px;max-width:560px}
+.modos button{flex:1;border:0;background:none;padding:11px 8px;border-radius:9px;font:inherit;font-weight:700;font-size:14px;color:var(--gris);cursor:pointer;line-height:1.2}
+.modos button[aria-selected="true"]{background:var(--navy);color:#fff}
+@media (max-width:420px){.modos button{font-size:12.5px;padding:10px 4px}}
+.plans.p1{grid-template-columns:1fr}
+.plans.p7{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;border:0}
+.plans.p7 .plan:first-child{grid-column:1/-1}
+.plans.p7 .plan{min-width:0}
+.plans.p7 .plan{border:1px solid var(--linea);border-radius:8px}
+.plans.p7 .plan + .plan{border-left:1px solid var(--linea)}
+.plan .u.ars{font-size:15px}
+@media (min-width:720px){
+  .plans.p1{grid-template-columns:200px}
+  .var.v7{grid-template-columns:1fr}
+  .var.v7 .var-info{margin-bottom:10px;padding-right:0}
+  .plans.p7{grid-template-columns:repeat(7,minmax(0,1fr))}
+  .plans.p7 .plan:first-child{grid-column:auto}
+  .plans.p7 .plan{text-align:center;padding:8px 4px}
+}
 
 .intro{padding:36px 0 28px}
 .intro h1{margin:0;font-size:28px;line-height:1.15;font-weight:700;color:var(--navy);letter-spacing:-.3px}
@@ -126,21 +145,6 @@ main{padding:8px 0 48px}
 .budget .clear{border:0;background:none;color:var(--azul);font-weight:600;font-size:13px;padding:4px}
 .budget .hint{flex-basis:100%;font-size:12.5px}
 .plan.off{opacity:.3}
-button.plan{font:inherit;background:#fff;border:0;cursor:pointer;color:inherit;margin:0}
-button.plan:hover{background:var(--celeste,#EEF5FD)}
-button.plan[aria-checked="true"]{background:#EEF5FD;box-shadow:inset 0 0 0 1.5px #1565D8;border-radius:8px}
-button.plan[aria-checked="true"] .n{color:#0B1220;font-weight:800}
-button.plan[aria-checked="true"] .a{color:#14213A}
-button.plan .n{color:#0B1220}
-button.plan[aria-checked="true"] + button.plan{border-left-color:transparent}
-.plans{overflow:hidden}
-.pl-w{min-width:0}
-.elegi{font-size:11.5px;font-weight:700;color:#0B2A5B;margin:0 0 6px}
-@media (min-width:720px){.elegi{text-align:right}button.plan{border-radius:8px;padding-right:10px}button.plan + button.plan{border-left:0}.plans.alerta{border-radius:10px}}
-.wsp-btn.need{background:#B9C2D0;border:0;cursor:pointer;font:inherit;font-weight:700}
-.plans.alerta{outline:2px solid #E5484D;outline-offset:3px;animation:sacudir .4s}
-.aviso-cuotas{font-size:12px;color:#C2272D;font-weight:600;margin-top:6px}
-@keyframes sacudir{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
 .plan.off .u{text-decoration:line-through;text-decoration-thickness:1px}
 
 /* Estados */
@@ -183,6 +187,52 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
   .step{padding:12px 14px 12px 58px}
   .step::before{left:14px;top:50%;transform:translateY(-50%);width:30px;height:30px;font-size:14px}
 }
+.grilla{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:600px){.grilla{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:900px){.grilla{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}}
+.pc-foto{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;margin:2px 0 10px}
+.pc-foto img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.fp-foto{height:190px;display:flex;align-items:center;justify-content:center;margin:0 0 14px}
+.fp-foto img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.pc{background:#fff;border:1px solid var(--linea);border-radius:12px;padding:12px 12px 10px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.pc.off{opacity:.35}
+.pc-m{font-weight:700;color:var(--navy);font-size:14.5px;line-height:1.2}
+.pc-g{font-size:12.5px;font-weight:600;color:var(--tinta)}
+.pc-d{font-size:11.5px;color:var(--gris);line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.pc-p{margin-top:auto;padding-top:8px;font-size:20px;font-weight:800;color:var(--navy);white-space:nowrap}
+.pc-p small{font-size:11px;font-weight:700;color:var(--gris);margin-right:3px}
+.pc-a{font-size:11.5px;color:var(--gris)}
+.pc-p br{display:block}
+.pc[data-fpcard]{cursor:pointer}
+.pc-fp{margin-top:8px;border-top:1px dashed var(--linea);padding-top:7px;display:grid;gap:4px;font-size:12.5px}
+.pc-fp div{display:flex;flex-direction:column;gap:0}
+.pc-fp span{font-size:11.5px}
+.pc-fp b{white-space:nowrap}
+.pc-antes{margin-top:auto;padding-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:12.5px;color:var(--gris)}
+.pc-antes s{font-weight:600}
+.pc-antes span{background:var(--celeste);color:var(--azul);font-weight:700;font-size:10.5px;letter-spacing:.02em;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.pc-antes + .pc-p{margin-top:0;padding-top:2px}
+.pc-ars{font-size:15px;font-weight:700;color:var(--navy);white-space:nowrap}
+.pc-ars small{font-size:11px;font-weight:600;color:var(--gris);margin-left:2px}
+.pc-fp b{font-size:13px}
+.pc-fp span{color:var(--gris)}
+.pc-fp b{color:var(--navy);white-space:nowrap}
+.pc-fp .pc-fpl{display:block;color:var(--azul);font-weight:700;font-size:11.5px;margin-top:2px}
+.pc-tl{margin-top:8px;font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.04em}
+.pc-t{margin-top:4px;display:grid;gap:3px}
+.pc-t button{display:flex;justify-content:space-between;align-items:center;gap:6px;font:inherit;font-size:12px;color:var(--gris);background:#fff;border:1px solid var(--linea);border-radius:8px;padding:6px 8px;cursor:pointer;text-align:left}
+.pc-t button b{color:var(--tinta);font-weight:700;white-space:nowrap}
+.pc-t button:hover{border-color:var(--azul)}
+.pc-t button[aria-checked="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.pc-t button[aria-checked="true"] b{color:#fff}
+.pc-t button.off{opacity:.45}
+.pc-t.alerta button{animation:sacudir .4s}
+.pc-t.alerta{outline:2px solid #E5484D;outline-offset:3px;border-radius:9px}
+@keyframes sacudir{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.wsp-btn.pc-need{background:#B9C2D0;border:0;cursor:pointer;font:inherit;font-weight:700}
+.pc-aviso{font-size:11.5px;color:#C2272D;font-weight:600;text-align:center}
+.pc .pc-w{margin-top:8px;justify-content:center;width:100%;padding:8px 6px;font-size:13px}
+.section-head{margin-bottom:10px}
 .secnav{background:#fff;border-bottom:1px solid #E3E8F0}
 .secnav .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px 16px}
 .secnav .wrap::-webkit-scrollbar{display:none}
@@ -190,6 +240,251 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 .secnav a[aria-current="page"]{background:#0B2A5B;border-color:#0B2A5B;color:#fff}
 @media (min-width:720px){.secnav a{flex:0 0 auto;font-size:13.5px;padding:9px 16px}}
 @media (max-width:719px){.secnav .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:8px 10px}.secnav a{padding:9px 4px;font-size:11.5px}}
+.section{margin-top:34px}
+.section:first-child{margin-top:16px}
+.sec-band{position:sticky;top:var(--barh,108px);z-index:3;display:flex;justify-content:center;margin:0 0 14px;pointer-events:none}
+.sec-band h2{margin:0;width:var(--secw,240px);max-width:100%;box-sizing:border-box;text-align:center;background:var(--navy);color:#fff;
+  font-size:15px;font-weight:700;letter-spacing:.3px;border-radius:999px;padding:10px 22px;white-space:nowrap;
+  box-shadow:0 4px 12px rgba(11,42,91,.18)}
+.actbadge{display:inline-block;font-size:12px;font-weight:700;color:#0E7A43;background:#E6F6EC;border-radius:999px;padding:4px 10px;margin-bottom:10px}
+.actbadge::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#1FB955;margin-right:6px;vertical-align:1px}
+.busca-row{display:flex;gap:8px;width:100%}
+.busca-row .search{flex:1;min-width:0}
+.orden{flex:none;height:34px;border:1px solid var(--linea);border-radius:10px;background:#fff;font:inherit;font-size:13px;font-weight:600;color:var(--navy);padding:0 8px}
+@media (min-width:720px){.orden{height:38px}}
+.gens{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px;width:100%}
+.gens::-webkit-scrollbar{display:none}
+.gens button{flex:none;border:1px solid var(--linea);background:#fff;border-radius:999px;padding:5px 11px;font:inherit;font-size:12.5px;font-weight:700;color:var(--navy);cursor:pointer}
+.gens button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.pc-img{position:relative;height:84px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#F3F6FA,#E9EEF5);border-radius:9px;margin-bottom:8px}
+.pc-img svg{height:70px;width:70px}
+.pc-dots{position:absolute;right:8px;bottom:7px;display:flex;gap:3px}
+.pc-dots i{width:10px;height:10px;border-radius:50%;border:1px solid rgba(11,42,91,.25)}
+.cdot{white-space:nowrap}
+.cpick{display:flex;flex-wrap:wrap;gap:4px;margin:2px 0 1px}
+.cbtn{font:inherit;font-size:11.5px;color:var(--gris);background:#fff;border:1px solid var(--linea);border-radius:999px;padding:2px 8px 2px 5px;cursor:pointer;line-height:1.4}
+.cbtn:hover{border-color:var(--azul)}
+.cbtn[aria-checked="true"]{border-color:var(--navy);color:var(--navy);font-weight:700;box-shadow:0 0 0 1px var(--navy)}
+.pc-cols{font-size:11.5px;color:var(--gris);margin-top:2px}
+.pc-ctx{font-size:10.5px;color:var(--gris);margin-top:4px}
+.cdot i{display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 4px 0 1px;vertical-align:-.5px;border:1px solid rgba(11,42,91,.28);box-sizing:border-box}
+.pc-b{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.pc-b span{font-size:10.5px;font-weight:700;color:var(--navy);background:#EEF3FA;border-radius:6px;padding:3px 6px}
+.pc-c{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:7px;font-size:12px;font-weight:600;color:var(--gris);cursor:pointer}
+.pc-c input{accent-color:#0B2A5B;width:15px;height:15px}
+.pc.comp{outline:2px solid #0B2A5B;outline-offset:-1px}
+.fab-wsp.fab-off{opacity:0;pointer-events:none;transform:scale(.8)}
+.fab-wsp{transition:opacity .2s,transform .2s;position:fixed;right:16px;bottom:18px;z-index:20;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(0,0,0,.22)}
+.fab-top{position:fixed;right:22px;bottom:86px;z-index:20;width:44px;height:44px;border-radius:50%;border:1px solid var(--linea);background:#fff;color:var(--navy);font-size:20px;font-weight:700;box-shadow:0 6px 16px rgba(11,42,91,.15);cursor:pointer}
+.fab-top[hidden]{display:none}
+.compbar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:19;display:flex;align-items:center;gap:10px;background:#0B2A5B;color:#fff;border-radius:999px;padding:8px 8px 8px 16px;box-shadow:0 10px 26px rgba(11,42,91,.3);font-size:13px;font-weight:600;max-width:calc(100% - 100px)}
+.compbar[hidden]{display:none}
+.compbar button{border:0;border-radius:999px;background:#fff;color:#0B2A5B;font:inherit;font-weight:800;padding:8px 14px;cursor:pointer;white-space:nowrap}
+.compbar button:disabled{opacity:.45;cursor:default}
+.compbar button.link{background:none;color:#fff;font-weight:600;padding:8px 6px;text-decoration:underline}
+#compTxt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.promo{position:fixed;inset:0;z-index:40;background:rgba(11,18,32,.6);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .25s}
+.promo.on{opacity:1}.promo[hidden]{display:none}
+.franja{background:var(--navy);color:#fff;text-align:center;font-size:12.5px;line-height:1.35;padding:7px 14px}
+.franja b{font-weight:700}.franja span{opacity:.85;margin-left:6px}
+@media (max-width:480px){.franja span{display:block;margin:1px 0 0}}
+.promo-box{position:relative;width:100%;max-width:380px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35);transform:translateY(14px) scale(.97);transition:transform .25s}
+.promo.on .promo-box{transform:none}
+.promo-top{background:linear-gradient(150deg,var(--navy),var(--azul));color:#fff;padding:30px 22px 24px;text-align:center}
+.promo-top img{display:block;width:100%;border-radius:12px;margin:0 0 14px}
+.promo-et{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.16);padding:5px 11px;border-radius:99px;margin-bottom:12px}
+.promo-med{display:block;width:74px;height:92px;margin:0 auto 12px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.3))}
+.promo-med[hidden],.promo-et[hidden]{display:none}
+.promo-top img.promo-memo{width:140px;height:auto;border-radius:0;margin:14px auto 6px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.3))}
+.promo-top img.promo-memo[hidden]{display:none}
+.promo-top h2{margin:0;font-size:25px;line-height:1.15;font-weight:800}
+.promo-sub{margin-top:12px;display:inline-block;background:#fff;color:var(--navy);font-weight:800;font-size:14px;letter-spacing:.06em;padding:8px 14px;border-radius:10px}
+.promo-sub[hidden]{display:none}
+.promo-top .promo-sub{display:block;background:none;color:#fff;font-weight:600;font-size:16px;letter-spacing:0;padding:0;margin-top:6px}
+.promo-bot:empty,.promo-bot.vacio{display:none}
+.promo-top{padding:58px 22px 26px}
+.promo-ops{display:grid;gap:10px;margin-top:18px}
+.promo-ops a{display:block;background:#fff;color:var(--navy);text-decoration:none;font-weight:800;font-size:15.5px;padding:14px 12px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.promo-ops a:hover{background:var(--celeste)}
+.promo-bot{padding:18px 22px 22px;text-align:center}
+.promo-bot p{margin:0 0 16px;color:var(--gris);font-size:15px;line-height:1.45}
+.promo-cta{display:block;background:var(--navy);color:#fff;text-decoration:none;font-weight:700;padding:14px;border-radius:12px;font-size:15px}
+.promo-no{margin-top:10px;background:none;border:0;color:var(--gris);font-size:14px;cursor:pointer;padding:8px}
+.promo-x{position:absolute;top:10px;right:8px;border:0;background:none;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:0}
+.promo-xi{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);font-size:22px;line-height:34px;text-align:center}
+.promo-xl{font-size:11px;font-weight:600;letter-spacing:.02em;opacity:.9}
+.promo-ind{color:var(--navy);font-weight:700;font-size:15px;line-height:1.4;background:var(--celeste);border-radius:12px;padding:12px 14px}
+.promo-ind[hidden],.promo-cta[hidden]{display:none}
+.promo-x[hidden]{display:none}
+/* Tema Cyber Monday */
+.promo.cyber .promo-top{background:linear-gradient(180deg,#F4F8FE 0%,#fff 100%);color:var(--navy);padding:56px 26px 28px;border-bottom:1px solid #E6EDF7}
+.promo.cyber .promo-x{color:var(--gris)}.promo.cyber .promo-xi{background:#EEF2F8;color:var(--navy)}
+.promo.cyber .promo-et{background:none;color:var(--azul);font-weight:700;font-size:12px;letter-spacing:.28em;padding:0;margin-bottom:10px;border-radius:0}
+.promo.cyber .promo-et::before,.promo.cyber .promo-et::after{content:"";display:inline-block;width:22px;height:1px;background:#B9CCE8;vertical-align:middle;margin:0 10px}
+.promo.cyber .promo-top h2{font-size:40px;letter-spacing:-.5px;color:var(--navy);font-weight:800}
+.promo.cyber .promo-top .promo-sub{color:var(--gris);font-size:15.5px;font-weight:500;margin-top:6px}
+.promo.cyber .promo-ops{margin-top:24px}
+.promo.cyber .promo-ops a{background:var(--navy);color:#fff;font-weight:700;font-size:15px;box-shadow:none}
+.promo.cyber .promo-ops a:hover{background:var(--azul)}
+.promo-bot p:last-child{margin:0}
+.modal{position:fixed;inset:0;z-index:30;background:rgba(11,18,32,.55);display:flex;align-items:flex-end;justify-content:center}
+.modal[hidden]{display:none}
+.modal-box{position:relative;background:#fff;width:100%;max-width:760px;max-height:88vh;overflow:auto;border-radius:18px 18px 0 0;padding:20px 16px 24px}
+@media (min-width:720px){.modal{align-items:center}.modal-box{border-radius:18px}}
+.modal-box h3{margin:0 0 12px;color:var(--navy);font-size:18px}
+.modal-x{position:absolute;top:10px;right:12px;border:0;background:#F2F5F9;width:34px;height:34px;border-radius:50%;font-size:22px;color:var(--navy);cursor:pointer}
+.tabla-w{overflow-x:auto}
+.tabla-w table{border-collapse:collapse;width:100%;font-size:13px}
+.tabla-w th,.tabla-w td{padding:9px 8px;border-bottom:1px solid var(--linea);text-align:left;vertical-align:top}
+.tabla-w thead th{color:var(--navy);font-size:13.5px}
+.tabla-w tbody th{color:var(--gris);font-weight:600;white-space:nowrap}
+.tabla-w td small{display:block;color:var(--gris);font-size:11px}
+.tabla-w tr.sp td{color:var(--tinta)}
+.tabla-w .wsp-btn{font-size:12px;padding:7px 10px}
+</style>
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","z76dg2trpj");</script>
+<style>
+/* ===================== Rediseño 2026 ===================== */
+:root{--fondo:#F5F5F7;--linea:#E6E8EC;--sombra:0 1px 2px rgba(16,24,40,.04),0 4px 14px rgba(16,24,40,.05)}
+body{background:var(--fondo)}
+.wrap{max-width:1160px}
+/* Encabezado */
+.top{position:relative;z-index:6;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--linea)}
+.top .wrap{height:64px;gap:18px}
+.top-tag{display:none}
+.topnav{display:none;gap:4px;margin-left:auto}
+.topnav a{color:var(--tinta);text-decoration:none;font-weight:600;font-size:14px;padding:8px 14px;border-radius:999px}
+.topnav a:hover{background:#F1F3F6}
+.topnav a[aria-current="page"]{color:var(--navy);background:var(--celeste)}
+.top-acc{display:flex;align-items:center;gap:8px}
+.top-ig{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--navy);border:1px solid var(--linea);background:#fff}
+.top-ig svg{width:19px;height:19px}
+.top-ig:hover{background:#F1F3F6}
+.top-wsp{display:inline-flex;align-items:center;gap:7px;background:#1FA855;color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;padding:9px 15px;border-radius:999px}
+.top-wsp svg{width:18px;height:18px}
+.top-wsp:hover{background:#178F47}
+@media (min-width:880px){.topnav{display:flex}.secnav{display:none}}
+@media (max-width:480px){.top-wsp span{display:none}.top-wsp{padding:9px}.top .wrap{height:58px}}
+.secnav{border-bottom:1px solid var(--linea)}
+/* Portada */
+.intro.hero{padding:40px 0 18px;background:linear-gradient(180deg,#fff 0%,#fff 55%,var(--fondo) 100%)}
+.hero-in{display:grid;gap:26px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--azul);margin-bottom:12px}
+.eyebrow::before{content:"";width:18px;height:2px;border-radius:2px;background:var(--azul)}
+.intro.hero h1{font-size:32px;line-height:1.08;letter-spacing:-.8px;font-weight:800;max-width:17ch}
+.intro.hero p{font-size:16px;line-height:1.55;max-width:52ch;margin-top:14px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn-p,.btn-s{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:700;font-size:15px;padding:13px 22px;border-radius:999px;transition:background .15s,transform .15s}
+.btn-p{background:var(--navy);color:#fff}
+.btn-p:hover{background:var(--azul)}
+.btn-s{background:#fff;color:var(--navy);border:1px solid var(--linea)}
+.btn-s svg{width:18px;height:18px;color:#1FA855}
+.btn-s:hover{background:#F1F3F6}
+.trust{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.trust li{background:#fff;border:1px solid var(--linea);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px;box-shadow:var(--sombra)}
+.trust .ti{width:34px;height:34px;border-radius:10px;background:var(--celeste);color:var(--azul);display:flex;align-items:center;justify-content:center}
+.trust .ti svg{width:19px;height:19px}
+.trust b{display:block;font-size:14px;color:var(--navy);line-height:1.25}
+.trust li div span{display:block;margin-top:3px}
+.trust span{font-size:12.5px;color:var(--gris);line-height:1.4}
+@media (min-width:720px){.intro.hero{padding:56px 0 26px}.intro.hero h1{font-size:46px}.trust{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.trust li{padding:16px 16px 18px}}
+/* Cómo funciona: más liviano */
+.steps{padding:6px 0 26px}
+.step{border-radius:16px;box-shadow:none;background:transparent;border:1px dashed #D5DBE4}
+/* Barra de categorías */
+.nav{background:rgba(245,245,247,.92)}
+.tab{font-size:14.5px}
+.search{border-radius:999px;height:38px;padding:0 16px}
+select.orden,.orden{border-radius:999px}
+.budget{border-radius:16px;border-color:var(--linea);box-shadow:var(--sombra)}
+/* Tarjetas de equipos */
+.grilla{gap:12px}
+@media (min-width:900px){.grilla{gap:16px}}
+.pc{border:1px solid transparent;border-radius:20px;padding:14px 14px 12px;box-shadow:var(--sombra);transition:box-shadow .2s,transform .2s,border-color .2s}
+@media (hover:hover){.pc:hover{box-shadow:0 2px 4px rgba(16,24,40,.05),0 14px 34px rgba(16,24,40,.10);transform:translateY(-2px)}}
+.pc.comp{border-color:var(--azul)}
+.pc-ft{cursor:pointer;margin:-2px -4px 6px;border-radius:14px}
+.pc-foto{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;margin:0;overflow:hidden}
+.pc-foto img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.foto-1 img{max-height:90%}
+.foto-n .lu{display:flex;align-items:center;justify-content:center;height:100%;width:100%}
+.foto-n .lu-s{flex:none;width:var(--tira);height:100%;overflow:hidden;display:flex;align-items:center}
+.foto-n .lu-s img,.foto-n .lu-f{height:var(--alto);width:auto;max-width:none;max-height:none;flex:none}
+.pc-b span{border-radius:999px}
+.pc-m{font-size:15px;letter-spacing:-.1px}
+.cpick{display:flex;flex-wrap:wrap;gap:5px}
+.wsp-btn{border-radius:999px}
+.pc .wsp-btn.pc-w{border-radius:999px}
+.sec-band h2{border-radius:999px}
+/* Ficha */
+.fp-box{border-radius:24px 24px 0 0}
+@media (min-width:720px){.fp-box{border-radius:24px}}
+.fp-foto{height:210px}
+.fp-foto.foto-n .lu-s img,.fp-foto.foto-n .lu-f{height:var(--alto)}
+/* Por qué Farroyo, reseñas y preguntas */
+.blk{padding:46px 0 10px}
+.blk-h{margin:0 0 6px;font-size:26px;letter-spacing:-.5px;font-weight:800;color:var(--navy)}
+.blk-s{margin:0 0 20px;color:var(--gris);max-width:60ch}
+.pq{display:grid;grid-template-columns:1fr;gap:12px}
+.pq-i{background:#fff;border-radius:20px;padding:20px;box-shadow:var(--sombra)}
+.pq-i .ti{width:40px;height:40px;border-radius:12px;background:var(--celeste);color:var(--azul);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.pq-i .ti svg{width:22px;height:22px}
+.pq-i h3{margin:0 0 6px;font-size:16px;color:var(--navy)}
+.pq-i p{margin:0;font-size:14px;color:var(--gris);line-height:1.55}
+@media (min-width:720px){.pq{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){.pq{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.resenas{margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;background:var(--navy);color:#fff;border-radius:20px;padding:22px 24px}
+.resenas .st{display:flex;gap:2px;color:#FFC94D}
+.resenas .st svg{width:20px;height:20px}
+.resenas b{display:block;font-size:18px;margin-top:4px}
+.resenas span{font-size:13.5px;opacity:.8}
+.resenas a{background:#fff;color:var(--navy);text-decoration:none;font-weight:700;font-size:14px;padding:11px 18px;border-radius:999px;white-space:nowrap}
+.faq{display:grid;gap:10px;max-width:860px}
+.faq details{background:#fff;border-radius:16px;box-shadow:var(--sombra);padding:0 18px}
+.faq summary{list-style:none;cursor:pointer;padding:16px 28px 16px 0;font-weight:700;color:var(--navy);font-size:15px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:22px;font-weight:500;color:var(--azul)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin:0 0 16px;color:var(--gris);font-size:14.5px;line-height:1.6}
+/* Pie */
+footer{background:#fff;margin-top:46px}
+.fgrid{display:grid;grid-template-columns:1fr;gap:24px;padding:34px 20px 8px!important}
+.fgrid h4{margin:0 0 8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris)}
+.fgrid p,.fgrid a{margin:0 0 4px;font-size:14px;color:var(--tinta);line-height:1.6;text-decoration:none;display:block}
+.fgrid a:hover{color:var(--azul)}
+.fgrid .flogo img{height:30px;width:auto;display:block;margin-bottom:10px}
+.fgrid .fdesc{color:var(--gris);max-width:34ch}
+.fpagos{display:flex;flex-wrap:wrap;gap:6px}
+.fpagos span{font-size:12px;font-weight:600;color:var(--navy);background:var(--celeste);border-radius:999px;padding:4px 10px}
+@media (min-width:720px){.fgrid{grid-template-columns:1.3fr 1fr 1fr 1.2fr}}
+footer #foot{border-top:1px solid var(--linea);margin-top:18px}
+/* Ajustes celular */
+@media (max-width:719px){
+  .intro.hero{padding:22px 0 8px}
+  .intro.hero h1{font-size:28px}
+  .intro.hero p{font-size:15px;margin-top:10px}
+  .hero-in{gap:18px}
+  .hero-cta{display:grid;grid-template-columns:auto 1fr;gap:8px;margin-top:16px}
+  .btn-p,.btn-s{font-size:14px;padding:12px 16px}
+  .trust{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px;margin:0 -16px;padding:2px 16px 6px;scrollbar-width:none}
+  .trust::-webkit-scrollbar{display:none}
+  .trust li{flex:0 0 68%;scroll-snap-align:start;padding:12px 14px;flex-direction:row;align-items:flex-start;gap:10px}
+  .trust li>b,.trust li>span:not(.ti){display:block}
+  .trust .ti{flex:none}
+  .steps{display:none}
+  .blk{padding:34px 0 6px}
+  .blk-h{font-size:22px}
+}
+.intro.hero{overflow:hidden}
+.pc .fp-btn{white-space:normal}
+@media (min-width:900px){.intro.hero h1{max-width:none;font-size:44px}}
+/* Foto en la portada (escritorio) */
+.hero-foto{display:none}
+@media (min-width:900px){
+  .hero-in{grid-template-columns:1.05fr .95fr;align-items:center}
+  .hero-in .trust{grid-column:1/-1}
+  .hero-foto{display:flex;height:330px;--tira:16%;--alto:92%}
+}
 </style>
 </head>
 <body>
@@ -197,21 +492,40 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
 <header class="top">
   <div class="wrap">
     <a class="logo" href="/" aria-label="Farroyo"><img src="/logo.svg" alt="Farroyo · Premium Technology Seller" width="177" height="34"></a>
-    <div class="top-tag">Financiación con DNI</div>
+    <nav class="topnav" aria-label="Secciones"><a href="/">Catálogo</a><a href="/dni/" aria-current="page">Cuotas con DNI</a><a href="/pagos/">Pagos y horarios</a></nav>
+    <div class="top-acc">
+      <a class="top-ig" href="https://www.instagram.com/iphonerosario.farroyo/" target="_blank" rel="noopener" aria-label="Instagram de Farroyo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a class="top-wsp" id="topWsp" href="https://wa.me/5493413105554" target="_blank" rel="noopener" data-track="header"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.6-.3z"/></svg><span>WhatsApp</span></a>
+    </div>
+    <div class="top-tag" id="toptag"></div>
   </div>
 </header>
 <nav class="secnav" aria-label="Secciones"><div class="wrap"><a href="/">Catálogo</a><a href="/dni/" aria-current="page">Cuotas con DNI</a><a href="/pagos/">Pagos y horarios</a></div></nav>
 
-<section class="intro">
-  <div class="wrap">
-    <h1>Planes de financiación con DNI</h1>
-    <p>Valores por cuota en dólares, con su equivalente estimado en pesos. Elegí el equipo y el plan que mejor te quede.</p>
-    <dl class="facts">
-      <div class="fact"><dt>Planes</dt><dd>3, 6 y 12 cuotas</dd></div>
-      <div class="fact"><dt>Requisito</dt><dd>DNI, sujeto a aprobación</dd></div>
-      <div class="fact" style="display:none"><dt>Ubicación</dt><dd>Oficina en Rosario Zona Centro, Santa Fe</dd></div>
-      <div class="fact" style="display:none"><dt>Horarios de atención</dt><dd>Lunes a viernes: 9:00 hs a 18:00 hs<br>Sábados y feriados: 9:00 hs a 13:00 hs</dd></div>
-      <div class="fact" style="display:none"><dt>Dólar de referencia</dt><dd id="dolar">Cargando…</dd></div>
+<section class="intro hero">
+  <div class="wrap hero-in">
+    <div class="hero-txt">
+      <div class="actbadge" id="actbadge" hidden></div>
+      <div class="eyebrow">Farroyo · Rosario</div>
+      <h1 id="titulo">Catálogo de equipos</h1>
+      <p id="bajada"></p>
+      <div class="hero-cta">
+        <a class="btn-p" href="#cats" id="verEquipos">Ver equipos</a>
+        <a class="btn-s" id="heroWsp" href="https://wa.me/5493413105554" target="_blank" rel="noopener" data-track="portada"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.6-.3z"/></svg>Consultar por WhatsApp</a>
+      </div>
+    </div>
+    <div class="hero-foto foto-n" aria-hidden="true"><div class="lu"><span class="lu-s"><img src="/fotos/iphone-17-pro-silver.webp" alt=""></span><span class="lu-s"><img src="/fotos/iphone-17-pro-deepblue.webp" alt=""></span><img class="lu-f" src="/fotos/iphone-17-pro-cosmicorange.webp" alt=""></div></div>
+    <ul class="trust">
+      <li><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b>Garantía en todos los equipos</b><span>1 año en nuevos y open box · 3 meses en usados</span></div></li>
+      <li><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/></svg></span><div><b>Hasta 24 cuotas</b><span>Con tarjeta de crédito, o en 3, 6 y 12 cuotas con DNI</span></div></li>
+      <li><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><div><b>Retiro en Zona Centro</b><span>Oficina en Rosario, con cita previa</span></div></li>
+      <li><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg></span><div><b>Atención por WhatsApp</b><span>Lun a vie 9 a 18 h · Sáb y feriados 9 a 13 h</span></div></li>
+    </ul>
+    <dl class="facts" style="display:none">
+      <div class="fact"><dt id="f1t">Formas de pago</dt><dd id="f1d">Efectivo, transferencia, tarjeta y planes de pago</dd></div>
+      <div class="fact"><dt>Ubicación</dt><dd>Oficina en Rosario Zona Centro, Santa Fe</dd></div>
+      <div class="fact"><dt>Horarios de atención</dt><dd>Lunes a viernes: 9:00 hs a 18:00 hs<br>Sábados y feriados: 9:00 hs a 13:00 hs</dd></div>
+      <div class="fact"><dt>Dólar de referencia</dt><dd id="dolar">Cargando…</dd></div>
       <div class="fact" style="display:none"><dt>Stock actualizado</dt><dd id="actualizado"></dd></div>
     </dl>
   </div>
@@ -221,9 +535,9 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
   <div class="wrap">
     <h2 id="como">Cómo funciona</h2>
     <ol>
-      <li class="step"><strong>Elegí tu equipo</strong><span>Mirá el stock disponible y el valor de cada cuota.</span></li>
+      <li class="step"><strong>Elegí tu equipo</strong><span id="s1d">Mirá el stock disponible y el valor de cada cuota.</span></li>
       <li class="step"><strong>Escribinos por WhatsApp</strong><span>Tocá «Consultar» en el equipo que te interesa.</span></li>
-      <li class="step"><strong>Aprobamos y lo retirás</strong><span>Te confirmamos la aprobación y retirás tu equipo.</span></li>
+      <li class="step"><strong id="s3t">Coordinamos y lo retirás</strong><span id="s3d">Agendamos tu cita y retirás tu equipo.</span></li>
     </ol>
   </div>
 </section>
@@ -241,10 +555,53 @@ footer .byc{margin-top:14px;border-top:1px solid var(--linea);padding-top:12px}f
   <div id="state"></div>
 </main>
 
+<section class="blk" aria-labelledby="pqH">
+  <div class="wrap">
+    <h2 class="blk-h" id="pqH">Por qué comprar en Farroyo</h2>
+    <p class="blk-s">Te acompañamos antes, durante y después de la compra.</p>
+    <div class="pq">
+      <div class="pq-i"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><h3>Garantía real</h3><p>Nuevos sellados con 1 año de garantía oficial. Open box con 1 año y usados con 3 meses de garantía.</p></div>
+      <div class="pq-i"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/></svg></span><h3>Pagás como te quede cómodo</h3><p>Efectivo en pesos o dólares, transferencia, tarjeta de crédito hasta 24 cuotas, financiación con DNI y cripto.</p></div>
+      <div class="pq-i"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><h3>Lo ves y lo retirás en persona</h3><p>Coordinamos una cita en nuestra oficina de Zona Centro, Rosario. Revisás el equipo antes de llevártelo.</p></div>
+      <div class="pq-i"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/></svg></span><h3>Te respondemos por WhatsApp</h3><p>Consultá por cualquier equipo y te asesoramos. Lunes a viernes de 9 a 18 h, sábados y feriados de 9 a 13 h.</p></div>
+    </div>
+    <div class="resenas">
+      <div><div class="st"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg></div><b>Clientes que nos recomiendan</b><span>Mirá lo que opinan de Farroyo en Google.</span></div>
+      <a href="https://www.google.com/maps/search/?api=1&query=Farroyo%20iPhone%20Rosario" target="_blank" rel="noopener">Ver reseñas en Google</a>
+    </div>
+  </div>
+</section>
+<section class="blk" aria-labelledby="faqH">
+  <div class="wrap">
+    <h2 class="blk-h" id="faqH">Preguntas frecuentes</h2>
+    <p class="blk-s">Si te queda alguna duda, escribinos por WhatsApp.</p>
+    <div class="faq">
+      <details><summary>¿Cómo compro un equipo?</summary><p>Tocá «Consultar» en el equipo que te interesa y te escribimos por WhatsApp. Confirmamos stock, precio y forma de pago, y coordinamos una cita para que lo retires en nuestra oficina de Zona Centro. Al retirar verificamos tu identidad con tu DNI.</p></details>
+      <details><summary>¿Qué garantía tienen?</summary><p>Los nuevos sellados tienen 1 año de garantía oficial, los open box 1 año y los usados 3 meses. La garantía no cubre golpes, humedad, mal uso ni reparaciones de terceros.</p></details>
+      <details><summary>¿Qué formas de pago aceptan?</summary><p>Efectivo en pesos o dólares, transferencia, tarjeta de crédito en 1, 3, 6, 9, 12, 18 y 24 cuotas, financiación con DNI en 3, 6 y 12 cuotas, y cripto. En cada equipo tocá «Ver todas las formas de pago» para ver el valor exacto.</p></details>
+      <details><summary>¿Cómo funciona la financiación con DNI?</summary><p>Podés pagar en 3, 6 o 12 cuotas fijas en dólares, sin tarjeta de crédito. La primera cuota se paga al retirar el equipo. Está sujeta a aprobación: escribinos y te confirmamos en el momento.</p></details>
+      <details><summary>¿Por qué cambian los precios en pesos?</summary><p>Los precios están en dólares. El valor en pesos se calcula al dólar blue del día en Rosario y se confirma al momento de la operación.</p></details>
+      <details><summary>¿Dónde están y en qué horario atienden?</summary><p>Tenemos oficina en Rosario Zona Centro, Santa Fe. Atendemos de lunes a viernes de 9:00 a 18:00 h y sábados y feriados de 9:00 a 13:00 h, siempre con cita previa.</p></details>
+    </div>
+  </div>
+</section>
+
+<a class="fab-wsp" id="fabWsp" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp" href="#"><svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg></a>
+<button class="fab-top" id="fabTop" type="button" aria-label="Volver arriba" hidden>↑</button>
+<div class="compbar" id="compbar" hidden><span id="compTxt"></span><button type="button" id="compVer">Comparar</button><button type="button" class="link" id="compBorrar">Quitar</button></div>
+<div class="modal" id="modal" hidden><div class="modal-box" role="dialog" aria-modal="true" aria-label="Comparar equipos"><button class="modal-x" id="modalX" aria-label="Cerrar">×</button><h3>Comparar equipos</h3><div id="compTabla"></div></div></div>
+
 <footer>
+  <div class="wrap fgrid">
+    <div><a class="flogo" href="/" aria-label="Farroyo"><img src="/logo.svg" alt="Farroyo · Premium Technology Seller" width="177" height="34"></a><p class="fdesc">iPhone, iPad, Mac y accesorios nuevos, open box y usados seleccionados en Rosario.</p></div>
+    <div><h4>Contacto</h4><a href="https://wa.me/5493413105554" target="_blank" rel="noopener" data-track="pie">WhatsApp 341 310-5554</a><a href="https://www.instagram.com/iphonerosario.farroyo/" target="_blank" rel="noopener">Instagram @iphonerosario.farroyo</a><p>Oficina en Zona Centro, Rosario, Santa Fe</p></div>
+    <div><h4>Horarios</h4><p>Lunes a viernes<br>9:00 a 18:00 h</p><p>Sábados y feriados<br>9:00 a 13:00 h</p></div>
+    <div><h4>Formas de pago</h4><div class="fpagos"><span>Efectivo</span><span>Dólares</span><span>Transferencia</span><span>Tarjeta hasta 24 cuotas</span><span>Cuotas con DNI</span><span>Cripto</span></div></div>
+  </div>
   <div class="wrap" id="foot"></div>
 </footer>
 
+<script>window.MODO_PAGINA = 'dni';</script>
 <script>
 const CONFIG = {
   // Pegá acá la URL de la aplicación web de Google Apps Script (termina en /exec).
@@ -254,14 +611,38 @@ const CONFIG = {
   ARCHIVO_EXCEL: 'stock.xlsx',
   WHATSAPP: '5493413105554',             // sin +, sin espacios
   NOMBRE: 'Farroyo',
-  // Descuento en USD que se resta a todos los precios (0 = sin descuento)
+  // Cartel publicitario al entrar (ACTIVO: false para apagarlo)
+  // FRANJA: true = en vez del cartel que tapa la página, muestra TITULO y SUBTITULO en una franja fina arriba
+  PROMO: {
+    ACTIVO: true,
+    FRANJA: false,
+    TEMA: 'cyber',                       // 'cyber' = estilo oscuro de Cyber Monday ('' = azul normal)
+    MEDALLA: false,                      // medalla de 1er puesto arriba del título
+    MEMOJI: '',                          // memoji arriba del título ('' para sacarlo)
+    ETIQUETA: 'CYBER MONDAY',
+    TITULO: '$20 USD OFF',
+    SUBTITULO: 'en todos nuestros productos',
+    OPCIONES: [                          // botones debajo del título
+      { TEXTO: 'Ver productos', LINK: '#catalogo' }  // #catalogo = cierra y va al catálogo
+    ],
+    TEXTO: '',
+    INDICACION: '',
+    IMAGEN: '',                          // opcional: URL de una imagen (ej: /promo.jpg)
+    BOTON: '',                           // vacío = sin botón
+    LINK: '',                       // dejar vacío para que el botón abra WhatsApp
+    MENSAJE_WSP: 'Hola! Vi la promo de Cyber Monday en la web y quería consultar.',
+    UNA_VEZ_POR_VISITA: true,            // false = aparece cada vez que recarga la página
+    OBLIGATORIO: false                   // true = no se puede cerrar: hay que elegir una opción
+  },
+  // Descuento en USD que se resta a todos los precios de la web (0 = sin descuento)
   DESCUENTO_USD: 20,
+  DESCUENTO_ETIQUETA: 'Cyber Monday',
   // Financiación con DNI: multiplicador sobre el precio contado (no se muestra al cliente)
   PLANES: [ {n:3, f:1.45}, {n:6, f:1.84}, {n:12, f:2.56} ],
   DOLAR_FIJO: null,                      // forzar una cotización (ej: 1600). null = automático
   DOLAR_RESPALDO: 1566,                  // solo si falla todo lo demás
   REDONDEO_PESOS: 100,                   // redondea los pesos hacia arriba a múltiplos de esto
-  ORDEN_CATEGORIAS: ['iPhone Nuevo Sellado','iPhone Nuevo Open Box','iPhone Usados','MacBook','iPad','AirPods','Apple Watch','Otros'],
+  ORDEN_CATEGORIAS: ['iPhone Nuevo Sellado','iPhone Nuevo Open Box','iPhone Usados','iPad','MacBook','Apple Watch','AirPods','Pencil y AirTag','Samsung','Samsung Watch','Xiaomi'],
   // Los iPhone se separan en una pestaña por condición
   PESTANAS_IPHONE: {'Sellado':'iPhone Nuevo Sellado','Open box':'iPhone Nuevo Open Box','Usado':'iPhone Usados'},
   // Categorías que se muestran en la página (vacío = todas)
@@ -273,7 +654,7 @@ const CONFIG = {
    ============================================================ */
 const $ = s => document.querySelector(s);
 const fmtUSD = n => 'USD ' + Math.ceil(n).toLocaleString('es-AR');
-const fmtARS = n => '$ ' + (Math.ceil(n / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS).toLocaleString('es-AR');
+const fmtARS = n => '$' + (Math.ceil(n / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS).toLocaleString('es-AR');
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const hhmm = d => new Date(d).toLocaleTimeString('es-AR', {hour:'2-digit', minute:'2-digit', hourCycle:'h23'});
 async function withTimeout(p, ms){ return Promise.race([p, new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')), ms))]); }
@@ -475,9 +856,10 @@ async function getDolar(){
 }
 
 /* ============================================================
-   Estadísticas (visitas y clics en Contactanos)
+   Estadísticas (visitas y clics en Consultar)
    ============================================================ */
 function track(evento, detalle){
+  try{ if (window.clarity){ clarity('event', evento); if (detalle) clarity('set', evento, String(detalle)); } }catch(e){}
   if (!CONFIG.API_URL) return;
   try{
     fetch(`${CONFIG.API_URL}?evento=${evento}&detalle=${encodeURIComponent(detalle || '')}`, {mode:'no-cors', keepalive:true});
@@ -487,14 +869,45 @@ function track(evento, detalle){
 /* ============================================================
    Render
    ============================================================ */
-const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos', q: '', tope: '', moneda: 'USD', sel: {} };
+const S = { items: [], dolar: null, actualizado: null, cat: null, cond: 'Todos', q: '', tope: '', moneda: 'USD', modo: 'contado', orden: 'rec', gen: '', comp: [], sel: {} };
+/* Formas de pago (pestañas de arriba) */
+const TARJETA = [ {n:1,r:.15},{n:3,r:.45},{n:6,r:.55},{n:9,r:.75},{n:12,r:.90},{n:18,r:1.05},{n:24,r:1.25} ];   // recargo total (no se muestra)
+const MODOS = {
+  contado: { tag:'Catálogo', h1:'Tu próximo iPhone, con garantía y en cuotas',
+    p:'Nuevos sellados, open box y usados seleccionados en Rosario. Elegí tu equipo y mirá su precio de contado, con tarjeta y con DNI.',
+    f1t:'Formas de pago', f1d:'Efectivo, transferencia, tarjeta y planes de pago', req:false, s1:'Mirá el stock disponible y el precio de cada equipo.',
+    s3t:'Coordinamos y lo retirás', s3d:'Agendamos tu cita y retirás tu equipo.', budget:'¿Cuánto querés gastar?', pago:'' },
+  tarjeta: { tag:'Tarjeta de crédito', h1:'Cuotas con tarjeta de crédito',
+    p:'Valor de cada cuota en pesos, calculado al dólar del día. Elegí el equipo y la cantidad de cuotas.',
+    f1t:'Planes', f1d:'1, 3, 6, 9, 12, 18 y 24 cuotas', req:false, s1:'Mirá el stock disponible y el valor de cada cuota.',
+    s3t:'Coordinamos y lo retirás', s3d:'Agendamos tu cita, pagás con tu tarjeta y retirás tu equipo.', budget:'¿Cuánto querés pagar por mes?', pago:'tarjeta de crédito' },
+  dni: { tag:'Financiación con DNI', h1:'Planes de financiación con DNI',
+    p:'Valores por cuota en dólares, con su equivalente estimado en pesos. Elegí el equipo y el plan que mejor te quede.',
+    f1t:'Planes', f1d:'3, 6 y 12 cuotas', req:true, s1:'Mirá el stock disponible y el valor de cada cuota.',
+    s3t:'Aprobamos y lo retirás', s3d:'Te confirmamos la aprobación y retirás tu equipo.', budget:'¿Cuánto querés pagar por mes?', pago:'financiación con DNI' }
+};
+function modoDesdeURL(){ return window.MODO_PAGINA || 'contado'; }
+function aplicarModo(){
+  const m = MODOS[S.modo];
+  document.querySelectorAll('[data-modo]').forEach(b => b.setAttribute('aria-selected', b.dataset.modo === S.modo));
+  $('#toptag').textContent = m.tag; $('#titulo').textContent = m.h1; $('#bajada').textContent = m.p;
+  $('#f1t').textContent = m.f1t; $('#f1d').textContent = m.f1d; 
+  $('#s1d').textContent = m.s1; $('#s3t').textContent = m.s3t; $('#s3d').textContent = m.s3d;
+}
 const COND_ORDEN = ['Sellado','Open box','Usado'];
 const COND_TITULO = {'Sellado':'Nuevos sellados','Open box':'Open box','Usado':'Usados seleccionados'};
 
-function cuotas(precio){
+function cuotas(precio, it){
+  const dol = S.dolar.valor;
+  if (it && it.moneda === 'ARS') return [{ n: 1, lab: 'Precio contado', usd: precio / dol, ars: precio, soloArs: true }];
+  if (S.modo === 'contado') return [{ n: 1, lab: 'Precio contado', usd: precio, ars: precio * dol }];
+  if (S.modo === 'tarjeta') return TARJETA.map(p => {
+    const ars = Math.ceil(precio * dol * (1 + p.r) / p.n / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS;
+    return { n: p.n, lab: p.n === 1 ? '1 pago' : p.n + ' cuotas', usd: ars / dol, ars, soloArs: true };
+  });
   return CONFIG.PLANES.map(p => {
     const usd = precio * p.f / p.n;
-    return { n: p.n, usd, ars: usd * S.dolar.valor };
+    return { n: p.n, lab: p.n + ' cuotas', usd, ars: usd * dol };
   });
 }
 
@@ -505,10 +918,17 @@ function enTope(c){
   return S.moneda === 'USD' ? Math.ceil(c.usd) <= v
     : Math.ceil(c.ars / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS <= v;
 }
-const topeTxt = () => S.moneda === 'USD' ? 'USD ' + S.tope : '$ ' + S.tope;
+const topeTxt = () => S.moneda === 'USD' ? 'USD ' + S.tope : '$' + S.tope;
 
 function renderActualizado(){
-  const el = $('#actualizado'); el.parentElement.hidden = true; return;
+  const el = $('#actualizado'), b = document.getElementById('actbadge');
+  if (S.actualizado && b){
+    const d = new Date(S.actualizado), h = new Date();
+    const diff = Math.round((new Date(h.getFullYear(), h.getMonth(), h.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
+    b.textContent = diff <= 0 ? 'Precios actualizados hoy' : diff === 1 ? 'Precios actualizados ayer' : 'Precios actualizados el ' + d.toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit'});
+    b.hidden = false;
+  }
+  el.parentElement.hidden = true; return;
   if (!S.actualizado){ el.parentElement.hidden = true; return; }
   const d = new Date(S.actualizado), hoy = new Date();
   const dia = new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -520,8 +940,8 @@ function renderActualizado(){
 function renderBudget(){
   const sym = S.moneda === 'USD' ? 'USD' : '$';
   $('#budget').innerHTML = `
-    <label for="tope">¿Cuánto querés pagar por mes?</label>
-    <div class="money"><span>${sym}</span><input id="tope" inputmode="numeric" placeholder="${S.moneda === 'USD' ? 'Ej: 200' : 'Ej: 300.000'}" value="${esc(S.tope)}" aria-label="Cuota máxima en ${S.moneda === 'USD' ? 'dólares' : 'pesos'}"></div>
+    <label for="tope">${MODOS[S.modo].budget}</label>
+    <div class="money"><span>${sym}</span><input id="tope" inputmode="numeric" placeholder="${S.moneda === 'USD' ? 'Ej: 200' : 'Ej: 300.000'}" value="${esc(S.tope)}" aria-label="Monto máximo en ${S.moneda === 'USD' ? 'dólares' : 'pesos'}"></div>
     <div class="seg" role="group" aria-label="Moneda">
       <button aria-pressed="${S.moneda==='USD'}" data-moneda="USD">Dólares</button>
       <button aria-pressed="${S.moneda==='ARS'}" data-moneda="ARS">Pesos</button>
@@ -566,27 +986,292 @@ function renderFilters(){
   const seg = conds.length > 1 && S.cat !== TODOS
     ? `<div class="seg" role="group" aria-label="Condición">${['Todos', ...conds].map(c =>
         `<button aria-pressed="${c===S.cond}" data-cond="${esc(c)}">${c === 'Todos' ? 'Todos' : c === 'Open box' ? 'Open box' : c + 's'}</button>`).join('')}</div>` : '';
-  $('#filters').innerHTML = seg + `<input class="search" id="q" type="search" placeholder="Buscar por modelo, capacidad o color" value="${esc(S.q)}" aria-label="Buscar">`;
+  const gens = [...new Set(inCat.map(genDe).filter(Boolean))].sort((a, b) => (/^iPhone/.test(b) - /^iPhone/.test(a)) || genNum(b) - genNum(a));
+  if (S.gen && !gens.includes(S.gen)) S.gen = '';
+  const genRow = false && gens.length > 1 ? `<div class="gens" role="group" aria-label="Modelo"><button data-gen="" aria-pressed="${!S.gen}">Todos</button>${gens.map(g =>
+      `<button data-gen="${esc(g)}" aria-pressed="${S.gen === g}">${esc(g)}</button>`).join('')}</div>` : '';
+  $('#filters').innerHTML = seg + `<div class="busca-row"><input class="search" id="q" type="search" placeholder="Buscar por modelo, capacidad o color" value="${esc(S.q)}" aria-label="Buscar">
+    <select class="orden" id="orden" aria-label="Ordenar"><option value="rec"${S.orden==='rec'?' selected':''}>Recomendados</option><option value="asc"${S.orden==='asc'?' selected':''}>Menor precio</option><option value="desc"${S.orden==='desc'?' selected':''}>Mayor precio</option></select></div>` + genRow;
   $('#q').addEventListener('input', e => { S.q = e.target.value; renderList(); });
+  $('#orden').addEventListener('change', e => { S.orden = e.target.value; renderList(); });
 }
 
-const claveIt = it => [it.cat, it.cond, it.modelo, it.gb, it.color, it.bat, it.precio, it.nota].join('|');
 function varHTML(it){
-  const meta = [it.gb, it.color, it.bat ? `Batería ${it.bat}` : '', it.nota].filter(Boolean).map(esc).join('  |  ');
-  const k = claveIt(it), cs = cuotas(it.precio), el = cs.find(c => c.n === S.sel[k]) || cs.find(c => c.n === 12) || cs[cs.length - 1];
-  const btn = el ? wspBtn(it, el)
-    : `<button type="button" class="wsp-btn need" data-need="${esc(k)}">${WSP_ICON}<span>Consultar</span></button>`;
-  return `<div class="var" data-var="${esc(k)}">
-    <div class="var-info"><div class="meta">${meta}</div>${btn}</div>
-    <div class="pl-w"><div class="elegi">${el ? 'Plan elegido: ' + el.n + ' cuotas · tocá otro para cambiar' : 'Tocá un plan para elegir la cantidad de cuotas'}</div>
-    <div class="plans" role="radiogroup" aria-label="Cantidad de cuotas">${cs.map(c => `<button type="button" role="radio" aria-checked="${!!el && el.n === c.n}" data-pl="${esc(k)}" data-n="${c.n}" class="plan${enTope(c) ? '' : ' off'}">
-      <div class="n">${c.n} cuotas</div>
-      <div class="u"><small>USD</small>${Math.ceil(c.usd).toLocaleString('es-AR')}</div>
-      <div class="a">Aprox ${fmtARS(c.ars).replace('$ ','$')} pesos</div></button>`).join('')}</div></div>
+  const meta = [it.gb, it.color ? '\u0000C' : '', it.bat ? `Batería ${it.bat}` : '', it.nota].filter(Boolean).map(esc).join('  |  ').replace('\u0000C', colorChips(it.color));
+  const pl = cuotas(it.precio, it), k = pl.length === 1 ? 'p1' : pl.length > 3 ? 'p7' : '';
+  return `<div class="var${k === 'p7' ? ' v7' : ''}">
+    <div class="var-info"><div class="meta">${meta}</div>${wspBtn(it)}</div>
+    <div class="plans ${k}">${pl.map(c => `<div class="plan${enTope(c) ? '' : ' off'}">
+      <div class="n">${c.lab}</div>
+      ${c.soloArs ? `<div class="u ars"><small>$</small>${Math.round(c.ars).toLocaleString('es-AR')}</div>`
+        : `<div class="u"><small>USD</small>${Math.ceil(c.usd).toLocaleString('es-AR')}</div>
+      <div class="a">Aprox ${fmtARS(c.ars).replace('$ ','$')} pesos</div>`}</div>`).join('')}</div>
   </div>`;
 }
 
 const WSP_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>';
+/* Tarjeta compacta (grilla de precios, varias por fila) */
+/* Color e ícono por sección, para que se note el cambio */
+function colorSec(t){
+  t = norm(t);
+  if (t.includes('sellad')) return '#0B2A5B';
+  if (t.includes('open')) return '#1565D8';
+  if (t.includes('usad')) return '#0E8A6A';
+  if (t.includes('ipad')) return '#6B4FD8';
+  if (t.includes('mac')) return '#3C4A63';
+  if (t.includes('watch')) return '#C2410C';
+  if (t.includes('airpods') || t.includes('pencil')) return '#0891B2';
+  if (t.includes('samsung')) return '#1428A0';
+  if (t.includes('xiaomi')) return '#E8590C';
+  return '#0B2A5B';
+}
+function iconoSec(t){
+  t = norm(t);
+  if (t.includes('sellad')) return '🆕';
+  if (t.includes('open')) return '📦';
+  if (t.includes('usad')) return '♻️';
+  if (t.includes('ipad')) return '📲';
+  if (t.includes('mac')) return '💻';
+  if (t.includes('watch')) return '⌚';
+  if (t.includes('airpods')) return '🎧';
+  if (t.includes('pencil')) return '✏️';
+  return '📱';
+}
+/* ===== Fotos de los equipos (imágenes oficiales de Apple) ===== */
+const FOTOS_BASE = 'https://cdsassets.apple.com/live/7WUAS350/images/';
+const FOTOS = [
+  [/iphone 18 pro max/, 'iphone/iphone-18-pro-max-colors.png'],
+  [/iphone 18 pro/, 'iphone/iphone-18-pro-colors.png'],
+  [/iphone 17 ?e\b/, 'iphone/iphone-17e/iphone-17e-colors.png'],
+  [/iphone 17 pro max/, 'iphone/iphone-17-pro-max-colors.png'],
+  [/iphone 17 pro/, 'iphone/iphone-17-pro-colors.png'],
+  [/iphone 17/, 'iphone/iphone-17-colors.png'],
+  [/iphone air/, 'iphone/iphone-air-colors.png'],
+  [/iphone 16 ?e\b/, 'iphone/iphone-16e/iphone-16e-colors.png'],
+  [/iphone 16 pro max/, 'iphone/iphone-16-pro-max-colors.png'],
+  [/iphone 16 pro/, 'iphone/iphone-16-pro-colors.png'],
+  [/iphone 16 plus/, 'iphone/iphone-16-plus-colors.png'],
+  [/iphone 16/, 'iphone/iphone-16-colors.png'],
+  [/iphone 15 pro max/, 'iphone/fall-2023-iphone-colors-iphone-15-pro-max.png'],
+  [/iphone 15 pro/, 'iphone/fall-2023-iphone-colors-iphone-15-pro.png'],
+  [/iphone 15 plus/, 'iphone/fall-2023-iphone-colors-iphone-15-plus.png'],
+  [/iphone 15/, 'iphone/fall-2023-iphone-colors-iphone-15.png'],
+  [/iphone 14 pro max/, 'iphone/iphone-14-pro-max-colors.png'],
+  [/iphone 14 pro/, 'iphone/iphone-14-pro-colors.png'],
+  [/iphone 14 plus/, 'iphone/iphone-14-plus-colors-spring-2023.png'],
+  [/iphone 14/, 'iphone/iphone-14-colors-spring-2023.png'],
+  [/iphone 13 pro max/, 'iphone/2022-spring-iphone13-pro-max-colors.png'],
+  [/iphone 13 pro/, 'iphone/2022-spring-iphone13-pro-colors.png'],
+  [/iphone 13 mini/, 'iphone/2022-iphone13-mini-colors.png'],
+  [/iphone 13/, 'iphone/2022-spring-iphone13-colors.png'],
+  [/iphone 12 pro max/, 'iphone/iphone-12-pro-max/iphone12-pro-max-colors.jpg'],
+  [/iphone 12 pro/, 'iphone/iphone-12-pro/iphone12-pro-colors.jpg'],
+  [/iphone 12 mini/, 'iphone/2021-iphone12-mini-colors.png'],
+  [/iphone 12/, 'iphone/2021-iphone12-colors.png'],
+  [/iphone 11 pro max/, 'iphone/identify-iphone-11pro-max.jpg'],
+  [/iphone 11 pro/, 'iphone/identify-iphone-11pro.jpg'],
+  [/iphone 11/, 'iphone/identify-iphone-11-colors.jpg'],
+  [/iphone se ?(3|3ra|tercera)/, 'iphone/iphone-se-3rd-gen-colors.png'],
+  [/iphone se ?(2|2da|segunda)/, 'iphone/iphone-se/iphone-se-2nd-gen-colors.jpg'],
+  [/ipad mini/, 'ipad/ipad-mini/ipad-mini-2024-colors.png'],
+  [/ipad.*pro.*13|ipad.*13.*pro/, 'ipad/fall-2025-ipad-pro-m5-13in.png'],
+  [/ipad.*pro/, 'ipad/fall-2025-ipad-pro-m5-11in.png'],
+  [/ipad air.*m4.*13|ipad air.*13.*m4/, 'ipad/spring-2026-ipad-air-13.png'],
+  [/ipad air.*m4/, 'ipad/spring-2026-ipad-air-11.png'],
+  [/ipad air.*13/, 'ipad/spring-2025-ipad-air-13.png'],
+  [/ipad air/, 'ipad/spring-2025-ipad-air-11.png'],
+  [/ipad.*(9|9na|novena) ?gen/, 'ipad/ipad/ipad-2021-colors.png'],
+  [/ipad.*(10|10ma|decima) ?gen/, 'ipad/ipad/fall-2022-10-gen-ipad.png'],
+  [/ipad/, 'ipad/spring-2025-ipad.png'],
+  [/watch ultra 3/, 'apple-watch/apple-watch-ultra-3-colors.png'],
+  [/watch ultra/, 'apple-watch/apple-watch-ultra-2-colors.png'],
+  [/watch se\b/, 'apple-watch/apple-watch-se-3.png'],
+  [/series 12.*cel/, 'apple-watch/apple-watch-series-12-aluminum-gps-cell.png'],
+  [/series 12/, 'apple-watch/apple-watch-series-12-aluminum-gps.png'],
+  [/series 11.*cel/, 'apple-watch/apple-watch-series-11-aluminum-gps-cell.png'],
+  [/series 11/, 'apple-watch/apple-watch-series-11-aluminum-gps.png'],
+  [/series 10.*cel/, 'apple-watch/apple-watch-series-10-aluminum-gps-cell.png'],
+  [/series 10/, 'apple-watch/apple-watch-series-10-aluminum-gps.png'],
+  [/series 9.*cel/, 'apple-watch/apple-watch-series-9-gps-cellular.png'],
+  [/series 9/, 'apple-watch/apple-watch-series-9-gps.png'],
+  [/macbook air.*15/, 'macbook-air/macbook-air-15in-m5-colors.png'],
+  [/macbook air/, 'macbook-air/macbook-air-13in-m5-colors.png'],
+  [/airpods.*(pro 3|3 pro)/, 'airpods/charging-case-for-airpods-pro-3.png'],
+  [/airpods.*(pro 2|2 pro|pro 2da)/, 'airpods/airpods-pro-magsafe-charging-case-usb-c.png'],
+  [/airpods 5/, 'airpods/charging-case-for-airpods-5.png'],
+  [/airpods 4/, 'airpods/charging-case-for-airpods-4.png'],
+  [/pencil pro/, 'accessories/apple-pencil/apple-pencil-pro-landscape-crop.png'],
+  [/pencil usb/, 'accessories/new-apple-pencil-landscape-crop.png'],
+  [/pencil (2|2da)/, 'accessories/apple-pencil-landscape-second-gen-crop.png'],
+  [/pencil (1|1era)/, 'accessories/apple-pencil-landscape-first-gen-crop.png']
+];
+function fotoDe(it){
+  const m = (it.modelo || '').toLowerCase().replace(/\s+/g, ' ');
+  const f = FOTOS.find(([re]) => re.test(m));
+  return f ? FOTOS_BASE + f[1] : '';
+}
+/* Versión liviana (webp, ~480px) servida por wsrv.nl; si falla, usa la original de Apple */
+function fotoHTML(it, cls, w){
+  const src = fotoDe(it); if (!src) return '';
+  const chica = 'https://wsrv.nl/?url=' + encodeURIComponent(src) + '&w=' + (w || 480) + '&output=webp&q=85';
+  return `<div class="${cls}"><img src="${chica}" alt="${esc(it.modelo)}" loading="lazy" decoding="async" onerror="if(this.src!=='${src}'){this.src='${src}'}else{this.parentNode.remove()}"></div>`;
+}
+/* ===== Fotos por color (solo los colores en stock) — archivos en /fotos ===== */
+const FOTOS_COLOR = {"iphone-air":"skyblue lightgold cloudwhite spaceblack","iphone-18-pro-max":"burgundy glacier silver black","iphone-16-pro":"deserttitanium naturaltitanium whitetitanium blacktitanium","iphone-16-pro-max":"deserttitanium naturaltitanium whitetitanium blacktitanium","iphone-16":"ultramarine teal pink white black","iphone-16-plus":"ultramarine teal pink white black","iphone-16e":"white black","iphone-15-pro":"naturaltitanium bluetitanium whitetitanium blacktitanium","iphone-15-pro-max":"naturaltitanium bluetitanium whitetitanium blacktitanium","iphone-15":"pink yellow green blue black","iphone-15-plus":"pink yellow green blue black","iphone-14-pro":"deeppurple gold silver spaceblack","iphone-14-pro-max":"deeppurple gold silver spaceblack","iphone-14":"blue purple yellow midnight starlight red","iphone-14-plus":"blue purple yellow midnight starlight red","iphone-13-pro":"alpinegreen silver gold graphite sierrablue","iphone-13-pro-max":"alpinegreen silver gold graphite sierrablue","iphone-13-mini":"green pink blue midnight starlight red","iphone-13":"green pink blue midnight starlight red","iphone-se-3rd-gen":"midnight starlight red","iphone-12-pro":"pacificblue gold graphite silver","iphone-12-pro-max":"pacificblue gold graphite silver","iphone-12-mini":"purple blue green red white black","iphone-12":"purple blue green red white black","iphone-11-pro":"midnightgreen silver spacegray gold","iphone-11-pro-max":"midnightgreen silver spacegray gold","iphone-11":"purple yellow green black white red","iphone-se-2nd-gen":"black white red","iphone-18-pro":"burgundy silver glacier black","iphone-17-pro":"cosmicorange silver deepblue","iphone-17-pro-max":"cosmicorange deepblue silver","iphone-17":"lavender sage mistblue black white","iphone-17e":"pink white black","ipad-pro-13-m5":"spaceblack silver","ipad-air-11-m4":"spacegray blue purple starlight","ipad-mini-a20pro":"midnight starlight","ipad-pro-11-m5":"spaceblack silver","ipad-air-13-m4":"spacegray blue purple starlight","ipad-11th-a16":"blue pink yellow silver","ipad-air-13-m3":"spacegray blue purple starlight","ipad-air-11-m3":"spacegray blue purple starlight","ipad-10th-gen":"blue pink yellow silver","ipad-9th-gen":"spacegray silver","ipad-mini-a17pro":"spacegray blue purple starlight","watch-series-12-aluminum":"dark-bronze light-gold black space-gray","watch-series-12-titanium":"radiant-gold natural","watch-series-12-ceramic":"pearl-white night-blue","watch-ultra-4-titanium":"natural black","watch-se-3-aluminum":"starlight midnight","watch-series-11-aluminum":"rose-gold silver space-gray jet-black","watch-series-11-titanium":"natural gold slate","watch-ultra-3-titanium":"natural black","watch-series-10-aluminum":"jet-black rose-gold silver","watch-series-10-titanium":"slate gold natural","watch-ultra-2-titanium":"black natural","watch-series-9-aluminum":"midnight","watch-ultra-titanium":"natural","macbook-air-m5":"skyblue silver starlight midnight"};
+function prefijoFoto(it){
+  const m = norm(it.modelo || '').replace(/[()"]/g, ' ').replace(/\s+/g, ' ');
+  let r;
+  if (/iphone/.test(m)){
+    if (/iphone air/.test(m)) return 'iphone-air';
+    if (/iphone se/.test(m)) return /\b(3|3ra|3era|tercera)\b/.test(m) ? 'iphone-se-3rd-gen' : 'iphone-se-2nd-gen';
+    if ((r = m.match(/iphone (\d{2}) ?(pro max|pro|plus|mini|e\b)?/))){ const s = r[2] || ''; return 'iphone-' + r[1] + (s === 'e' ? 'e' : s ? '-' + s.replace(' ', '-') : ''); }
+  }
+  if (/ipad/.test(m)){
+    const t = /\b13\b/.test(m) ? '13' : '11';
+    if (/mini/.test(m)) return /a20/.test(m) ? 'ipad-mini-a20pro' : 'ipad-mini-a17pro';
+    if (/pro/.test(m)) return 'ipad-pro-' + t + '-m5';
+    if (/air/.test(m)) return 'ipad-air-' + t + (/m4/.test(m) ? '-m4' : '-m3');
+    if (/a16/.test(m)) return 'ipad-11th-a16';
+    if (/\b10\s?(ma|th)?\s?gen|10ma/.test(m)) return 'ipad-10th-gen';
+    if (/\b9\s?(na|th)?\s?gen|9na/.test(m)) return 'ipad-9th-gen';
+  }
+  if (/watch/.test(m) && !/galaxy|samsung/.test(m)){
+    const ti = /titan/.test(m) ? 'titanium' : 'aluminum';
+    if ((r = m.match(/ultra(?: (\d))?\b/))) return r[1] ? 'watch-ultra-' + r[1] + '-titanium' : 'watch-ultra-titanium';
+    if (/\bse\b/.test(m)) return 'watch-se-3-aluminum';
+    if ((r = m.match(/series (\d+)/))) return 'watch-series-' + r[1] + '-' + ti;
+  }
+  if (/macbook air/.test(m) && /m5/.test(m)) return 'macbook-air-m5';
+  return '';
+}
+const ALIAS_COLOR = [[/misti/g,'mist'],[/soft pink/g,'pink'],[/\(?product\)?\s?red/g,'red'],[/grey/g,'gray'],[/gris espacial/g,'space gray'],[/negro/g,'black'],[/blanco/g,'white'],[/plateado|plata/g,'silver'],[/dorado/g,'gold'],[/azul/g,'blue'],[/rosa/g,'pink'],[/verde/g,'green'],[/titanio/g,'titanium']];
+function archivoColor(pref, color){
+  const lista = (FOTOS_COLOR[pref] || '').split(' ').filter(Boolean); if (!lista.length) return '';
+  let c = norm(color || ''); ALIAS_COLOR.forEach(([a, b]) => c = c.replace(a, b));
+  const pal = c.split(/[^a-z]+/).filter(Boolean), junto = pal.join('');
+  if (!junto) return '';
+  let mejor = '', puntos = 0;
+  lista.forEach(t => { const tt = t.replace(/-/g, ''); let p = 0;
+    if (tt === junto || tt.endsWith(junto) && t.split('-').slice(-pal.length).join('') === junto) p = 1000 - tt.length;
+    else if (pal.every(w => tt.includes(w))) p = 500 - tt.length;
+    if (p > puntos){ puntos = p; mejor = t; } });
+  return mejor ? '/fotos/' + pref + '-' + mejor + '.webp' : '';
+}
+/* Foto del equipo: si eligió color, ese; si no, todos los colores en stock juntos (como en Apple) */
+function fotoColorHTML(it, cls){
+  const pref = prefijoFoto(it); if (!pref || !FOTOS_COLOR[pref]) return fotoHTML(it, cls);
+  const cols = listaColores(it.color), sel = colorElegido(it);
+  const arch = [...new Set((sel ? [sel] : cols).map(c => archivoColor(pref, c)).filter(Boolean))];
+  if (!arch.length) return fotoHTML(it, cls);
+  const alt = esc(it.modelo) + (sel ? ' ' + esc(sel) : '');
+  const uno = /^watch|^macbook/.test(pref);
+  const lista = uno ? arch.slice(0, 1) : arch.slice(0, 6), n = lista.length;
+  if (n === 1) return `<div class="${cls} foto-1"><img src="${lista[0]}" alt="${alt}" loading="lazy" decoding="async"></div>`;
+  const tira = Math.min(18, 52 / (n - 1)).toFixed(1), alto = n >= 5 ? 74 : n >= 3 ? 80 : 86;
+  return `<div class="${cls} foto-n" style="--tira:${tira}%;--alto:${alto}%"><div class="lu">${lista.map((s, i) => i < n - 1
+    ? `<span class="lu-s"><img src="${s}" alt="" loading="lazy" decoding="async"></span>`
+    : `<img class="lu-f" src="${s}" alt="${alt}" loading="lazy" decoding="async">`).join('')}</div></div>`;
+}
+/* ---------- Ayudas: generación, precio en USD, colores e íconos ---------- */
+function genDe(it){
+  const m = String(it.modelo).match(/iPhone\s+(\d{1,2}|SE)/i);
+  if (m) return 'iPhone ' + m[1].toUpperCase();
+  const s = String(it.modelo).match(/Galaxy\s+(S\d+|A\d+|Z\s?\w+)/i); if (s) return 'Galaxy ' + s[1].replace(/\s/,'');
+  return '';
+}
+const genNum = g => { const n = parseInt(String(g).replace(/\D+/g, ''), 10); return isNaN(n) ? 0 : n; };
+const precioUSD = it => it.moneda === 'ARS' ? it.precio / (S.dolar.valor || 1) : it.precio;
+const COLORES = [['rose gold','#E6C2B4'],['deep blue','#2B3F6B'],['mist','#B9C9D9'],['sage','#A9B79A'],['lavender','#C9B8E3'],['orange','#E2783A'],['cosmic','#E2783A'],['burgundy','#6E2233'],['glacier','#DCE8F0'],
+  ['natural','#C2B9AA'],['desert','#C7A98A'],['titanium black','#3A3A3C'],['black titanium','#3A3A3C'],['white titanium','#EDEBE6'],['blue titanium','#3E4A5C'],['space black','#2E2E30'],
+  ['deep purple','#5A4A6B'],['purple','#B8A6D9'],['midnight','#2B3040'],['starlight','#EFE8DA'],['graphite','#55565A'],['sierra','#9BB4CF'],['pacific','#2F4A5C'],['alpine','#4A5E4E'],
+  ['gold','#E9D8B4'],['silver','#E3E4E6'],['space gray','#6B6C70'],['gray','#8A8B8F'],['pink','#F2C9CF'],['rose','#E8C3C0'],['red','#C2272D'],['yellow','#F2D96B'],['green','#A9C7A3'],
+  ['teal','#7FB3B1'],['ultramarine','#5A6FD8'],['sky','#BBD6EE'],['blue','#8FB3D9'],['white','#F4F4F2'],['blanco','#F4F4F2'],['black','#2B2B2D'],['negro','#2B2B2D'],
+  ['bronze','#B08D6E'],['bronce','#B08D6E'],['coral','#F08A72'],['lilac','#C8B6E2'],['lila','#C8B6E2'],['violeta','#B8A6D9'],['celeste','#BBD6EE'],['azul','#3E5C8A'],['rosa','#F2C9CF'],['verde','#A9C7A3'],
+  ['gris espacial','#6B6C70'],['gris','#8A8B8F'],['dorado','#E9D8B4'],['plata','#E3E4E6'],['plateado','#E3E4E6'],['rojo','#C2272D'],['amarillo','#F2D96B'],['naranja','#E2783A']];
+/* Nombre de cada color con su puntito al lado ("Deep Blue" → ● Deep Blue) */
+const listaColores = txt => String(txt || '').split(/\s*[,/]\s*/).filter(Boolean);
+const colorChips = txt => listaColores(txt)
+  .map(c => `<span class="cdot"><i style="background:${colorHex(c)}"></i>${esc(c)}</span>`).join(', ');
+/* Color que eligió el cliente para un equipo (si hay uno solo, ese) */
+function colorElegido(it){ const l = listaColores(it.color); return l.length === 1 ? l[0] : (S.colores || {})[claveIt(it)] || ''; }
+/* Puntitos tocables: el cliente elige el color y llega en el mensaje de WhatsApp */
+function colorPick(it){
+  const l = listaColores(it.color); if (l.length < 2) return colorChips(it.color);
+  const k = claveIt(it), sel = colorElegido(it);
+  return `<span class="cpick" role="radiogroup" aria-label="Elegí el color">${l.map(c => `<button type="button" class="cdot cbtn" role="radio" aria-checked="${c === sel}" data-col="${esc(k)}" data-c="${esc(c)}"><i style="background:${colorHex(c)}"></i>${esc(c)}</button>`).join('')}</span>`;
+}
+/* Línea de color para los mensajes */
+const lineaColor = it => { const c = colorElegido(it); return c ? `Color: ${c}` : it.color ? `Colores: ${it.color}` : ''; };
+function colorHex(nombre){ const n = norm(nombre); const c = COLORES.find(([k]) => n.includes(k)); return c ? c[1] : '#C9D2DE'; }
+function iconoEquipo(it, hex){
+  const t = norm(it.cat + ' ' + it.modelo), st = 'stroke="#0B2A5B" stroke-opacity=".25" stroke-width="1.5"';
+  if (/watch/.test(t)) return `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="24" y="4" width="16" height="10" rx="3" fill="#C9D2DE"/><rect x="24" y="50" width="16" height="10" rx="3" fill="#C9D2DE"/><rect x="16" y="12" width="32" height="40" rx="10" fill="${hex}" ${st}/><rect x="20" y="16" width="24" height="32" rx="7" fill="#0B1220"/></svg>`;
+  if (/airpods|pencil|airtag/.test(t)) return `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="14" y="20" width="36" height="30" rx="12" fill="#F4F4F2" ${st}/><line x1="14" y1="31" x2="50" y2="31" stroke="#0B2A5B" stroke-opacity=".2" stroke-width="1.5"/><circle cx="32" cy="40" r="2" fill="#0B2A5B" fill-opacity=".3"/></svg>`;
+  if (/macbook|mac /.test(t)) return `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="14" width="44" height="30" rx="3" fill="${hex}" ${st}/><rect x="13" y="17" width="38" height="24" rx="1.5" fill="#0B1220"/><path d="M4 46h56l-4 5H8z" fill="${hex}" ${st}/></svg>`;
+  if (/ipad/.test(t)) return `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="6" width="40" height="52" rx="6" fill="${hex}" ${st}/><rect x="15" y="9" width="34" height="46" rx="3.5" fill="#0B1220"/></svg>`;
+  return `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="18" y="4" width="28" height="56" rx="8" fill="${hex}" ${st}/><rect x="21" y="7" width="22" height="50" rx="5.5" fill="#0B1220"/><rect x="28" y="9" width="8" height="2.6" rx="1.3" fill="#2A3346"/></svg>`;
+}
+function badgesDe(it){
+  const b = [];
+  if (it.cond === 'Sellado') b.push(it.cat === 'iPhone' || /iphone|ipad|mac|watch|airpods/i.test(it.cat) ? 'Garantía oficial' : 'Nuevo sellado');
+  else if (it.cond === 'Open box') b.push('Open box');
+  if (it.bat && /^100/.test(String(it.bat))) b.push('Batería 100%');
+  else if (it.bats && it.bats.length && Math.max(...it.bats) >= 90) b.push('Batería +90%');
+  return b;
+}
+const claveIt = it => [it.cat, it.cond, it.modelo, it.gb, it.precio, it.nota].join('|');
+function cardHTML(it){
+  const cs = cuotas(it.precio, it), tj = S.modo === 'tarjeta' && cs.length > 1;
+  const elegida = tj ? (cs.find(x => x.n === S.sel[claveIt(it)]) || cs.find(x => x.n === 12) || cs[cs.length - 1]) : null;
+  const c = tj ? (elegida || cs.find(x => x.n === 12) || cs[0]) : cs[0];
+  const det = [it.bat ? 'Bat. ' + it.bat : '', it.nota].filter(Boolean).map(esc).join(' · ');
+  const nCol = listaColores(it.color).length;
+  const precio = c.soloArs ? '<small>$</small>' + Math.round(c.ars).toLocaleString('es-AR')
+                           : '<small>USD</small>' + Math.ceil(c.usd).toLocaleString('es-AR');
+  const hex = colorHex(colorElegido(it) || (it.colores && it.colores[0]) || it.color || ''), k = claveIt(it), enComp = S.comp.includes(k);
+  const bd = badgesDe(it);
+  const kk = claveIt(it);
+  const precioH = tj ? `<div class="pc-p"><small>${c.n === 1 ? '1 pago de' : c.n + ' cuotas de'}</small><br>$${Math.round(c.ars).toLocaleString('es-AR')}</div>
+    <div class="pc-tl">Cuotas · tocá para cambiar</div>
+    <div class="pc-t" role="radiogroup" aria-label="Cantidad de cuotas">${cs.map(x => `<button type="button" role="radio" aria-checked="${elegida && elegida.n === x.n}" data-cuo="${esc(kk)}" data-n="${x.n}"${enTope(x) ? '' : ' class="off"'}><span>${x.n === 1 ? '1 pago' : x.n + ' cuotas'}</span><b>$${Math.round(x.ars).toLocaleString('es-AR')}</b></button>`).join('')}</div>`
+    : S.modo === 'contado' && resumenFP(it) ? resumenFP(it)
+    : `<div class="pc-p">${precio}</div>
+    ${c.soloArs ? '' : `<div class="pc-a">≈ ${fmtARS(c.ars).replace('$ ','$')}</div>`}`;
+  return `<article data-fpcard="${esc(k)}" class="pc${(tj ? cs.some(enTope) : enTope(c)) ? '' : ' off'}${enComp ? ' comp' : ''}">
+    <div class="pc-ft" data-fp="${esc(k)}" title="Ver formas de pago">${fotoColorHTML(it, 'pc-foto')}</div>
+    ${bd.length ? `<div class="pc-b">${bd.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
+    <div class="pc-m">${esc(it.modelo)}</div>
+    ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
+    ${nCol ? `<div class="pc-cols">${nCol > 1 ? `<div class="pc-ctx">${colorElegido(it) ? 'Color elegido' : 'Tocá el color que querés'}</div>` : ''}${colorPick(it)}</div>` : ''}
+    ${det ? `<div class="pc-d">${det}</div>` : ''}
+    ${precioH}
+    ${tj && !elegida ? `<button type="button" class="wsp-btn pc-w pc-need" data-need="${esc(kk)}">${WSP_ICON}<span>Consultar</span></button>`
+      : wspBtn(it, elegida).replace('<span>Contactanos</span>', '<span>Consultar</span>').replace('class="wsp-btn"', 'class="wsp-btn pc-w"')}
+    <button type="button" class="fp-btn" data-fp="${esc(k)}">Ver todas las formas de pago ›</button>
+  </article>`;
+}
+/* Resumen de cuotas en la tarjeta del equipo (tarjeta y DNI); el detalle completo está en la ficha */
+function resumenFP(it){
+  if (typeof window.FP_OPCIONES !== 'function' || !S.dolar) return '';
+  const o = window.FP_OPCIONES(it), t = o.tj.find(x => x.n === 12), d = o.dni[o.dni.length - 1];
+  const pes = n => '$' + Math.round(n).toLocaleString('es-AR');
+  const antes = it.precioAntes ? `<div class="pc-antes"><s>${it.moneda === 'ARS' ? pes(it.precioAntes) : 'USD ' + Math.ceil(it.precioAntes).toLocaleString('es-AR')}</s><span>-USD ${CONFIG.DESCUENTO_USD} ${esc(CONFIG.DESCUENTO_ETIQUETA || '')}</span></div>` : '';
+  return antes + `${it.moneda === 'ARS' ? `<div class="pc-p">${pes(o.efe)}</div>`
+      : `<div class="pc-p"><small>USD</small>${Math.ceil(o.usd).toLocaleString('es-AR')}</div><div class="pc-ars">${pes(o.efe)}<small> en pesos</small></div>`}
+    <div class="pc-fp"><div><span>Tarjeta</span><b>12 cuotas x ${t.v}</b></div>${d ? `<div><span>DNI</span><b>${d.n} cuotas x ${pes(d.ars)}</b></div>` : ''}</div>`;
+}
+/* Precio contado en USD y pesos para el mensaje de WhatsApp (mismos valores que la tarjeta del equipo) */
+function preciosContado(it, cuo){
+  if (S.modo !== 'contado' || cuo || !S.dolar) return [];
+  const pes = n => '$' + Math.round(n).toLocaleString('es-AR');
+  if (typeof window.FP_OPCIONES === 'function'){
+    const o = window.FP_OPCIONES(it);
+    return [it.moneda === 'ARS' ? '' : 'Precio contado: USD ' + Math.ceil(o.usd).toLocaleString('es-AR'), 'Precio en pesos (efectivo): ' + pes(o.efe)].filter(Boolean);
+  }
+  const dol = S.dolar.valor, ars = it.moneda === 'ARS';
+  const usd = ars ? it.precio / dol : it.precio, efe = ars ? it.precio : Math.ceil(usd * dol / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS;
+  return [ars ? '' : 'Precio contado: USD ' + Math.ceil(usd).toLocaleString('es-AR'), 'Precio en pesos (efectivo): ' + pes(efe)].filter(Boolean);
+}
 function wspBtn(it, cuo){
   if (!CONFIG.WHATSAPP) return '';
   const cond = {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond;
@@ -595,10 +1280,10 @@ function wspBtn(it, cuo){
     it.gb ? `Capacidad: ${it.gb}` : '',
     `Condición: ${cond}`,
     it.bat ? `Batería: ${it.bat}` : '',
-    it.color ? `Colores: ${it.color}` : '',
-    'Forma de pago: financiación con DNI',
-    cuo ? `Cuotas: ${cuo.n} cuotas de USD ${Math.ceil(cuo.usd).toLocaleString('es-AR')}` : '',
-    cuo ? `En pesos: aprox. ${fmtARS(cuo.ars).replace('$ ','$')} por cuota` : ''
+    lineaColor(it),
+    MODOS[S.modo].pago ? 'Forma de pago: ' + MODOS[S.modo].pago : '',
+    ...preciosContado(it, cuo),
+    cuo ? 'Cuotas: ' + (cuo.n === 1 ? '1 pago de $' : cuo.n + ' cuotas de $') + Math.round(cuo.ars).toLocaleString('es-AR') : ''
   ].filter(Boolean);
   const txt = `Hola, me interesa este modelo:\n\n${lineas.join('\n')}`;
   return `<a class="wsp-btn" data-track="${esc([it.modelo, it.gb, '(' + it.cond + ')'].filter(Boolean).join(' '))}" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(txt)}" aria-label="Contactanos por ${esc(it.modelo)} ${esc(it.gb)} por WhatsApp">${WSP_ICON}<span>Consultar</span></a>`;
@@ -609,7 +1294,9 @@ function renderList(){
   const list = S.items.filter(it => enCat(it)
     && (S.cond === 'Todos' || it.cond === S.cond)
     && (!q || norm([it.modelo, it.gb, it.color, it.cond, it.bat].join(' ')).includes(q))
-    && (!tope || cuotas(it.precio).some(enTope)));
+    && (!tope || cuotas(it.precio, it).some(enTope))
+    && (!S.gen || genDe(it) === S.gen));
+  if (S.orden !== 'rec') list.sort((a, b) => (precioUSD(a) - precioUSD(b)) * (S.orden === 'asc' ? 1 : -1));
 
   const thead = `<div class="thead"><span>Equipo</span>${CONFIG.PLANES.map(p => `<span>${p.n} cuotas</span>`).join('')}</div>`;
   // En "Todos" se agrupa por sección (Sellado, Open Box, Usados, iPad); en cada pestaña, por condición
@@ -625,19 +1312,18 @@ function renderList(){
       g.vars.push(it);
     });
     return `<section class="section">
-      <div class="section-head"><h2>${esc(titulo)}</h2></div>
-      <div class="table">${thead}${groups.map(g =>
-        `<div class="group"><div class="model"><span>${esc(g.modelo)}</span></div>${g.vars.map(varHTML).join('')}</div>`).join('')}</div>
+      <div class="sec-band"><h2>${esc(titulo)}</h2></div>
+      <div class="grilla">${items.map(cardHTML).join('')}</div>
     </section>`;
   }).join('');
 
-  $('#list').innerHTML = html;
+  $('#list').innerHTML = html; if (typeof igualarBarras === 'function') igualarBarras();
   const hint = $('#hint');
   if (hint) hint.textContent = !tope ? '' : list.length
-    ? `Te mostramos los equipos con al menos un plan de hasta ${topeTxt()} por mes. Los planes que superan ese monto se ven atenuados.`
+    ? S.modo === 'contado' ? `Te mostramos los equipos de hasta ${topeTxt()}.` : `Te mostramos los equipos con al menos un plan de hasta ${topeTxt()} por mes. Los planes que superan ese monto se ven atenuados.`
     : '';
   $('#state').innerHTML = list.length ? '' : tope
-    ? `<div class="empty">No hay equipos${S.cat === TODOS ? '' : ' de ' + esc(S.cat)} con cuotas de hasta ${esc(topeTxt())} por mes. Probá con un monto mayor o revisá otra categoría.</div>`
+    ? `<div class="empty">No hay equipos${S.cat === TODOS ? '' : ' de ' + esc(S.cat)} ${S.modo === 'contado' ? 'de hasta ' + esc(topeTxt()) : 'con cuotas de hasta ' + esc(topeTxt()) + ' por mes'}. Probá con un monto mayor o revisá otra categoría.</div>`
     : `<div class="empty">No encontramos equipos para “${esc(S.q)}”. Probá con otro modelo o capacidad.</div>`;
 }
 
@@ -646,8 +1332,12 @@ function renderFooter(){
   const fuente = d.fuente === 'rosario' ? 'la cotización del dólar blue en Rosario (precio de venta, InfoDolar)'
     : d.fuente === 'blue' ? 'la cotización del dólar blue (precio de venta)' : 'una cotización de referencia';
   $('#foot').innerHTML = `<h3>Condiciones</h3>
-    <p>Financiación exclusiva con DNI en 3, 6 y 12 cuotas, sujeta a aprobación.</p>
-    <p>Las cuotas se expresan en dólares. El equivalente en pesos es estimado según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirma al momento de la operación.</p>
+    ${S.modo === 'dni' ? `<p>Financiación con DNI en 3, 6 y 12 cuotas, sujeta a aprobación.</p>
+    <p>Las cuotas se expresan en dólares. El equivalente en pesos es estimado según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirma al momento de la operación.</p>`
+    : S.modo === 'tarjeta' ? `<p>Pago con tarjeta de crédito en 1, 3, 6, 9, 12, 18 y 24 cuotas.</p>
+    <p>Los valores en pesos se calculan según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirman al momento de la operación.</p>`
+    : `<p>Precios de contado en dólares. Cada equipo muestra también el valor con tarjeta de crédito y con DNI; tocá «Ver todas las formas de pago» para ver el detalle.</p>
+    <p>El equivalente en pesos es estimado según ${fuente}${d.hora ? ', actualizada a las ' + d.hora + ' hs' : ''}, y se confirma al momento de la operación.</p>`}
     <p>Precios y disponibilidad sujetos a cambios sin previo aviso. Oficina en Rosario Zona Centro, Santa Fe.</p>
     <p>Horarios de atención: lunes a viernes de 9:00 hs a 18:00 hs · sábados y feriados de 9:00 hs a 13:00 hs.</p>
     <details class="byc"><summary>Bases y condiciones</summary>
@@ -655,34 +1345,177 @@ function renderFooter(){
       <p>Este sitio pertenece a ${esc(CONFIG.NOMBRE)}, con oficina en Rosario Zona Centro, Santa Fe. La atención y la coordinación de cada compra se hacen por WhatsApp.</p>
       <h4>2. Catálogo y precios</h4>
       <p>El sitio muestra el stock disponible y valores de referencia. No se realizan ventas ni cobros a través de esta página: toda operación se confirma por WhatsApp y se concreta en forma presencial al retirar el equipo. Los precios están expresados en dólares estadounidenses; el equivalente en pesos es estimado según la cotización del dólar blue en Rosario (precio de venta) y se confirma al momento de la operación. Precios y stock pueden cambiar sin previo aviso.</p>
-      <h4>3. Financiación con DNI</h4>
-      <p>Planes de 3, 6 y 12 cuotas, sujetos a evaluación y aprobación crediticia. Ofrecer el plan no implica una aprobación garantizada. La primera cuota se abona al retirar el equipo. El valor exacto de cada cuota y las condiciones del plan se informan antes de confirmar la operación.</p>
+      <h4>3. Formas de pago</h4>
+      <p>Efectivo (pesos o dólares), transferencia, tarjeta de crédito y planes de pago. Las condiciones de cada forma de pago se informan antes de confirmar la operación.</p>
       <h4>4. Retiro de equipos</h4>
       <p>Los equipos se retiran con cita previa coordinada por WhatsApp, dentro del horario de atención (lunes a viernes de 9:00 hs a 18:00 hs; sábados y feriados de 9:00 hs a 13:00 hs). Al momento del retiro se verifica la identidad del comprador con su DNI.</p>
       <h4>5. Garantía</h4>
       <p>Equipos nuevos sellados: 1 año de garantía oficial. Open box: 1 año de garantía. Usados: 3 meses de garantía. La garantía no cubre daños por golpes, humedad, mal uso o reparaciones de terceros.</p>
       <h4>6. Datos personales</h4>
-      <p>Este sitio no solicita datos personales; solo registra estadísticas anónimas de visitas y consultas. Los datos que el cliente comparte por WhatsApp (por ejemplo, su DNI para evaluar la financiación) se usan solo para gestionar su consulta y su compra, y no se comparten con terceros con fines comerciales.</p>
+      <p>Este sitio no solicita datos personales; solo registra estadísticas anónimas de visitas y consultas. Los datos que el cliente comparte por WhatsApp se usan solo para gestionar su consulta y su compra, y no se comparten con terceros con fines comerciales.</p>
       <h4>7. Marcas</h4>
-      <p>iPhone, iPad y Apple son marcas de Apple Inc. ${esc(CONFIG.NOMBRE)} es un revendedor independiente y no está afiliado a Apple Inc.</p>
+      <p>iPhone, iPad, Mac y Apple son marcas de Apple Inc.; Samsung y Xiaomi, de sus respectivos titulares. ${esc(CONFIG.NOMBRE)} es un revendedor independiente y no está afiliado a Apple Inc.</p>
     </details>`;
 }
 
+function cambiarModo(m){
+  S.modo = MODOS[m] ? m : 'contado'; S.tope = ''; S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD';
+  aplicarModo(); if (S.items.length) renderAll();
+}
+window.addEventListener('hashchange', () => cambiarModo(modoDesdeURL()));
+function igualarBarras(){
+  const hs = [...document.querySelectorAll('.sec-band h2')]; if (!hs.length) return;
+  document.documentElement.style.setProperty('--secw', 'auto');
+  const w = Math.max(...hs.map(h => h.getBoundingClientRect().width));
+  document.documentElement.style.setProperty('--secw', Math.ceil(w) + 'px');
+}
+function medirBarra(){ const b = document.getElementById('bar'); if (b) document.documentElement.style.setProperty('--barh', b.offsetHeight + 'px'); }
+addEventListener('resize', medirBarra);
+/* ---------- Comparador ---------- */
+function itemsComp(){ return S.comp.map(k => S.items.find(it => claveIt(it) === k)).filter(Boolean); }
+function pintarComp(){
+  const its = itemsComp(); S.comp = its.map(claveIt);
+  const bar = $('#compbar'); bar.hidden = !its.length;
+  $('#compTxt').textContent = its.length === 1 ? 'Elegí otro equipo para comparar' : its.length + ' equipos elegidos';
+  $('#compVer').disabled = its.length < 2;
+}
+/* Características principales para el comparador (del más específico al más general) */
+const SPECS = [
+  // [patrón, pantalla, chip, cámaras, batería/autonomía, destacado]
+  [/iphone 18 pro max/, '6,9" OLED 120 Hz, siempre activa', 'A20 Pro', 'Triple 48 MP · zoom 4x (8x calidad óptica)', 'Hasta 45 h de video', 'Aluminio, Wi‑Fi 7, solo eSIM'],
+  [/iphone 18 pro/, '6,3" OLED 120 Hz, siempre activa', 'A20 Pro', 'Triple 48 MP · zoom 4x (8x calidad óptica)', 'Hasta 36 h de video', 'Aluminio, Wi‑Fi 7, solo eSIM'],
+  [/iphone 17 pro max/, '6,9" OLED 120 Hz, siempre activa', 'A19 Pro', 'Triple 48 MP · zoom 4x (8x calidad óptica)', 'La mayor batería de la línea 17', 'Aluminio, cámara frontal 18 MP'],
+  [/iphone 17 pro/, '6,3" OLED 120 Hz, siempre activa', 'A19 Pro', 'Triple 48 MP · zoom 4x (8x calidad óptica)', 'Mejor autonomía que el 16 Pro', 'Aluminio, cámara frontal 18 MP'],
+  [/iphone 17 ?e\b/, '6,1" OLED', 'A19', '48 MP', 'Hasta 26 h de video', 'MagSafe'],
+  [/iphone air/, '6,5" OLED 120 Hz', 'A19 Pro', '48 MP', 'Todo el día', 'El iPhone más delgado (5,6 mm)'],
+  [/iphone 17\b/, '6,3" OLED 120 Hz, siempre activa', 'A19', 'Doble 48 MP', 'Mejor autonomía que el 16', 'Cámara frontal 18 MP'],
+  [/iphone 16 pro max/, '6,9" OLED 120 Hz, siempre activa', 'A18 Pro', 'Triple 48 MP · zoom 5x', 'La mayor batería de la línea 16', 'Titanio, Control de Cámara'],
+  [/iphone 16 pro/, '6,3" OLED 120 Hz, siempre activa', 'A18 Pro', 'Triple 48 MP · zoom 5x', 'Todo el día', 'Titanio, Control de Cámara'],
+  [/iphone 16 ?e\b/, '6,1" OLED', 'A18', '48 MP', 'Todo el día', 'Botón de Acción, USB‑C'],
+  [/iphone 16 plus/, '6,7" OLED', 'A18', 'Doble 48 MP', 'Gran autonomía', 'Control de Cámara, Botón de Acción'],
+  [/iphone 16\b/, '6,1" OLED', 'A18', 'Doble 48 MP', 'Todo el día', 'Control de Cámara, Botón de Acción'],
+  [/iphone 15 pro max/, '6,7" OLED 120 Hz, siempre activa', 'A17 Pro', 'Triple 48 MP · zoom 5x', 'Todo el día', 'Titanio, Botón de Acción, USB‑C'],
+  [/iphone 15 pro/, '6,1" OLED 120 Hz, siempre activa', 'A17 Pro', 'Triple 48 MP · zoom 3x', 'Todo el día', 'Titanio, Botón de Acción, USB‑C'],
+  [/iphone 15 plus/, '6,7" OLED', 'A16 Bionic', 'Doble 48 MP', 'Gran autonomía', 'Dynamic Island, USB‑C'],
+  [/iphone 15\b/, '6,1" OLED', 'A16 Bionic', 'Doble 48 MP', 'Todo el día', 'Dynamic Island, USB‑C'],
+  [/iphone 14 pro max/, '6,7" OLED 120 Hz, siempre activa', 'A16 Bionic', 'Triple 48 MP · zoom 3x', 'Todo el día', 'Dynamic Island'],
+  [/iphone 14 pro/, '6,1" OLED 120 Hz, siempre activa', 'A16 Bionic', 'Triple 48 MP · zoom 3x', 'Todo el día', 'Dynamic Island'],
+  [/iphone 14 plus/, '6,7" OLED', 'A15 Bionic', 'Doble 12 MP', 'Gran autonomía', 'Detección de choques'],
+  [/iphone 14\b/, '6,1" OLED', 'A15 Bionic', 'Doble 12 MP', 'Todo el día', 'Detección de choques'],
+  [/iphone 13 pro max/, '6,7" OLED 120 Hz', 'A15 Bionic', 'Triple 12 MP · zoom 3x', 'Todo el día', 'ProMotion'],
+  [/iphone 13 pro/, '6,1" OLED 120 Hz', 'A15 Bionic', 'Triple 12 MP · zoom 3x', 'Todo el día', 'ProMotion'],
+  [/iphone 13 mini/, '5,4" OLED', 'A15 Bionic', 'Doble 12 MP', 'Todo el día', 'Compacto'],
+  [/iphone 13\b/, '6,1" OLED', 'A15 Bionic', 'Doble 12 MP', 'Todo el día', '5G'],
+  [/iphone 12 pro max/, '6,7" OLED', 'A14 Bionic', 'Triple 12 MP · LiDAR', 'Todo el día', 'MagSafe, 5G'],
+  [/iphone 12 pro/, '6,1" OLED', 'A14 Bionic', 'Triple 12 MP · LiDAR', 'Todo el día', 'MagSafe, 5G'],
+  [/iphone 12 mini/, '5,4" OLED', 'A14 Bionic', 'Doble 12 MP', 'Todo el día', 'Compacto, MagSafe, 5G'],
+  [/iphone 12\b/, '6,1" OLED', 'A14 Bionic', 'Doble 12 MP', 'Todo el día', 'MagSafe, 5G'],
+  [/iphone 11 pro max/, '6,5" OLED', 'A13 Bionic', 'Triple 12 MP', 'Todo el día', 'Face ID'],
+  [/iphone 11 pro/, '5,8" OLED', 'A13 Bionic', 'Triple 12 MP', 'Todo el día', 'Face ID'],
+  [/iphone 11\b/, '6,1" LCD', 'A13 Bionic', 'Doble 12 MP', 'Todo el día', 'Face ID'],
+  [/iphone se ?3/, '4,7" LCD', 'A15 Bionic', '12 MP', '—', 'Touch ID, 5G'],
+  [/iphone se ?2/, '4,7" LCD', 'A13 Bionic', '12 MP', '—', 'Touch ID'],
+  [/ipad .*m5 pro|ipad pro .*m5/, 'Ultra Retina XDR (OLED)', 'M5', '12 MP', 'Hasta 10 h', 'Compatible con Apple Pencil Pro'],
+  [/ipad air .*m3/, 'Liquid Retina', 'M3', '12 MP', 'Hasta 10 h', 'Compatible con Apple Pencil Pro'],
+  [/ipad mini .*a17|ipad mini 7/, '8,3" Liquid Retina', 'A17 Pro', '12 MP', 'Hasta 10 h', 'Compatible con Apple Pencil Pro'],
+  [/ipad 11|ipad .*a16/, '11" Liquid Retina', 'A16', '12 MP', 'Hasta 10 h', 'Touch ID'],
+  [/ipad 9/, '10,2" Retina', 'A13 Bionic', '8 MP', 'Hasta 10 h', 'Touch ID, botón de inicio'],
+  [/macbook pro .*m5/, '14" Liquid Retina XDR', 'M5', '—', 'Hasta 24 h', 'Para trabajo profesional'],
+  [/macbook air .*m5/, '13,6" Liquid Retina', 'M5', '—', 'Todo el día', 'Liviana, sin ventilador, MagSafe'],
+  [/macbook neo/, '13" Liquid Retina', 'A18 Pro', '—', 'Todo el día', 'La Mac más accesible, 2 USB‑C'],
+  [/watch ultra 2/, '49 mm, siempre activa', 'S9', '—', 'Hasta 36 h', 'Titanio, ideal deporte y aventura'],
+  [/watch ultra/, '49 mm, siempre activa', 'S8', '—', 'Hasta 36 h', 'Titanio, ideal deporte y aventura'],
+  [/watch series 11/, 'Siempre activa, más brillo', 'S10', '—', 'Hasta 24 h', 'ECG, oxígeno en sangre'],
+  [/watch series 10/, 'OLED gran angular, siempre activa', 'S10', '—', 'Hasta 18 h', 'El más delgado, ECG'],
+  [/watch series 9/, 'Siempre activa', 'S9', '—', 'Hasta 18 h', 'Doble toque, ECG'],
+  [/watch se/, 'Retina', 'S10', '—', 'Hasta 18 h', 'Detección de caídas y choques'],
+  [/airpods 4 ?- ?anc|airpods 4 anc/, '—', 'H2', '—', '—', 'Cancelación activa de ruido, USB‑C'],
+  [/airpods 4/, '—', 'H2', '—', '—', 'Audio espacial, USB‑C'],
+  [/airpods (3 pro|pro 3)/, '—', 'H2', '—', '—', 'Cancelación de ruido, sensor de ritmo cardíaco'],
+  [/airpods (2 pro|pro 2)/, '—', 'H2', '—', '—', 'Cancelación activa de ruido, modo adaptativo'],
+  [/galaxy s25 ultra|s25 ultra/, '6,9" AMOLED 120 Hz', 'Snapdragon 8 Elite', '200 MP', 'Todo el día', 'S Pen incluido'],
+  [/galaxy s22 ultra/, '6,8" AMOLED 120 Hz', 'Snapdragon 8 Gen 1', '108 MP', 'Todo el día', 'S Pen incluido'],
+  [/galaxy s23 fe/, '6,4" AMOLED 120 Hz', '—', '50 MP', 'Todo el día', '—'],
+  [/galaxy s23\b/, '6,1" AMOLED 120 Hz', 'Snapdragon 8 Gen 2', '50 MP', 'Todo el día', 'Compacto'],
+];
+function specsDe(it){
+  const t = norm(it.modelo + ' ' + (it.cat === 'iPad' && !/ipad/i.test(it.modelo) ? 'ipad' : ''));
+  const r = SPECS.find(([re]) => re.test(t));
+  return r ? {pantalla: r[1], chip: r[2], camara: r[3], bateria: r[4], extra: r[5]} : null;
+}
+function abrirComp(){
+  const its = itemsComp(); if (its.length < 2) return;
+  const sp = its.map(specsDe);
+  const filaSpec = (lab, k) => sp.some(x => x && x[k] && x[k] !== '—') ? `<tr class="sp"><th>${lab}</th>${sp.map(x => `<td>${esc(x && x[k] && x[k] !== '—' ? x[k] : '—')}</td>`).join('')}</tr>` : '';
+  const fila = (lab, f) => `<tr><th>${lab}</th>${its.map(it => `<td>${f(it)}</td>`).join('')}</tr>`;
+  const pr = it => { const cs = cuotas(it.precio, it);
+    if (S.modo === 'tarjeta' && cs.length > 1) return cs.map(x => `${x.n === 1 ? '1 pago' : x.n + ' cuotas'}: $${Math.round(x.ars).toLocaleString('es-AR')}`).join('<br>');
+    const c = cs[0]; return c.soloArs ? '$' + Math.round(c.ars).toLocaleString('es-AR') : 'USD ' + Math.ceil(c.usd).toLocaleString('es-AR') + `<small>≈ ${fmtARS(c.ars).replace('$ ','$')}</small>`; };
+  $('#compTabla').innerHTML = `<div class="tabla-w"><table><thead><tr><th></th>${its.map(it => `<th>${esc(it.modelo)}</th>`).join('')}</tr></thead><tbody>
+    ${fila('Precio', pr)}${fila('Capacidad', it => esc(it.gb || '—'))}${fila('Condición', it => esc({'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond))}
+    ${fila('Batería', it => esc(it.bat || (it.cond === 'Usado' ? '—' : 'Nueva')))}${fila('Colores', it => it.color ? colorChips(it.color) : '—')}
+    ${filaSpec('Pantalla', 'pantalla')}${filaSpec('Chip', 'chip')}${filaSpec('Cámaras', 'camara')}${filaSpec('Autonomía', 'bateria')}${filaSpec('Destacado', 'extra')}
+    ${fila('', it => { const cs = cuotas(it.precio, it), el = cs.find(x => x.n === S.sel[claveIt(it)]) || cs.find(x => x.n === 12) || cs[cs.length - 1];
+      return S.modo === 'tarjeta' && cs.length > 1 && !el ? `<button type="button" class="wsp-btn pc-need" data-need="${esc(claveIt(it))}">${WSP_ICON}<span>Elegir cuotas</span></button>`
+        : wspBtn(it, S.modo === 'tarjeta' ? el : null).replace('<span>Contactanos</span>', '<span>Consultar</span>'); })}</tbody></table></div>`;
+  $('#modal').hidden = false; document.body.style.overflow = 'hidden';
+}
+function cerrarComp(){ $('#modal').hidden = true; document.body.style.overflow = ''; }
+document.addEventListener('change', e => {
+  const c = e.target.closest('[data-comp]'); if (!c) return;
+  const k = c.dataset.comp;
+  if (c.checked){ if (S.comp.length >= 3){ c.checked = false; alert('Podés comparar hasta 3 equipos.'); return; } S.comp.push(k); }
+  else S.comp = S.comp.filter(x => x !== k);
+  c.closest('.pc').classList.toggle('comp', c.checked); pintarComp();
+});
+document.addEventListener('DOMContentLoaded', () => {});
+function iniciarFlotantes(){
+  $('#compVer').onclick = abrirComp; $('#compBorrar').onclick = () => { S.comp = []; pintarComp(); renderList(); };
+  $('#modalX').onclick = cerrarComp; $('#modal').addEventListener('click', e => { if (e.target.id === 'modal') cerrarComp(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') cerrarComp(); });
+  (() => { const f = $('#fabWsp'); let pend = false;
+    const chk = () => { pend = false; const r = f.getBoundingClientRect(), m = 8;
+      const tapa = [...document.querySelectorAll('.pc-w, .fp-btn, .wsp-btn:not(.fab-wsp)')].some(b => { const q = b.getBoundingClientRect();
+        return q.width && q.right > r.left - m && q.left < r.right + m && q.bottom > r.top - m && q.top < r.bottom + m; });
+      f.classList.toggle('fab-off', tapa); };
+    const pedir = () => { if (!pend) { pend = true; requestAnimationFrame(chk); } };
+    addEventListener('scroll', pedir, {passive:true}); addEventListener('resize', pedir); new MutationObserver(pedir).observe(document.body, {childList:true, subtree:true}); })();
+  $('#fabWsp').href = `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent('Hola! Estoy viendo el catálogo y quería hacer una consulta.')}`;
+  $('#fabTop').onclick = () => scrollTo({top: 0, behavior: 'smooth'});
+  addEventListener('scroll', () => { $('#fabTop').hidden = scrollY < 900; }, {passive: true});
+}
+iniciarFlotantes();
 function renderAll(){
   $('#bar').hidden = false;
-  renderCats(); renderFilters(); renderBudget(); renderList(); renderFooter();
+  renderCats(); renderFilters(); renderBudget(); renderList(); renderFooter(); medirBarra(); igualarBarras(); pintarComp();
 }
 
+function repintarCard(k){
+  const it = S.items.find(x => claveIt(x) === k); if (!it) return;
+  const art = [...document.querySelectorAll('article[data-fpcard]')].find(a => a.dataset.fpcard === k); if (!art) return;
+  const tmp = document.createElement('div'); tmp.innerHTML = cardHTML(it); art.replaceWith(tmp.firstElementChild);
+}
+function cardDe(k){ const b = [...document.querySelectorAll('[data-cuo]')].find(x => x.dataset.cuo === k); return b ? b.closest('article') : null; }
 document.addEventListener('click', e => {
-  const pl = e.target.closest('[data-pl]');
-  if (pl){ S.sel[pl.dataset.pl] = +pl.dataset.n; renderList(); return; }
+  const co = e.target.closest('[data-col]');
+  if (co){ S.colores = S.colores || {}; const k = co.dataset.col;
+    S.colores[k] = S.colores[k] === co.dataset.c ? '' : co.dataset.c; repintarCard(k);
+    if (typeof window.FP_REPINTAR === 'function') window.FP_REPINTAR(); return; }
+  const cu = e.target.closest('[data-cuo]');
+  if (cu){ S.sel[cu.dataset.cuo] = +cu.dataset.n; repintarCard(cu.dataset.cuo); if (!$('#modal').hidden) abrirComp(); return; }
   const nd = e.target.closest('[data-need]');
-  if (nd){ const v = nd.closest('.var'), p = v.querySelector('.plans');
-    p.classList.remove('alerta'); void p.offsetWidth; p.classList.add('alerta');
-    if (!v.querySelector('.aviso-cuotas')) p.insertAdjacentHTML('afterend', '<div class="aviso-cuotas">Elegí la cantidad de cuotas para consultar</div>');
+  if (nd){ const k = nd.dataset.need; if (!$('#modal').hidden) cerrarComp();
+    const art = cardDe(k); if (!art) return;
+    art.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const t = art.querySelector('.pc-t'); t.classList.remove('alerta'); void t.offsetWidth; t.classList.add('alerta');
+    if (!art.querySelector('.pc-aviso')) t.insertAdjacentHTML('afterend', '<div class="pc-aviso">Elegí la cantidad de cuotas para consultar</div>');
     return; }
+  const md = e.target.closest('[data-modo]');
+  if (md){ if (md.dataset.modo !== S.modo) history.replaceState(null, '', '#' + md.dataset.modo); cambiarModo(md.dataset.modo); return; }
   const cat = e.target.closest('[data-cat]');
-  if (cat){ S.cat = cat.dataset.cat; S.cond = 'Todos'; S.q = ''; renderAll(); return; }
+  if (cat){ S.cat = cat.dataset.cat; S.cond = 'Todos'; S.q = ''; S.gen = ''; renderAll(); return; }
+  const gn = e.target.closest('[data-gen]');
+  if (gn){ S.gen = gn.dataset.gen; renderFilters(); renderList(); medirBarra(); return; }
   const cond = e.target.closest('[data-cond]');
   if (cond){ S.cond = cond.dataset.cond; renderFilters(); renderList(); return; }
   const mon = e.target.closest('[data-moneda]');
@@ -719,7 +1552,7 @@ function mostrar(items){
   const DTO = +CONFIG.DESCUENTO_USD || 0;
   if (DTO > 0) items = items.map(it => { if (!(it.precio > 0)) return it;
     const menos = it.moneda === 'ARS' ? Math.ceil(DTO * ((S.dolar && S.dolar.valor) || CONFIG.DOLAR_RESPALDO) / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS : DTO;
-    return it.precio > menos ? {...it, precio: it.precio - menos} : it; });
+    return it.precio > menos ? {...it, precio: it.precio - menos, precioAntes: it.precio} : it; });
   items = items.map(it => it.cat === 'iPhone' && CONFIG.PESTANAS_IPHONE[it.cond] ? {...it, cat: CONFIG.PESTANAS_IPHONE[it.cond]} : it);
   if (!items.length){ showLoader('No se encontraron equipos publicables en la planilla. Revisá que tenga modelo y precio.'); return; }
   S.items = items; $('#state').innerHTML = ''; renderDolar(); renderActualizado(); renderAll();
@@ -765,6 +1598,7 @@ async function desdeExcel(){
   return parseWorkbook(XLSX.read(await r.arrayBuffer(), {type:'array'}));
 }
 
+S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplicarModo();
 (async () => {
   $('#state').innerHTML = '<div class="empty">Cargando equipos…</div>';
   try{ if (!sessionStorage.getItem('farroyo_visita')){ sessionStorage.setItem('farroyo_visita', '1'); track('visita'); } }catch(e){}
@@ -784,6 +1618,444 @@ async function desdeExcel(){
     showLoader(`No se pudo cargar el stock. Revisá la URL de Apps Script en CONFIG o subí <b>${esc(CONFIG.ARCHIVO_EXCEL)}</b> junto a esta página.`); }
 })();
 
+</script>
+<div class="promo" id="promo" hidden role="dialog" aria-modal="true" aria-labelledby="promoT">
+  <div class="promo-box">
+    <button class="promo-x" id="promoX" aria-label="Cerrar"><span class="promo-xi">×</span><span class="promo-xl">Cerrar</span></button>
+    <div class="promo-top"><img id="promoImg" alt="" hidden><svg class="promo-med" id="promoMed" hidden viewBox="0 0 96 120" aria-hidden="true"><path d="M30 2h14l10 40H40z" fill="#1565D8"/><path d="M66 2H52L42 42h14z" fill="#8FB8F0"/><circle cx="48" cy="76" r="38" fill="#B8861B"/><circle cx="48" cy="76" r="34" fill="url(#mg)"/><circle cx="48" cy="76" r="26" fill="none" stroke="#FFF3C4" stroke-opacity=".55" stroke-width="2"/><text x="48" y="90" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-weight="800" font-size="40" fill="#7A5608">1</text><defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE38A"/><stop offset=".5" stop-color="#F2C23C"/><stop offset="1" stop-color="#D19A1E"/></linearGradient></defs></svg><span class="promo-et" id="promoEt"></span><h2 id="promoT"></h2><img class="promo-memo" id="promoMemo" alt="" hidden><div class="promo-sub" id="promoSub"></div><div class="promo-ops" id="promoOps"></div></div>
+    <div class="promo-bot"><p id="promoTx"></p><div class="promo-ind" id="promoInd"></div><a class="promo-cta" id="promoBtn"></a></div>
+  </div>
+</div>
+<script>
+(function(){
+  const P = CONFIG.PROMO; if (!P || !P.ACTIVO) return;
+  if (P.FRANJA) {
+    const f = document.createElement('div'); f.className = 'franja';
+    f.innerHTML = `<b></b>${P.SUBTITULO ? '<span></span>' : ''}`;
+    f.querySelector('b').textContent = P.TITULO || ''; if (P.SUBTITULO) f.querySelector('span').textContent = P.SUBTITULO;
+    document.body.prepend(f); return;
+  }
+  const K = 'farroyo_promo_visto';
+  try { if (P.UNA_VEZ_POR_VISITA && sessionStorage.getItem(K)) return; } catch(e){}
+  const el = document.getElementById('promo'), g = id => document.getElementById(id);
+  if (P.TEMA) el.classList.add(P.TEMA);
+  g('promoEt').textContent = P.ETIQUETA || ''; g('promoEt').hidden = !P.ETIQUETA;
+  g('promoMed').toggleAttribute('hidden', !P.MEDALLA);
+  if (P.MEMOJI){ g('promoMemo').src = P.MEMOJI; g('promoMemo').hidden = false; }
+  g('promoT').textContent = P.TITULO || ''; g('promoSub').textContent = P.SUBTITULO || ''; g('promoSub').hidden = !P.SUBTITULO; g('promoTx').textContent = P.TEXTO || '';
+  if (P.IMAGEN) { g('promoImg').src = P.IMAGEN; g('promoImg').hidden = false; }
+  const ops = g('promoOps');
+  ops.innerHTML = (P.OPCIONES || []).map((o, i) => `<a href="${o.LINK === '#catalogo' ? '#cats' : o.LINK}" data-op="${i}"></a>`).join('');
+  ops.querySelectorAll('a').forEach(a => { const o = P.OPCIONES[+a.dataset.op]; a.textContent = o.TEXTO; });
+  ops.hidden = !(P.OPCIONES || []).length;
+  g('promoInd').textContent = P.INDICACION || ''; g('promoInd').hidden = !P.INDICACION;
+  const b = g('promoBtn'); b.textContent = P.BOTON || ''; b.hidden = !P.BOTON;
+  if (P.BOTON && P.INDICACION) g('promoInd').style.marginBottom = '14px';
+  if (!P.TEXTO && !P.INDICACION && !P.BOTON) document.querySelector('.promo-bot').classList.add('vacio');
+  if (P.LINK) b.href = P.LINK;
+  else { b.href = 'https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(P.MENSAJE_WSP || ''); b.target = '_blank'; b.rel = 'noopener'; }
+  const cerrar = () => { el.classList.remove('on'); document.body.style.overflow = ''; setTimeout(() => el.hidden = true, 250);
+    try { sessionStorage.setItem(K, '1'); } catch(e){} };
+  b.addEventListener('click', () => { try { sessionStorage.setItem(K, '1'); } catch(e){} });
+  g('promoX').onclick = cerrar; if (P.OBLIGATORIO) g('promoX').hidden = true;
+  ops.addEventListener('click', e => { const a = e.target.closest('a'); if (!a) return;
+    try { sessionStorage.setItem(K, '1'); } catch(er){}
+    if (P.OPCIONES[+a.dataset.op].LINK === '#catalogo') { e.preventDefault(); cerrar();
+      setTimeout(() => { const c = document.getElementById('cats'); if (c) window.scrollTo({ top: c.getBoundingClientRect().top + scrollY - 10, behavior: 'smooth' }); }, 260); } });
+  el.addEventListener('click', e => { if (e.target === el && !P.OBLIGATORIO) cerrar(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !el.hidden && !P.OBLIGATORIO) cerrar(); });
+  setTimeout(() => { el.hidden = false; document.body.style.overflow = 'hidden'; requestAnimationFrame(() => el.classList.add('on')); }, 700);
+})();
+</script>
+
+<!-- ===== Ficha "Formas de pago": todas las opciones de un equipo en un mismo lugar ===== -->
+<style>
+.fp-btn{display:block;width:100%;margin-top:4px;border:0;background:none;color:var(--azul);font:inherit;font-weight:700;font-size:12.5px;padding:8px 2px 2px;cursor:pointer}
+.fp-btn:hover{text-decoration:underline}
+@media (max-width:480px){.fp-btn{font-size:11.5px;letter-spacing:-.1px;white-space:nowrap}}
+.fp{position:fixed;inset:0;z-index:35;background:rgba(11,18,32,.55);display:flex;align-items:flex-end;justify-content:center}
+.fp[hidden]{display:none}
+.fp-box{position:relative;background:#fff;width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:22px 18px 18px;overscroll-behavior:contain}
+@media (min-width:720px){.fp{align-items:center}.fp-box{border-radius:20px;padding:26px 26px 22px}}
+.fp-x{position:absolute;top:12px;right:12px;border:0;background:#F2F5F9;width:34px;height:34px;border-radius:50%;font-size:22px;line-height:34px;color:var(--navy);cursor:pointer}
+.fp-h{text-align:center;padding:4px 28px 0}
+.fp-mod{font-weight:800;font-size:17px;color:var(--navy);line-height:1.25}
+.fp-det{font-size:13px;color:var(--gris);margin-top:2px}
+.fp-pre{margin-top:14px;font-size:12.5px;color:var(--gris)}
+.fp-big{font-size:38px;font-weight:800;color:var(--navy);letter-spacing:-.5px;line-height:1.1}
+.fp-big small{font-size:17px;font-weight:700;margin-right:5px}
+.fp-sec{margin-top:22px}
+.fp-st{font-weight:800;font-size:15px;color:var(--tinta)}
+.fp-ss{font-size:12.5px;color:var(--gris);margin-top:1px}
+.fp-rows{margin-top:8px;border-top:1px solid var(--linea)}
+.fp-row{display:flex;align-items:center;gap:12px;width:100%;border:0;border-bottom:1px solid var(--linea);background:none;font:inherit;color:inherit;text-align:left;padding:13px 6px;cursor:pointer;border-radius:0}
+.fp-row:hover{background:#F8FAFD}
+.fp-row[aria-checked="true"]{background:var(--celeste);box-shadow:inset 3px 0 0 var(--navy)}
+.fp-row svg{flex:0 0 22px;width:22px;height:22px;color:var(--gris)}
+.fp-row .l{flex:1;font-size:15px}
+.fp-row .v{text-align:right;font-weight:800;font-size:15.5px;color:var(--tinta);white-space:nowrap}
+.fp-row .v small{display:block;font-weight:500;font-size:12.5px;color:var(--gris)}
+.fp-mas{border:0;background:none;color:var(--azul);font:inherit;font-weight:700;font-size:13.5px;padding:10px 6px 0;cursor:pointer}
+.fp-nota{margin-top:16px;font-size:12px;color:var(--gris);text-align:center;line-height:1.5}
+.fp-cols .cpick{justify-content:center}.fp-cols{margin-top:6px}
+.fp-wsp{position:sticky;bottom:0;background:#fff;padding-top:12px;margin-top:6px}
+.fp-wsp a{display:flex;align-items:center;justify-content:center;gap:8px;background:#1FA855;color:#fff;text-decoration:none;font-weight:700;font-size:15.5px;border-radius:12px;padding:14px}
+.fp-wsp .el{font-size:12.5px;color:var(--gris);text-align:center;margin-bottom:8px;min-height:18px}
+</style>
+<div class="fp" id="fp" hidden><div class="fp-box" role="dialog" aria-modal="true" aria-labelledby="fpMod"><button class="fp-x" id="fpX" aria-label="Cerrar">×</button><div id="fpBody"></div></div></div>
+<script>
+(function(){
+  const FP_TARJETA = [ {n:1,r:.15},{n:3,r:.45},{n:6,r:.55},{n:9,r:.75},{n:12,r:.90},{n:18,r:1.05},{n:24,r:1.25} ];   // recargo total (no se muestra)
+  const FP_TARJETA_VISIBLES = [3, 6, 12];          // el resto aparece con "Ver más cuotas"
+  const FP_TRANSFERENCIA = 3;                      // % sobre el efectivo en pesos
+  const FP_PLANES = (typeof CONFIG !== 'undefined' && CONFIG.PLANES) || [ {n:3,f:1.45},{n:6,f:1.84},{n:12,f:2.56} ];
+  const ICO = {
+    usd:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="9" cy="9" r="6"/><circle cx="15.5" cy="15.5" r="5.5"/><path d="M9 6.5v5M15.5 13.5v4"/></svg>',
+    ars:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.4"/><path d="M6 12h.01M18 12h.01"/></svg>',
+    trf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5M4.5 10v8M9 10v8M15 10v8M19.5 10v8M3 20.5h18"/></svg>',
+    tj:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19"/></svg>',
+    dni:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M5.5 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4M14.5 10h4M14.5 13.5h4"/></svg>'
+  };
+  const up = (n, m) => Math.ceil(n / m) * m;
+  const R = (typeof CONFIG !== 'undefined' && CONFIG.REDONDEO_PESOS) || 100;   // mismo redondeo que el resto de la página
+  const p$ = n => '$' + Math.round(n).toLocaleString('es-AR');
+  const u$ = n => 'USD ' + Math.ceil(n).toLocaleString('es-AR');
+  const cl = it => (typeof claveIt === 'function' ? claveIt(it) : JSON.stringify(it));
+  let F = null;   // ficha abierta: {it, ops, sel, mas}
+
+  function opciones(it){
+    const dol = S.dolar.valor, arsBase = it.moneda === 'ARS';
+    const usd = arsBase ? it.precio / dol : it.precio;
+    const efe = arsBase ? it.precio : up(usd * dol, R);
+    const o = { usd, efe, contado: [], tj: [], dni: [] };
+    if (!arsBase) o.contado.push({k:'usd', ico:'usd', l:'Dólares o USDT', v:u$(usd), msg:'Contado en dólares o USDT: ' + u$(usd)});
+    o.contado.push({k:'ars', ico:'ars', l:'Efectivo en pesos', v:p$(efe), msg:'Efectivo en pesos: ' + p$(efe)});
+    const trf = up(efe * (1 + FP_TRANSFERENCIA / 100), R);
+    o.contado.push({k:'trf', ico:'trf', l:'Transferencia', v:p$(trf), msg:'Transferencia: ' + p$(trf)});
+    FP_TARJETA.forEach(p => { const c = up(usd * dol * (1 + p.r) / p.n, R);
+      o.tj.push({k:'tj' + p.n, n:p.n, ico:'tj', l:p.n === 1 ? '1 pago de' : p.n + ' cuotas de', v:p$(c), msg:'Tarjeta de crédito: ' + (p.n === 1 ? '1 pago de ' : p.n + ' cuotas de ') + p$(c)}); });
+    FP_PLANES.forEach(p => { const c = usd * p.f / p.n;
+      o.dni.push({k:'dni' + p.n, n:p.n, ico:'dni', l:p.n + ' cuotas de', v:u$(c), ars:up(c * dol, R), sub:'≈ ' + p$(up(c * dol, R)), msg:'Financiación con DNI: ' + p.n + ' cuotas de ' + u$(c) + ' (aprox. ' + p$(up(c * dol, R)) + ' por cuota)'}); });
+    return o;
+  }
+  window.FP_OPCIONES = it => opciones(it);
+  window.FP_REPINTAR = () => { if (!F) return; const bx = document.querySelector('.fp-box'), y = bx.scrollTop; pintar(); bx.scrollTop = y; };
+  if (S.items && S.items.length && typeof renderList === 'function') renderList();
+  const fila = x => `<button type="button" class="fp-row" role="radio" aria-checked="${F.sel === x.k}" data-fpk="${x.k}">${ICO[x.ico]}<span class="l">${x.l}</span><span class="v">${x.v}${x.sub ? '<small>' + x.sub + '</small>' : ''}</span></button>`;
+
+  function wspHref(it, x){
+    const cond = {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond;
+    const l = [`Equipo: ${it.modelo}`, it.gb ? `Capacidad: ${it.gb}` : '', `Condición: ${cond}`, it.bat ? `Batería: ${it.bat}` : '',
+      lineaColor(it), x ? 'Forma de pago: ' + x.msg : ''].filter(Boolean);
+    return `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent('Hola, me interesa este modelo:\n\n' + l.join('\n'))}`;
+  }
+
+  function pintar(){
+    const it = F.it, o = F.o, dol = S.dolar.valor;
+    const det = [it.gb, {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond, it.color && listaColores(it.color).length < 2 ? '\u0000C' : '', it.bat ? 'Batería ' + it.bat : ''].filter(Boolean).map(esc).join(' · ').replace('\u0000C', colorChips(it.color));
+    const colsFicha = listaColores(it.color).length > 1 ? `<div class="fp-cols"><div class="pc-ctx">${colorElegido(it) ? 'Color elegido' : 'Tocá el color que querés'}</div>${colorPick(it)}</div>` : '';
+    const tjVis = o.tj.filter(x => F.mas || FP_TARJETA_VISIBLES.includes(x.n) || F.sel === x.k);
+    const todas = [...o.contado, ...o.tj, ...o.dni], el = todas.find(x => x.k === F.sel);
+    document.getElementById('fpBody').innerHTML = `
+      <div class="fp-h">${typeof fotoColorHTML === 'function' ? fotoColorHTML(it, 'fp-foto') : ''}<div class="fp-mod" id="fpMod">${esc(it.modelo)}</div>${det ? `<div class="fp-det">${det}</div>` : ''}${colsFicha}
+        <div class="fp-pre">Precio de contado</div>
+        <div class="fp-big">${it.moneda === 'ARS' ? p$(o.efe) : '<small>USD</small>' + Math.ceil(o.usd).toLocaleString('es-AR')}</div></div>
+      <div class="fp-sec"><div class="fp-st">Contado</div><div class="fp-rows" role="radiogroup" aria-label="Contado">${o.contado.map(fila).join('')}</div></div>
+      <div class="fp-sec"><div class="fp-st">Con tarjeta de crédito</div><div class="fp-ss">Cuotas fijas en pesos.</div>
+        <div class="fp-rows" role="radiogroup" aria-label="Tarjeta de crédito">${tjVis.map(fila).join('')}</div>
+        ${F.mas ? '' : `<button type="button" class="fp-mas" data-fpmas>Ver más cuotas (1, 9, 18 y 24)</button>`}</div>
+      <div class="fp-sec"><div class="fp-st">Con DNI, sin tarjeta</div><div class="fp-ss">Cuotas fijas en dólares. La primera se paga al retirar.</div>
+        <div class="fp-rows" role="radiogroup" aria-label="Financiación con DNI">${o.dni.map(fila).join('')}</div></div>
+      <div class="fp-nota">Pesos al dólar blue de hoy (${p$(dol)}). Con DNI: sujeto a aprobación.</div>
+      <div class="fp-wsp"><div class="el">${el ? 'Elegiste: ' + esc(el.msg) : 'Tocá la forma de pago que te interesa'}</div>
+        <a href="${wspHref(it, el)}" target="_blank" rel="noopener" data-track="${esc([it.modelo, it.gb, '(' + it.cond + ')'].filter(Boolean).join(' '))}">${typeof WSP_ICON === 'string' ? WSP_ICON : ''}<span>Consultar por WhatsApp</span></a></div>`;
+  }
+
+  function abrir(k){
+    const it = (S.items || []).find(x => cl(x) === k); if (!it || !S.dolar) return;
+    F = { it, o: opciones(it), sel: null, mas: false };
+    pintar(); const m = document.getElementById('fp'); m.hidden = false; document.body.style.overflow = 'hidden';
+    m.querySelector('.fp-box').scrollTop = 0;
+    if (typeof track === 'function') track('formas_pago', [it.modelo, it.gb].filter(Boolean).join(' '));
+  }
+  function cerrar(){ document.getElementById('fp').hidden = true; document.body.style.overflow = ''; F = null; }
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-fp]'); if (b){ abrir(b.dataset.fp); return; }
+    const cd = e.target.closest('[data-fpcard]'); if (cd && !e.target.closest('a,button,input,label')){ abrir(cd.dataset.fpcard); return; }
+    if (!F) return;
+    if (e.target.id === 'fp' || e.target.id === 'fpX'){ cerrar(); return; }
+    const r = e.target.closest('[data-fpk]'); if (r){ F.sel = F.sel === r.dataset.fpk ? null : r.dataset.fpk; const y = document.querySelector('.fp-box').scrollTop; pintar(); document.querySelector('.fp-box').scrollTop = y; return; }
+    if (e.target.closest('[data-fpmas]')){ F.mas = true; const y = document.querySelector('.fp-box').scrollTop; pintar(); document.querySelector('.fp-box').scrollTop = y; }
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && F) cerrar(); });
+})();
+</script>
+<script>
+/* Rediseño: enlaces de WhatsApp con mensaje, botón "Ver equipos" y foto que abre la ficha */
+(function(){
+  const msj = 'Hola! Quería hacer una consulta.';
+  document.querySelectorAll('#topWsp, #heroWsp, .fgrid a[href^="https://wa.me"]').forEach(a => {
+    if (typeof CONFIG !== 'undefined' && CONFIG.WHATSAPP) a.href = 'https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(msj);
+  });
+  const ver = document.getElementById('verEquipos');
+  if (ver) ver.addEventListener('click', e => { const c = document.getElementById('bar'); if (!c) return; e.preventDefault();
+    window.scrollTo({ top: c.getBoundingClientRect().top + scrollY - 4, behavior: 'smooth' }); });
+})();
+</script>
+<!-- ===== Catálogo agrupado por modelo + ficha del modelo (estado → equipo → consultar) ===== -->
+<style>
+.ml-sec{margin:0 0 22px}
+.ml-sec .sec-band{position:static;margin:0 0 10px;justify-content:flex-start}
+.ml-sec .sec-band h2{width:auto;padding-left:16px;padding-right:16px}
+.ml{background:#fff;border:1px solid var(--linea);border-radius:16px;overflow:hidden;box-shadow:var(--sombra,0 1px 2px rgba(16,24,40,.04))}
+.mr{display:grid;grid-template-columns:56px minmax(0,1fr) auto 14px;align-items:center;gap:12px;width:100%;border:0;border-bottom:1px solid var(--linea);background:none;font:inherit;color:inherit;text-align:left;padding:12px 14px;cursor:pointer}
+.ml .mr:last-child{border-bottom:0}
+.mr:hover{background:#F8FAFD}
+.mr.off{opacity:.45}
+.mr-i{width:56px;height:56px;display:flex;align-items:center;justify-content:center}
+.mr-i>div{width:56px;height:56px;margin:0;display:flex;align-items:center;justify-content:center}
+.mr-i img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.mr-i .lu{height:100%}
+.mr-n{font-weight:800;font-size:16px;color:var(--navy);line-height:1.2}
+.mr-c{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.mr-c span{font-size:11px;font-weight:700;color:var(--navy);background:var(--celeste);border-radius:999px;padding:2px 8px;white-space:nowrap}
+.mr-d{display:flex;gap:4px;margin-top:6px;align-items:center;font-size:11.5px;color:var(--gris)}
+.mr-d i{width:11px;height:11px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(11,42,91,.18);display:inline-block}
+.mr-p{text-align:right;white-space:nowrap}
+.mr-p s{display:block;font-size:11.5px;color:var(--gris-2)}
+.mr-p .u{font-size:12px;color:var(--gris);font-weight:600}
+.mr-p .u b{font-size:19px;color:var(--navy);font-weight:800;letter-spacing:-.3px;margin-left:3px}
+.mr-p .a{display:block;font-size:12.5px;font-weight:700;color:var(--tinta);margin-top:1px}
+.mr-p .q{display:block;font-size:11.5px;color:var(--azul);font-weight:600;margin-top:2px}
+.mr-go{color:var(--gris-2);font-size:22px;line-height:1}
+@media (max-width:560px){
+  .mr{grid-template-columns:46px minmax(0,1fr) auto;gap:10px;padding:12px}
+  .mr-i,.mr-i>div{width:46px;height:46px}
+  .mr-go{display:none}
+  .mr-n{font-size:15px}
+  .mr-p .u b{font-size:17px}
+}
+/* Ficha del modelo */
+.ms{position:fixed;inset:0;z-index:34;background:rgba(11,18,32,.55);display:flex;align-items:flex-end;justify-content:center}
+.ms[hidden]{display:none}
+.ms-box{position:relative;background:#fff;width:100%;max-width:620px;max-height:92vh;display:flex;flex-direction:column;border-radius:20px 20px 0 0;overflow:hidden}
+@media (min-width:720px){.ms{align-items:center}.ms-box{border-radius:20px}}
+.ms-sc{overflow:auto;padding:22px 18px 8px;overscroll-behavior:contain}
+@media (min-width:720px){.ms-sc{padding:26px 26px 8px}}
+.ms-x{position:absolute;top:12px;right:12px;z-index:2;border:0;background:#F2F5F9;width:34px;height:34px;border-radius:50%;font-size:22px;line-height:34px;color:var(--navy);cursor:pointer}
+.ms-h{display:flex;gap:16px;align-items:center;padding-right:30px}
+.ms-h .ms-f{width:96px;height:96px;flex:0 0 96px;display:flex;align-items:center;justify-content:center;margin:0}
+.ms-h .ms-f img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.ms-h .ms-f .lu{height:100%}
+.ms-mod{font-weight:800;font-size:21px;color:var(--navy);line-height:1.2}
+.ms-des{font-size:13.5px;color:var(--gris);margin-top:4px}
+.ms-des b{color:var(--navy);font-size:16px}
+.ms-pasos{display:flex;gap:6px;margin:18px 0 4px;font-size:12px;color:var(--gris-2);font-weight:600;align-items:center}
+.ms-pasos span{display:inline-flex;align-items:center;gap:5px}
+.ms-pasos i{font-style:normal;width:18px;height:18px;border-radius:50%;border:1px solid var(--linea);display:inline-flex;align-items:center;justify-content:center;font-size:10.5px}
+.ms-pasos .on{color:var(--navy)}.ms-pasos .on i{background:var(--navy);border-color:var(--navy);color:#fff}
+.ms-pasos em{flex:0 0 14px;height:1px;background:var(--linea)}
+.ms-st{font-weight:800;font-size:16px;color:var(--tinta);margin:18px 0 8px}
+.ms-st small{font-weight:600;color:var(--gris);font-size:14px}
+.ms-es{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.ms-e{border:1.5px solid var(--linea);border-radius:14px;background:#fff;font:inherit;color:inherit;text-align:center;padding:12px 10px;cursor:pointer}
+.ms-e:hover{border-color:var(--azul)}
+.ms-e[aria-checked="true"]{border-color:var(--azul);box-shadow:0 0 0 3px rgba(21,101,216,.12)}
+.ms-e b{display:block;font-size:15px;color:var(--navy)}
+.ms-e span{display:block;font-size:13px;color:var(--tinta);margin-top:3px}
+.ms-e small{display:block;font-size:11.5px;color:var(--gris);margin-top:3px;line-height:1.35}
+.ms-us{border:1px solid var(--linea);border-radius:14px;overflow:hidden}
+.ms-u{display:flex;align-items:center;gap:12px;width:100%;border:0;border-bottom:1px solid var(--linea);background:#fff;font:inherit;color:inherit;text-align:left;padding:12px 14px;cursor:pointer}
+.ms-us>div:last-child .ms-u,.ms-us>.ms-u:last-child{border-bottom:0}
+.ms-u:hover{background:#F8FAFD}
+.ms-u[aria-checked="true"]{background:var(--celeste);box-shadow:inset 3px 0 0 var(--navy)}
+.ms-u .rd{flex:0 0 18px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--gris-2);display:flex;align-items:center;justify-content:center}
+.ms-u[aria-checked="true"] .rd{border-color:var(--navy)}
+.ms-u[aria-checked="true"] .rd::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--navy)}
+.ms-u .l{flex:1;min-width:0}
+.ms-u .l b{display:block;font-size:15px;color:var(--tinta)}
+.ms-u .l span{display:block;font-size:12.5px;color:var(--gris);margin-top:2px}
+.ms-u .l em{font-style:normal;color:#C2410C;font-weight:700}
+.ms-u .v{text-align:right;white-space:nowrap}
+.ms-u .v s{display:block;font-size:11.5px;color:var(--gris-2)}
+.ms-u .v b{display:block;font-size:16px;color:var(--navy)}
+.ms-u .v small{display:block;font-size:12px;color:var(--gris)}
+.ms-col{padding:0 14px 12px 44px;background:var(--celeste);border-bottom:1px solid var(--linea)}
+.ms-col .pc-ctx{font-size:12px;color:var(--gris);margin-bottom:4px}
+.ms-nota{font-size:12px;color:var(--gris);margin:10px 2px 6px;line-height:1.5}
+.ms-bar{border-top:1px solid var(--linea);background:#fff;padding:12px 18px 14px;display:flex;align-items:center;gap:10px}
+@media (min-width:720px){.ms-bar{padding:14px 26px 18px}}
+.ms-bar .t{flex:1;min-width:0;font-size:12.5px;color:var(--gris);line-height:1.3}
+.ms-bar .t b{display:block;font-size:17px;color:var(--navy)}
+.ms-bar .fpb{border:1.5px solid var(--linea);background:#fff;color:var(--navy);font:inherit;font-weight:700;font-size:13.5px;border-radius:12px;padding:11px 12px;cursor:pointer;white-space:nowrap}
+.ms-bar .wsp-btn{border-radius:12px;padding:12px 14px;font-size:14.5px}
+.ms-bar .wsp-btn.dis{background:#B9C3D1;pointer-events:none}
+@media (max-width:420px){.ms-bar{flex-wrap:wrap}.ms-bar .t{flex:1 0 100%}.ms-bar .fpb,.ms-bar .wsp-btn{flex:1;justify-content:center}}
+</style>
+<div class="ms" id="ms" hidden><div class="ms-box" role="dialog" aria-modal="true" aria-labelledby="msMod"><button class="ms-x" id="msX" aria-label="Cerrar">×</button><div class="ms-sc" id="msSc"></div><div class="ms-bar" id="msBar"></div></div></div>
+<script>
+(function(){
+  if (typeof renderList !== 'function') return;
+  const viejo = renderList;
+  const COND_TXT = {'Sellado':'Nuevo','Open box':'Open box','Usado':'Usado'};
+  const COND_DES = {'Sellado':'En caja sellada · 1 año de garantía oficial','Open box':'Caja abierta, sin uso · 1 año de garantía','Usado':'Batería a la vista · 3 meses de garantía'};
+  const famDe = it => /^iPhone/.test(it.cat) ? 'iPhone' : it.cat;
+  const p$ = n => '$' + Math.round(n).toLocaleString('es-AR');
+  const uTxt = n => Math.ceil(n).toLocaleString('es-AR');
+  let G = {};     // modelos de la lista actual
+  let M = null;   // ficha abierta: {key, cond, k}
+
+  function fpo(it){ return (typeof window.FP_OPCIONES === 'function' && S.dolar) ? window.FP_OPCIONES(it) : null; }
+  const esDni = () => S.modo === 'dni';
+  const planesDe = it => { const o = fpo(it); return o ? o.dni : []; };
+  const planMax = it => { const l = planesDe(it); return l[l.length - 1]; };
+  function dniHref(it, x){
+    const cond = {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond;
+    const l = [`Equipo: ${it.modelo}`, it.gb ? `Capacidad: ${it.gb}` : '', `Condición: ${cond}`, it.bat ? `Batería: ${it.bat}` : '', lineaColor(it), x ? x.msg : 'Forma de pago: financiación con DNI'].filter(Boolean);
+    return `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent('Hola, me interesa este modelo:\n\n' + l.join('\n'))}`;
+  }
+  function precioHTML(it, desde){
+    const o = fpo(it); if (!o) return '';
+    if (esDni()){ const d = planMax(it), d0 = planesDe(it)[0]; if (!d) return '';
+      return `<span class="u">${desde ? 'Desde ' : ''}${d.n} x USD<b>${d.v.replace('USD ', '')}</b></span><span class="a">≈ ${p$(d.ars)} por mes</span>`
+        + (d0 && d0 !== d ? `<span class="q">También en ${planesDe(it).slice(0, -1).map(x => x.n).join(' y ')} cuotas</span>` : ''); }
+    const ars = it.moneda === 'ARS';
+    const antes = it.precioAntes ? `<s>${ars ? p$(it.precioAntes) : 'USD ' + uTxt(it.precioAntes)}</s>` : '';
+    const t12 = o.tj.find(x => x.n === 12);
+    return antes + (ars ? `<span class="u">${desde ? 'Desde' : ''}<b>${p$(o.efe)}</b></span>`
+        : `<span class="u">${desde ? 'Desde' : ''} USD<b>${uTxt(o.usd)}</b></span><span class="a">${p$(o.efe)}</span>`)
+      + (t12 ? `<span class="q">o 12 cuotas de ${t12.v}</span>` : '');
+  }
+  const masBarato = its => its.reduce((a, b) => precioUSD(b) < precioUSD(a) ? b : a);
+  const gbNum = g => parseFloat(String(g).replace(',', '.')) * (/tb/i.test(g) ? 1024 : 1) || 0;
+
+  function filaModelo(g){
+    const b = masBarato(g.its);
+    const conds = COND_ORDEN.filter(c => g.its.some(it => it.cond === c));
+    const gbs = [...new Set(g.its.map(it => it.gb).filter(Boolean))].sort((x, y) => gbNum(x) - gbNum(y));
+    const cols = [...new Set(g.its.flatMap(it => listaColores(it.color)))];
+    const off = hayTope() && !g.its.some(it => cuotas(it.precio, it).some(enTope));
+    return `<button type="button" class="mr${off ? ' off' : ''}" data-mod="${esc(g.key)}">
+      <span class="mr-i">${typeof fotoColorHTML === 'function' ? fotoColorHTML({...b, color: listaColores(b.color)[0] || ''}, 'mr-f') : ''}</span>
+      <span class="mr-t"><span class="mr-n">${esc(g.modelo)}</span>
+        <span class="mr-c">${conds.map(c => `<span>${COND_TXT[c] || esc(c)}</span>`).join('')}${gbs.length ? `<span style="background:#F2F4F7;color:var(--gris)">${esc(gbs.join(' · '))}</span>` : ''}</span>
+        ${cols.length ? `<span class="mr-d">${cols.slice(0, 7).map(c => `<i style="background:${colorHex(c)}" title="${esc(c)}"></i>`).join('')}${cols.length > 7 ? '+' + (cols.length - 7) : ''}</span>` : ''}</span>
+      <span class="mr-p">${precioHTML(b, g.its.length > 1)}</span>
+      <span class="mr-go" aria-hidden="true">›</span></button>`;
+  }
+
+  renderList = function(){
+    if (S.modo !== 'contado' && !esDni()) return viejo();
+    const q = norm(S.q), tope = hayTope();
+    const list = S.items.filter(it => enCat(it)
+      && (S.cond === 'Todos' || it.cond === S.cond)
+      && (!q || norm([it.modelo, it.gb, it.color, it.cond, it.bat, COND_TXT[it.cond]].join(' ')).includes(q))
+      && (!tope || cuotas(it.precio, it).some(enTope)));
+    const fams = [];
+    list.forEach(it => { const f = S.cat === TODOS ? famDe(it) : S.cat; if (!fams.includes(f)) fams.push(f); });
+    G = {};
+    const html = fams.map(f => {
+      const grupos = [];
+      list.filter(it => (S.cat === TODOS ? famDe(it) : S.cat) === f).forEach(it => {
+        const key = f + '|' + norm(it.modelo);
+        let g = G[key]; if (!g){ g = G[key] = {key, modelo: it.modelo, its: []}; grupos.push(g); }
+        g.its.push(it);
+      });
+      if (S.orden !== 'rec') grupos.sort((a, b) => (precioUSD(masBarato(a.its)) - precioUSD(masBarato(b.its))) * (S.orden === 'asc' ? 1 : -1));
+      return `<section class="ml-sec"><div class="sec-band"><h2>${esc(f)} · ${grupos.length} ${grupos.length === 1 ? 'modelo' : 'modelos'}</h2></div>
+        <div class="ml">${grupos.map(filaModelo).join('')}</div></section>`;
+    }).join('');
+    $('#list').innerHTML = html;
+    const hint = $('#hint');
+    if (hint) hint.textContent = tope && list.length ? (esDni() ? `Te mostramos los equipos con al menos un plan de hasta ${topeTxt()} por mes.` : `Te mostramos los equipos de hasta ${topeTxt()}.`) : '';
+    $('#state').innerHTML = list.length ? '' : tope
+      ? `<div class="empty">No hay equipos${S.cat === TODOS ? '' : ' de ' + esc(S.cat)} ${esDni() ? 'con cuotas de hasta ' + esc(topeTxt()) + ' por mes' : 'de hasta ' + esc(topeTxt())}. Probá con un monto mayor o revisá otra categoría.</div>`
+      : `<div class="empty">No encontramos equipos para “${esc(S.q)}”. Probá con otro modelo o capacidad.</div>`;
+    if (M && !G[M.key]) cerrar();
+  };
+
+  /* ---------- Ficha del modelo ---------- */
+  function unidades(){ const g = G[M.key]; return g ? g.its.filter(it => it.cond === M.cond).sort((a, b) => precioUSD(a) - precioUSD(b)) : []; }
+  function pintar(){
+    const g = G[M.key]; if (!g) return cerrar();
+    const conds = COND_ORDEN.filter(c => g.its.some(it => it.cond === c));
+    const us = unidades();
+    if (!M.k && us.length === 1) M.k = claveIt(us[0]);
+    const sel = us.find(it => claveIt(it) === M.k) || null;
+    const ref = sel || masBarato(g.its), o = fpo(ref);
+    const paso = sel ? 2 : 1;
+    const pm = planMax(ref);
+    if (esDni() && sel && !planesDe(sel).some(x => x.n === M.plan)) M.plan = pm ? pm.n : 0;
+    const plan = esDni() && sel ? planesDe(sel).find(x => x.n === M.plan) : null;
+    const desdeTxt = esDni() ? (plan ? `<b>${plan.n} cuotas de ${plan.v}</b> · ≈ ${p$(plan.ars)}` : pm ? `<b>${pm.n} cuotas de ${pm.v}</b> · ≈ ${p$(pm.ars)}` : '') : o ? (ref.moneda === 'ARS' ? `<b>${p$(o.efe)}</b>` : `<b>USD ${uTxt(o.usd)}</b> · ${p$(o.efe)}`) : '';
+    const filaU = it => {
+      const k = claveIt(it), ok = k === M.k, ou = fpo(it), ars = it.moneda === 'ARS';
+      const det = [it.bat ? 'Batería ' + it.bat : '', listaColores(it.color).join(', '), it.nota].filter(Boolean).map(esc).join(' · ');
+      const nCol = listaColores(it.color).length;
+      return `<div><button type="button" class="ms-u" role="radio" aria-checked="${ok}" data-msk="${esc(k)}"><span class="rd"></span>
+        <span class="l"><b>${esc(it.gb || it.modelo)}</b>${det ? `<span>${det}</span>` : ''}${it.n === 1 ? '<span><em>Último disponible</em></span>' : ''}</span>
+        <span class="v">${it.precioAntes && !esDni() ? `<s>${ars ? p$(it.precioAntes) : 'USD ' + uTxt(it.precioAntes)}</s>` : ''}${esDni() ? (planMax(it) ? `<b>${planMax(it).n} x ${planMax(it).v}</b><small>≈ ${p$(planMax(it).ars)} por mes</small>` : '') : ou ? (ars ? `<b>${p$(ou.efe)}</b>` : `<b>USD ${uTxt(ou.usd)}</b><small>${p$(ou.efe)}</small>`) : ''}</span></button>
+        ${ok && nCol > 1 ? `<div class="ms-col"><div class="pc-ctx">${colorElegido(it) ? 'Color elegido' : 'Elegí el color (opcional)'}</div>${colorPick(it)}</div>` : ''}</div>`;
+    };
+    $('#msSc').innerHTML = `
+      <div class="ms-h">${typeof fotoColorHTML === 'function' ? fotoColorHTML({...ref, color: colorElegido(ref) || listaColores(ref.color)[0] || ''}, 'ms-f') : ''}
+        <div><div class="ms-mod" id="msMod">${esc(g.modelo)}</div><div class="ms-des">${sel ? '' : 'Desde '}${desdeTxt}</div></div></div>
+      <div class="ms-pasos"><span class="${paso >= 1 ? 'on' : ''}"><i>1</i>Elegí</span><em></em><span class="${paso >= 2 ? 'on' : ''}"><i>2</i>${esDni() ? 'Elegí el plan' : 'Revisá formas de pago'}</span><em></em><span><i>3</i>Consultá</span></div>
+      ${conds.length > 1 ? `<div class="ms-st">Estado. <small>¿Cuál te conviene?</small></div>
+        <div class="ms-es" role="radiogroup" aria-label="Estado">${conds.map(c => { const b = masBarato(g.its.filter(it => it.cond === c)), ob = fpo(b);
+          return `<button type="button" class="ms-e" role="radio" aria-checked="${c === M.cond}" data-msc="${esc(c)}"><b>${COND_TXT[c] || esc(c)}</b>${esDni() ? (planMax(b) ? `<span>Desde ${planMax(b).n} x ${planMax(b).v}</span>` : '') : ob ? `<span>Desde ${b.moneda === 'ARS' ? p$(ob.efe) : 'USD ' + uTxt(ob.usd)}</span>` : ''}<small>${COND_DES[c] || ''}</small></button>`; }).join('')}</div>`
+        : `<div class="ms-st">${COND_TXT[M.cond] || esc(M.cond)} <small>· ${COND_DES[M.cond] || ''}</small></div>`}
+      <div class="ms-st">Tu equipo. <small>Elegí ${us.length > 1 ? 'uno' : 'este'}${conds.length > 1 ? ' de los ' + (M.cond === 'Usado' ? 'usados' : M.cond === 'Open box' ? 'open box' : 'nuevos') : ''}.</small></div>
+      <div class="ms-us" role="radiogroup" aria-label="Equipos disponibles">${us.map(filaU).join('')}</div>
+      ${esDni() && sel ? `<div class="ms-st">Plan. <small>Cuotas fijas en dólares.</small></div>
+        <div class="ms-es" role="radiogroup" aria-label="Plan">${planesDe(sel).map(x => `<button type="button" class="ms-e" role="radio" aria-checked="${x.n === M.plan}" data-msp="${x.n}"><b>${x.n} cuotas</b><span>de ${x.v}</span><small>≈ ${p$(x.ars)} por cuota</small></button>`).join('')}</div>` : ''}
+      <div class="ms-nota">${esDni() ? `Cuotas fijas en dólares; la primera se paga al retirar. Sujeto a aprobación. Pesos aproximados al dólar blue de hoy${S.dolar ? ' (' + p$(S.dolar.valor) + ')' : ''}.` : `Pesos al dólar blue de hoy${S.dolar ? ' (' + p$(S.dolar.valor) + ')' : ''}. En «Formas de pago» ves el precio con transferencia, tarjeta y DNI.`}</div>`;
+    const w = sel ? wspBtn(sel, null) : '';
+    $('#msBar').innerHTML = sel && esDni()
+      ? `<div class="t">${esc([sel.gb, COND_TXT[sel.cond], colorElegido(sel)].filter(Boolean).join(' · '))}<b>${plan ? plan.n + ' cuotas de ' + plan.v : ''}</b></div>
+         <a class="wsp-btn" target="_blank" rel="noopener" href="${dniHref(sel, plan)}" data-track="${esc([sel.modelo, sel.gb, '(' + sel.cond + ')'].filter(Boolean).join(' '))}">${typeof WSP_ICON === 'string' ? WSP_ICON : ''}<span>Consultar</span></a>`
+      : sel
+      ? `<div class="t">${esc([sel.gb, COND_TXT[sel.cond], colorElegido(sel)].filter(Boolean).join(' · '))}<b>${o ? (sel.moneda === 'ARS' ? p$(o.efe) : 'USD ' + uTxt(o.usd)) : ''}</b></div>
+         <button type="button" class="fpb" data-fp="${esc(claveIt(sel))}">Formas de pago</button>${w}`
+      : `<div class="t">Elegí un equipo de la lista para continuar</div><span class="wsp-btn dis">${typeof WSP_ICON === 'string' ? WSP_ICON : ''}<span>Consultar</span></span>`;
+  }
+  function abrir(key){
+    const g = G[key]; if (!g || !S.dolar) return;
+    const conds = COND_ORDEN.filter(c => g.its.some(it => it.cond === c));
+    M = {key, cond: (S.cond !== 'Todos' && conds.includes(S.cond)) ? S.cond : conds[0], k: null, plan: 0};
+    pintar(); const m = $('#ms'); m.hidden = false; document.body.style.overflow = 'hidden'; $('#msSc').scrollTop = 0;
+    try{ history.pushState({ms: 1}, ''); }catch(e){}
+    if (typeof track === 'function') track('modelo', g.modelo);
+  }
+  function cerrar(desdeHist){ $('#ms').hidden = true; document.body.style.overflow = ''; M = null;
+    if (!desdeHist){ try{ if (history.state && history.state.ms) history.back(); }catch(e){} } }
+  const repintar = () => { if (!M) return; const sc = $('#msSc'), y = sc.scrollTop; pintar(); sc.scrollTop = y; };
+  addEventListener('popstate', () => { if (M) cerrar(true); });
+
+  document.addEventListener('click', e => {
+    const r = e.target.closest('[data-mod]'); if (r){ abrir(r.dataset.mod); return; }
+    if (!M) return;
+    if (e.target.id === 'ms' || e.target.id === 'msX'){ cerrar(); return; }
+    const c = e.target.closest('[data-msc]'); if (c){ M.cond = c.dataset.msc; M.k = null; repintar(); return; }
+    const u = e.target.closest('[data-msk]'); if (u){ M.k = u.dataset.msk; repintar(); return; }
+    const pl = e.target.closest('[data-msp]'); if (pl){ M.plan = +pl.dataset.msp; repintar(); return; }
+    if (e.target.closest('[data-col]')) setTimeout(repintar, 0);
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && M && document.getElementById('fp').hidden) cerrar(); });
+  // Al cerrar "Formas de pago" se vuelve a la ficha del modelo sin que se mueva la página de fondo
+  new MutationObserver(() => { if (M && document.getElementById('fp').hidden) document.body.style.overflow = 'hidden'; })
+    .observe(document.getElementById('fp'), {attributes: true, attributeFilter: ['hidden']});
+  // El botón flotante de WhatsApp se oculta si tapa un precio de la lista
+  (() => { const f = document.getElementById('fabWsp'); if (!f) return; let pend = false;
+    const chk = () => { pend = false; if (S.modo !== 'contado' && !esDni()) return; const r = f.getBoundingClientRect(), m = 6;
+      const tapa = [...document.querySelectorAll('.mr-p')].some(b => { const q = b.getBoundingClientRect();
+        return q.width && q.right > r.left - m && q.left < r.right + m && q.bottom > r.top - m && q.top < r.bottom + m; });
+      if (tapa) f.classList.add('fab-off'); };
+    addEventListener('scroll', () => { if (!pend){ pend = true; requestAnimationFrame(() => requestAnimationFrame(chk)); } }, {passive: true}); })();
+
+  if (S.items && S.items.length) renderList();
+})();
 </script>
 </body>
 </html>
