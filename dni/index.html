@@ -1808,6 +1808,15 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 .pc-dni .pc-p small{display:inline}
 .pc-dni .pc-a{font-size:13px;font-weight:700;color:var(--tinta);margin-top:1px}
 .pc-dni .pc-t{grid-template-columns:1fr}
+.pc-dni .pc-dest{margin-top:auto;padding:8px 10px 9px;border-radius:12px;background:linear-gradient(135deg,#16A34A,#0E8A3C);color:#fff;box-shadow:0 6px 16px rgba(22,163,74,.28)}
+.pc-dni .pc-dest .pc-p{margin:0;padding:0;color:#fff;font-size:24px}
+.pc-dni .pc-dest .pc-p small{color:#DCFCE7}
+.pc-dni .pc-dest .pc-a{color:#fff}
+.pc-dni .pc-dest .pc-tag{display:inline-block;background:#FDE047;color:#14532D;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:2px 8px;margin-bottom:4px}
+.pc-dni .pc-t button.c12{border:1.5px solid #16A34A;background:#F0FDF4;color:#166534}
+.pc-dni .pc-t button.c12 b{color:#15803D;font-size:13px}
+.pc-dni .pc-t button.c12[aria-checked="true"]{background:#16A34A;border-color:#16A34A;color:#fff}
+.pc-dni .pc-t button.c12[aria-checked="true"] b{color:#fff}
 .pc-dni .pc-nota{font-size:11px;color:var(--gris);margin-top:6px;text-align:center}
 </style>
 <script>
@@ -1836,10 +1845,10 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
       ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
       ${nCol ? `<div class="pc-cols">${nCol > 1 ? `<div class="pc-ctx">${colorElegido(it) ? 'Color elegido' : 'Tocá el color que querés'}</div>` : ''}${colorPick(it)}</div>` : ''}
       ${det ? `<div class="pc-d">${det}</div>` : ''}
-      <div class="pc-p"><small>${sel.n} cuotas de</small><br>${esc(sel.v)}</div>
-      <div class="pc-a">≈ ${p$(sel.ars)} por mes</div>
+      ${sel.n === 12 ? `<div class="pc-dest"><span class="pc-tag">Cuota más baja</span><div class="pc-p"><small>12 cuotas de</small><br>${esc(sel.v)}</div><div class="pc-a">≈ ${p$(sel.ars)} por mes</div></div>`
+        : `<div class="pc-p"><small>${sel.n} cuotas de</small><br>${esc(sel.v)}</div><div class="pc-a">≈ ${p$(sel.ars)} por mes</div>`}
       <div class="pc-tl">Cuotas · tocá para cambiar</div>
-      <div class="pc-t" role="radiogroup" aria-label="Cantidad de cuotas">${pl.map(x => `<button type="button" role="radio" aria-checked="${x.n === sel.n}" data-cuo="${esc(k)}" data-n="${x.n}"${enT(x) ? '' : ' class="off"'}><span>${x.n} cuotas</span><b>${esc(x.v)}</b></button>`).join('')}</div>
+      <div class="pc-t" role="radiogroup" aria-label="Cantidad de cuotas">${pl.map(x => `<button type="button" role="radio" aria-checked="${x.n === sel.n}" data-cuo="${esc(k)}" data-n="${x.n}" class="${[x.n === 12 ? 'c12' : '', enT(x) ? '' : 'off'].filter(Boolean).join(' ')}"><span>${x.n} cuotas</span><b>${esc(x.v)}</b></button>`).join('')}</div>
       <a class="wsp-btn pc-w" target="_blank" rel="noopener" href="${dniHref(it, sel)}" data-track="${esc([it.modelo, it.gb, '(' + it.cond + ')'].filter(Boolean).join(' '))}">${WSP_ICON}<span>Consultar</span></a>
     </article>`;
   };
