@@ -477,6 +477,24 @@ footer #foot{border-top:1px solid var(--linea);margin-top:18px}
 }
 .intro.hero{overflow:hidden}
 .pc .fp-btn{white-space:normal}
+/* Tarjetas más prolijas */
+.pc .pc-foto{background:#F3F5F8;border-radius:14px;padding:8px;box-sizing:border-box}
+.pc-ft{margin:-2px -2px 10px}
+.cpick-s{gap:6px;margin:4px 0 0;align-items:center}
+.cpt{width:18px;height:18px;border-radius:50%;padding:0;border:1px solid rgba(11,42,91,.22);box-sizing:border-box;cursor:pointer;display:inline-block;flex:none}
+.cpt[aria-checked="true"]{box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--navy)}
+span.cpt{cursor:default}
+.pc-cols .pc-ctx{margin-top:4px;font-size:11px}
+.pc-antes{flex-wrap:nowrap;white-space:nowrap;color:#0E7A43;font-size:12px}
+.pc-antes s{color:var(--gris);font-weight:500}
+.pc-antes span{background:#E6F6EC;color:#0E7A43}
+.pc-p{font-size:22px;letter-spacing:-.3px}
+.pc-ars{font-size:13.5px;color:var(--gris);font-weight:600}
+.pc-ars small{display:none}
+.pc-fp{border-top:0;background:#F3F5F8;border-radius:10px;padding:7px 9px;gap:3px;margin-top:10px}
+.pc-fp div{flex-direction:row;justify-content:space-between;align-items:baseline;gap:6px}
+.pc-fp span{font-size:11.5px}
+.pc-fp b{font-size:12.5px}
 @media (min-width:900px){.intro.hero h1{max-width:none;font-size:44px}}
 /* Foto en la portada (escritorio) */
 .hero-foto{display:none}
@@ -1194,8 +1212,14 @@ const colorChips = txt => listaColores(txt)
 /* Color que eligió el cliente para un equipo (si hay uno solo, ese) */
 function colorElegido(it){ const l = listaColores(it.color); return l.length === 1 ? l[0] : (S.colores || {})[claveIt(it)] || ''; }
 /* Puntitos tocables: el cliente elige el color y llega en el mensaje de WhatsApp */
-function colorPick(it){
-  const l = listaColores(it.color); if (l.length < 2) return colorChips(it.color);
+function colorPick(it, chico){
+  const l = listaColores(it.color);
+  if (chico){ const k = claveIt(it), sel = colorElegido(it), uno = l.length < 2;
+    return `<span class="cpick cpick-s" role="radiogroup" aria-label="Elegí el color">${l.map(c => uno
+      ? `<span class="cpt" title="${esc(c)}" style="background:${colorHex(c)}"></span>`
+      : `<button type="button" class="cpt" role="radio" aria-label="${esc(c)}" title="${esc(c)}" aria-checked="${c === sel}" data-col="${esc(k)}" data-c="${esc(c)}" style="background:${colorHex(c)}"></button>`).join('')}</span>
+      <div class="pc-ctx">${uno ? esc(l[0]) : sel ? esc(sel) : `${l.length} colores · elegí uno`}</div>`; }
+  if (l.length < 2) return colorChips(it.color);
   const k = claveIt(it), sel = colorElegido(it);
   return `<span class="cpick" role="radiogroup" aria-label="Elegí el color">${l.map(c => `<button type="button" class="cdot cbtn" role="radio" aria-checked="${c === sel}" data-col="${esc(k)}" data-c="${esc(c)}"><i style="background:${colorHex(c)}"></i>${esc(c)}</button>`).join('')}</span>`;
 }
@@ -1241,12 +1265,12 @@ function cardHTML(it){
     ${bd.length ? `<div class="pc-b">${bd.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
     <div class="pc-m">${esc(it.modelo)}</div>
     ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
-    ${nCol ? `<div class="pc-cols">${nCol > 1 ? `<div class="pc-ctx">${colorElegido(it) ? 'Color elegido' : 'Tocá el color que querés'}</div>` : ''}${colorPick(it)}</div>` : ''}
+    ${nCol ? `<div class="pc-cols">${colorPick(it, true)}</div>` : ''}
     ${det ? `<div class="pc-d">${det}</div>` : ''}
     ${precioH}
     ${tj && !elegida ? `<button type="button" class="wsp-btn pc-w pc-need" data-need="${esc(kk)}">${WSP_ICON}<span>Consultar</span></button>`
       : wspBtn(it, elegida).replace('<span>Contactanos</span>', '<span>Consultar</span>').replace('class="wsp-btn"', 'class="wsp-btn pc-w"')}
-    <button type="button" class="fp-btn" data-fp="${esc(k)}">Ver todas las formas de pago ›</button>
+    <button type="button" class="fp-btn" data-fp="${esc(k)}">Formas de pago ›</button>
   </article>`;
 }
 /* Resumen de cuotas en la tarjeta del equipo (tarjeta y DNI); el detalle completo está en la ficha */
@@ -1254,10 +1278,10 @@ function resumenFP(it){
   if (typeof window.FP_OPCIONES !== 'function' || !S.dolar) return '';
   const o = window.FP_OPCIONES(it), t = o.tj.find(x => x.n === 12), d = o.dni[o.dni.length - 1];
   const pes = n => '$' + Math.round(n).toLocaleString('es-AR');
-  const antes = it.precioAntes ? `<div class="pc-antes"><s>${it.moneda === 'ARS' ? pes(it.precioAntes) : 'USD ' + Math.ceil(it.precioAntes).toLocaleString('es-AR')}</s><span>-USD ${CONFIG.DESCUENTO_USD} ${esc(CONFIG.DESCUENTO_ETIQUETA || '')}</span></div>` : '';
+  const antes = it.precioAntes ? `<div class="pc-antes"><s>${it.moneda === 'ARS' ? pes(it.precioAntes) : 'USD ' + Math.ceil(it.precioAntes).toLocaleString('es-AR')}</s><span>-USD ${CONFIG.DESCUENTO_USD}</span></div>` : '';
   return antes + `${it.moneda === 'ARS' ? `<div class="pc-p">${pes(o.efe)}</div>`
       : `<div class="pc-p"><small>USD</small>${Math.ceil(o.usd).toLocaleString('es-AR')}</div><div class="pc-ars">${pes(o.efe)}<small> en pesos</small></div>`}
-    <div class="pc-fp"><div><span>Tarjeta</span><b>12 cuotas x ${t.v}</b></div>${d ? `<div><span>DNI</span><b>${d.n} cuotas x ${pes(d.ars)}</b></div>` : ''}</div>`;
+    <div class="pc-fp"><div><span>Tarjeta</span><b>12 x ${t.v}</b></div>${d ? `<div><span>DNI</span><b>${d.n} x ${pes(d.ars)}</b></div>` : ''}</div>`;
 }
 /* Precio contado en USD y pesos para el mensaje de WhatsApp (mismos valores que la tarjeta del equipo) */
 function preciosContado(it, cuo){
