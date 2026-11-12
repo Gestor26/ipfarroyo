@@ -480,11 +480,15 @@ footer #foot{border-top:1px solid var(--linea);margin-top:18px}
 /* Tarjetas más prolijas */
 .pc .pc-foto{background:#F3F5F8;border-radius:14px;padding:8px;box-sizing:border-box}
 .pc-ft{margin:-2px -2px 10px}
-.cpick-s{gap:6px;margin:4px 0 0;align-items:center}
-.cpt{width:18px;height:18px;border-radius:50%;padding:0;border:1px solid rgba(11,42,91,.22);box-sizing:border-box;cursor:pointer;display:inline-block;flex:none}
-.cpt[aria-checked="true"]{box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--navy)}
+.cpk-t{margin-top:8px;font-size:12px;color:var(--gris)}
+.cpk-t b{color:var(--navy);font-weight:700}
+.cpk-t.pend b{color:var(--azul)}
+.cpick-s{gap:2px;margin:3px 0 0 -4px;align-items:center}
+.cpt{width:31px;height:31px;border-radius:50%;padding:0;border:2px solid transparent;background:none;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex:none;transition:border-color .15s}
+.cpt i{width:22px;height:22px;border-radius:50%;border:1px solid rgba(11,42,91,.25);box-sizing:border-box;display:block;transition:transform .15s}
+@media (hover:hover){button.cpt:hover i{transform:scale(1.1)}}
+.cpt[aria-checked="true"]{border-color:var(--navy)}
 span.cpt{cursor:default}
-.pc-cols .pc-ctx{margin-top:4px;font-size:11px}
 .pc-antes{flex-wrap:nowrap;white-space:nowrap;color:#0E7A43;font-size:12px}
 .pc-antes s{color:var(--gris);font-weight:500}
 .pc-antes span{background:#E6F6EC;color:#0E7A43}
@@ -1215,10 +1219,10 @@ function colorElegido(it){ const l = listaColores(it.color); return l.length ===
 function colorPick(it, chico){
   const l = listaColores(it.color);
   if (chico){ const k = claveIt(it), sel = colorElegido(it), uno = l.length < 2;
-    return `<span class="cpick cpick-s" role="radiogroup" aria-label="Elegí el color">${l.map(c => uno
-      ? `<span class="cpt" title="${esc(c)}" style="background:${colorHex(c)}"></span>`
-      : `<button type="button" class="cpt" role="radio" aria-label="${esc(c)}" title="${esc(c)}" aria-checked="${c === sel}" data-col="${esc(k)}" data-c="${esc(c)}" style="background:${colorHex(c)}"></button>`).join('')}</span>
-      <div class="pc-ctx">${uno ? esc(l[0]) : sel ? esc(sel) : `${l.length} colores · elegí uno`}</div>`; }
+    const tit = uno ? `Color: <b>${esc(l[0])}</b>` : sel ? `Color: <b>${esc(sel)}</b>` : `<b>Elegí el color</b> (${l.length})`;
+    return `<div class="cpk-t${uno || sel ? '' : ' pend'}">${tit}</div><span class="cpick cpick-s" role="radiogroup" aria-label="Elegí el color">${l.map(c => uno
+      ? `<span class="cpt" title="${esc(c)}"><i style="background:${colorHex(c)}"></i></span>`
+      : `<button type="button" class="cpt" role="radio" aria-label="${esc(c)}" title="${esc(c)}" aria-checked="${c === sel}" data-col="${esc(k)}" data-c="${esc(c)}"><i style="background:${colorHex(c)}"></i></button>`).join('')}</span>`; }
   if (l.length < 2) return colorChips(it.color);
   const k = claveIt(it), sel = colorElegido(it);
   return `<span class="cpick" role="radiogroup" aria-label="Elegí el color">${l.map(c => `<button type="button" class="cdot cbtn" role="radio" aria-checked="${c === sel}" data-col="${esc(k)}" data-c="${esc(c)}"><i style="background:${colorHex(c)}"></i>${esc(c)}</button>`).join('')}</span>`;
