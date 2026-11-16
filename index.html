@@ -491,6 +491,16 @@ footer #foot{border-top:1px solid var(--linea);margin-top:18px}
 .cch[aria-checked="true"]{border-color:var(--navy);background:var(--celeste);color:var(--navy);font-weight:700}
 .cch[aria-checked="true"] i{box-shadow:0 0 0 2px #fff}
 .cpk-t.pend + .cchs .cch{border-color:#CFDDF2}
+.ubs{display:flex;flex-direction:column;gap:5px;margin-top:5px}
+.ub{display:flex;align-items:center;gap:7px;width:100%;font:inherit;font-size:12px;color:var(--tinta);background:#fff;border:1.5px solid var(--linea);border-radius:10px;padding:6px 9px;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
+.ub b{flex:none;min-width:38px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+.ub i{flex:none;width:13px;height:13px;border-radius:50%;border:1px solid rgba(11,42,91,.25);box-sizing:border-box}
+.ub span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ub em{flex:none;font-style:normal;font-size:11px;color:var(--gris)}
+@media (hover:hover){.ub:hover{border-color:var(--azul)}}
+.ub[aria-checked="true"]{border-color:var(--navy);background:var(--celeste);color:var(--navy);font-weight:700}
+.cpk-t.pend + .ubs .ub{border-color:#CFDDF2}
+.fp-unis{max-width:340px;margin-left:auto;margin-right:auto;text-align:left}
 .pc-antes{flex-wrap:nowrap;white-space:nowrap;color:#0E7A43;font-size:12px}
 .pc-antes s{color:var(--gris);font-weight:500}
 .pc-antes span{background:#E6F6EC;color:#0E7A43}
@@ -1216,7 +1226,26 @@ const listaColores = txt => String(txt || '').split(/\s*[,/]\s*/).filter(Boolean
 const colorChips = txt => listaColores(txt)
   .map(c => `<span class="cdot"><i style="background:${colorHex(c)}"></i>${esc(c)}</span>`).join(', ');
 /* Color que eligió el cliente para un equipo (si hay uno solo, ese) */
-function colorElegido(it){ const l = listaColores(it.color); return l.length === 1 ? l[0] : (S.colores || {})[claveIt(it)] || ''; }
+function colorElegido(it){ const u = unidadElegida(it); if (u && u.color) return u.color;
+  const l = listaColores(it.color); return l.length === 1 ? l[0] : (S.colores || {})[claveIt(it)] || ''; }
+/* Usados: cada unidad con su batería y color, para que el cliente elija la que quiere */
+function unidadesDe(it){
+  const d = (it.detalle || []).filter(u => u.bat);
+  return it.cond === 'Usado' && d.length ? d.slice().sort((a, b) => b.bat - a.bat || String(a.color).localeCompare(String(b.color))) : [];
+}
+const claveU = u => u.bat + '|' + (u.color || '');
+function unidadElegida(it){
+  const us = unidadesDe(it); if (us.length === 1) return us[0];
+  const v = (S.unis || {})[claveIt(it)]; return v ? us.find(u => claveU(u) === v) || null : null;
+}
+const lineaBat = it => { const u = unidadElegida(it); if (u) return `Batería: ${u.bat}%`;
+  const us = unidadesDe(it); return us.length ? `Baterías disponibles: ${[...new Set(us.map(u => u.bat + '%'))].join(', ')}` : it.bat ? `Batería: ${it.bat}` : ''; };
+function unidadPick(it){
+  const us = unidadesDe(it), k = claveIt(it), sel = unidadElegida(it), varias = us.length > 1;
+  const t = !varias ? 'Batería y color' : sel ? 'Elegiste' : '<b>Elegí batería y color</b>';
+  return `<div class="cpk-t${varias && !sel ? ' pend' : ''}">${t}</div>
+    <div class="ubs" role="radiogroup" aria-label="Elegí batería y color">${us.map(u => `<button type="button" class="ub" role="radio" aria-checked="${!!sel && claveU(u) === claveU(sel)}" data-uni="${esc(k)}" data-u="${esc(claveU(u))}"><b>${u.bat}%</b>${u.color ? `<i style="background:${colorHex(u.color)}"></i><span>${esc(u.color)}</span>` : '<span>Batería</span>'}${u.n > 1 ? `<em>${u.n} u.</em>` : ''}</button>`).join('')}</div>`;
+}
 /* Puntitos tocables: el cliente elige el color y llega en el mensaje de WhatsApp */
 function colorPick(it, chico){
   const l = listaColores(it.color);
@@ -1252,7 +1281,8 @@ function cardHTML(it){
   const cs = cuotas(it.precio, it), tj = S.modo === 'tarjeta' && cs.length > 1;
   const elegida = tj ? (cs.find(x => x.n === S.sel[claveIt(it)]) || cs.find(x => x.n === 12) || cs[cs.length - 1]) : null;
   const c = tj ? (elegida || cs.find(x => x.n === 12) || cs[0]) : cs[0];
-  const det = [it.bat ? 'Bat. ' + it.bat : '', it.nota].filter(Boolean).map(esc).join(' · ');
+  const uns = unidadesDe(it);
+  const det = [it.bat && !uns.length ? 'Bat. ' + it.bat : '', it.nota].filter(Boolean).map(esc).join(' · ');
   const nCol = listaColores(it.color).length;
   const precio = c.soloArs ? '<small>$</small>' + Math.round(c.ars).toLocaleString('es-AR')
                            : '<small>USD</small>' + Math.ceil(c.usd).toLocaleString('es-AR');
@@ -1270,7 +1300,7 @@ function cardHTML(it){
     ${bd.length ? `<div class="pc-b">${bd.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
     <div class="pc-m">${esc(it.modelo)}</div>
     ${it.gb ? `<div class="pc-g">${esc(it.gb)}</div>` : ''}
-    ${nCol ? `<div class="pc-cols">${colorPick(it, true)}</div>` : ''}
+    ${uns.length ? `<div class="pc-cols">${unidadPick(it)}</div>` : nCol ? `<div class="pc-cols">${colorPick(it, true)}</div>` : ''}
     ${det ? `<div class="pc-d">${det}</div>` : ''}
     ${precioH}
     ${tj && !elegida ? `<button type="button" class="wsp-btn pc-w pc-need" data-need="${esc(kk)}">${WSP_ICON}<span>Consultar</span></button>`
@@ -1307,7 +1337,7 @@ function wspBtn(it, cuo){
     `Equipo: ${it.modelo}`,
     it.gb ? `Capacidad: ${it.gb}` : '',
     `Condición: ${cond}`,
-    it.bat ? `Batería: ${it.bat}` : '',
+    lineaBat(it),
     lineaColor(it),
     MODOS[S.modo].pago ? 'Forma de pago: ' + MODOS[S.modo].pago : '',
     ...preciosContado(it, cuo),
@@ -1525,6 +1555,10 @@ function repintarCard(k){
 }
 function cardDe(k){ const b = [...document.querySelectorAll('[data-cuo]')].find(x => x.dataset.cuo === k); return b ? b.closest('article') : null; }
 document.addEventListener('click', e => {
+  const un = e.target.closest('[data-uni]');
+  if (un){ S.unis = S.unis || {}; const k = un.dataset.uni;
+    S.unis[k] = S.unis[k] === un.dataset.u ? '' : un.dataset.u; repintarCard(k);
+    if (typeof window.FP_REPINTAR === 'function') window.FP_REPINTAR(); return; }
   const co = e.target.closest('[data-col]');
   if (co){ S.colores = S.colores || {}; const k = co.dataset.col;
     S.colores[k] = S.colores[k] === co.dataset.c ? '' : co.dataset.c; repintarCard(k);
@@ -1773,15 +1807,15 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
 
   function wspHref(it, x){
     const cond = {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond;
-    const l = [`Equipo: ${it.modelo}`, it.gb ? `Capacidad: ${it.gb}` : '', `Condición: ${cond}`, it.bat ? `Batería: ${it.bat}` : '',
+    const l = [`Equipo: ${it.modelo}`, it.gb ? `Capacidad: ${it.gb}` : '', `Condición: ${cond}`, lineaBat(it),
       lineaColor(it), x ? 'Forma de pago: ' + x.msg : ''].filter(Boolean);
     return `https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent('Hola, me interesa este modelo:\n\n' + l.join('\n'))}`;
   }
 
   function pintar(){
     const it = F.it, o = F.o, dol = S.dolar.valor;
-    const det = [it.gb, {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond, it.color && listaColores(it.color).length < 2 ? '\u0000C' : '', it.bat ? 'Batería ' + it.bat : ''].filter(Boolean).map(esc).join(' · ').replace('\u0000C', colorChips(it.color));
-    const colsFicha = listaColores(it.color).length > 1 ? `<div class="fp-cols"><div class="pc-ctx">${colorElegido(it) ? 'Color elegido' : 'Tocá el color que querés'}</div>${colorPick(it)}</div>` : '';
+    const det = [it.gb, {'Sellado':'Nuevo sellado','Open box':'Open box','Usado':'Usado'}[it.cond] || it.cond, it.color && listaColores(it.color).length < 2 ? '\u0000C' : '', it.bat && !unidadesDe(it).length ? 'Batería ' + it.bat : ''].filter(Boolean).map(esc).join(' · ').replace('\u0000C', colorChips(it.color));
+    const colsFicha = unidadesDe(it).length ? `<div class="fp-cols fp-unis">${unidadPick(it)}</div>` : listaColores(it.color).length > 1 ? `<div class="fp-cols"><div class="pc-ctx">${colorElegido(it) ? 'Color elegido' : 'Tocá el color que querés'}</div>${colorPick(it)}</div>` : '';
     const tjVis = o.tj.filter(x => F.mas || FP_TARJETA_VISIBLES.includes(x.n) || F.sel === x.k);
     const todas = [...o.contado, ...o.tj, ...o.dni], el = todas.find(x => x.k === F.sel);
     document.getElementById('fpBody').innerHTML = `
