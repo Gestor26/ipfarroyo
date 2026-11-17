@@ -635,7 +635,9 @@ const CONFIG = {
     OBLIGATORIO: false                   // true = no se puede cerrar: hay que elegir una opción
   },
   // Descuento en USD que se resta a todos los precios de la web (0 = sin descuento)
-  DESCUENTO_USD: 0,
+  DESCUENTO_USD: 20,
+  // true = el descuento ya está aplicado en la planilla: la web solo muestra el precio anterior tachado (+USD) y la etiqueta
+  DESCUENTO_YA_APLICADO: true,
   DESCUENTO_ETIQUETA: 'Cyber Monday',
   // Financiación con DNI: multiplicador sobre el precio contado (no se muestra al cliente)
   PLANES: [ {n:3, f:1.45}, {n:6, f:1.84}, {n:12, f:2.56} ],
@@ -1551,6 +1553,7 @@ function mostrar(items){
   if (CONFIG.CATEGORIAS_VISIBLES.length) items = items.filter(it => CONFIG.CATEGORIAS_VISIBLES.includes(it.cat));
   const DTO = +CONFIG.DESCUENTO_USD || 0;
   if (DTO > 0) items = items.map(it => { if (!(it.precio > 0)) return it;
+    if (CONFIG.DESCUENTO_YA_APLICADO) return it.moneda === 'ARS' ? it : {...it, precioAntes: it.precio + DTO};
     const menos = it.moneda === 'ARS' ? Math.ceil(DTO * ((S.dolar && S.dolar.valor) || CONFIG.DOLAR_RESPALDO) / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS : DTO;
     return it.precio > menos ? {...it, precio: it.precio - menos, precioAntes: it.precio} : it; });
   items = items.map(it => it.cat === 'iPhone' && CONFIG.PESTANAS_IPHONE[it.cond] ? {...it, cat: CONFIG.PESTANAS_IPHONE[it.cond]} : it);
