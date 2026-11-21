@@ -60,6 +60,10 @@ input:focus,select:focus{border-color:var(--azul);box-shadow:0 0 0 3px rgba(21,1
 .plan .c em{font-style:normal;display:inline-block;margin-left:6px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--verde);padding:3px 6px;border-radius:6px;vertical-align:1px}
 .plan .v{text-align:right;font-weight:800;font-size:20px}
 .plan .v small{display:block;font-size:12px;font-weight:600;color:var(--gris)}
+.plan .c i{display:inline-block;width:18px;height:18px;border:2px solid var(--borde);border-radius:6px;margin-right:8px;vertical-align:-4px;background:#fff;font-style:normal;font-size:12px;line-height:14px;text-align:center;color:#fff}
+.plan.sel .c i{background:var(--azul);border-color:var(--azul)}
+.planes-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--gris);margin:4px 0 8px}
+.planes-top button{border:0;background:none;font:inherit;font-weight:700;color:var(--azul);cursor:pointer;padding:4px}
 .hoy{font-size:13px;color:var(--gris);margin:4px 2px 0;line-height:1.5}
 .hoy b{color:var(--navy)}
 textarea{font:inherit;font-size:14px;line-height:1.5;width:100%;min-height:190px;padding:12px;border:1px solid var(--borde);border-radius:12px;color:var(--navy);resize:vertical}
@@ -181,7 +185,7 @@ const usd = n => 'USD ' + Math.ceil(n).toLocaleString('es-AR');
 const ars = n => '$' + (Math.ceil(n / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS).toLocaleString('es-AR');
 const timeout = (p, ms) => Promise.race([p, new Promise((_, r) => setTimeout(() => r(new Error('timeout')), ms))]);
 
-const S = { items: [], dolar: null, base: null, up: null, plan: CONFIG.PLAN_DESTACADO, modoBase: 'stock', modoUp: 'stock' };
+const S = { items: [], dolar: null, base: null, up: null, planes: [CONFIG.PLAN_DESTACADO], modoBase: 'stock', modoUp: 'stock' };
 
 const precioUSD = it => it.moneda === 'ARS' ? it.precio / (S.dolar || 1) : it.precio;
 const nombre = it => [it.modelo, it.gb].filter(Boolean).join(' ');
@@ -304,9 +308,10 @@ function renderResultado(){
     $('#paso4').hidden = true; $('#copiar').disabled = true; return;
   }
   const orden = CONFIG.PLANES.slice().sort((a, b) => (b.n === CONFIG.PLAN_DESTACADO) - (a.n === CONFIG.PLAN_DESTACADO) || b.n - a.n);
-  $('#planes').innerHTML = orden.map(p => {
+  const todas = S.planes.length === CONFIG.PLANES.length;
+  $('#planes').innerHTML = `<div class="planes-top"><span>Marcá las cuotas que van en el mensaje (una, dos o las tres)</span><button type="button" id="todasCuotas">${todas ? 'Solo 12' : 'Marcar las 3'}</button></div>` + orden.map(p => {
     const c = cuota(dif, p);
-    return `<div class="plan${p.n === S.plan ? ' sel' : ''}" data-n="${p.n}"><div class="c">${p.n} cuotas${p.n === CONFIG.PLAN_DESTACADO ? '<em>Ofrecer primero</em>' : ''}</div><div class="v">${usd(c)}<small>≈ ${ars(c * S.dolar)} por mes</small></div></div>`;
+    return `<div class="plan${S.planes.includes(p.n) ? ' sel' : ''}" data-n="${p.n}"><div class="c"><i>✓</i>${p.n} cuotas${p.n === CONFIG.PLAN_DESTACADO ? '<em>Ofrecer primero</em>' : ''}</div><div class="v">${usd(c)}<small>≈ ${ars(c * S.dolar)} por mes</small></div></div>`;
   }).join('');
   $('#hoy').innerHTML = `Hoy paga de contado <b>${usd(S.base.usd)}</b> (≈ ${ars(S.base.usd * S.dolar)} en efectivo), lo mismo que el ${esc(S.base.nombre)}.`;
   $('#avisoTope').innerHTML = dif > CONFIG.TOPE_USD
@@ -316,7 +321,11 @@ function renderResultado(){
   armarMensaje(dif);
 }
 function armarMensaje(dif){
-  const p = planDe(S.plan), c = cuota(dif, p);
+  const elegidos = CONFIG.PLANES.filter(p => S.planes.includes(p.n)).sort((a, b) => b.n - a.n);
+  const lineaCuota = p => `${p.n} cuotas de ${usd(cuota(dif, p))}* (≈ ${ars(cuota(dif, p) * S.dolar)} por mes)`;
+  const cuotas = elegidos.length === 1
+    ? [`📆 La diferencia, en *${lineaCuota(elegidos[0])}`]
+    : [`📆 La diferencia, en la cantidad de cuotas que prefieras:`, ...elegidos.map(p => `   • *${lineaCuota(p)}`)];
   const nomBase = S.base.nombre.replace(/^iPhone /, ''), nomUp = S.up.nombre;
   const lineas = [
     `¡Hola! 👋 Te armé una propuesta especial:`,
@@ -324,18 +333,25 @@ function armarMensaje(dif){
     `En lugar del ${nomBase}, llevate el *${nomUp}*${S.up.det ? ' (' + S.up.det + ')' : ''} 🔥`,
     ``,
     `💵 Hoy abonás lo mismo que tenías pensado: *${usd(S.base.usd)}* de contado`,
-    `📆 La diferencia, en *${p.n} cuotas de ${usd(c)}* (≈ ${ars(c * S.dolar)} por mes)`,
-    `🪪 Solo con tu DNI, sin tarjeta de crédito (sujeto a aprobación)`,
+    ...cuotas,
+    `🪪 Solo con tu DNI, sin tarjeta de crédito.`,
     `🗓️ La primera cuota la pagás recién el mes que viene`,
     `📲 Las cuotas se abonan por transferencia, sin necesidad de venir a la oficina`,
   ];
   if (CONFIG.GARANTIA) lineas.push(`✅ ${CONFIG.GARANTIA}`);
-  lineas.push(``, `Por muy poco por mes das un salto de equipo 🚀`, `Las unidades son limitadas, ¿te lo reservo? 😉`);
+  lineas.push(``, `Por muy poco por mes das un salto de equipo 🚀`);
   $('#msg').value = lineas.join('\n');
 }
 $('#planes').addEventListener('click', e => {
+  if (e.target.closest('#todasCuotas')){
+    S.planes = S.planes.length === CONFIG.PLANES.length ? [CONFIG.PLAN_DESTACADO] : CONFIG.PLANES.map(p => p.n);
+    return renderResultado();
+  }
   const el = e.target.closest('.plan'); if (!el) return;
-  S.plan = +el.dataset.n; renderResultado();
+  const n = +el.dataset.n;
+  if (S.planes.includes(n)){ if (S.planes.length > 1) S.planes = S.planes.filter(x => x !== n); }
+  else S.planes = [...S.planes, n];
+  renderResultado();
 });
 
 /* ---------- Modos (stock / a mano) ---------- */
@@ -375,7 +391,7 @@ document.addEventListener('click', e => {
 });
 
 $('#reset').addEventListener('click', () => {
-  S.base = S.up = null; S.plan = CONFIG.PLAN_DESTACADO;
+  S.base = S.up = null; S.planes = [CONFIG.PLAN_DESTACADO];
   ['#baseQ','#upQ','#baseNom','#baseUsd','#upNom','#upUsd'].forEach(s => $(s).value = '');
   $('#baseElegido').hidden = true; $('#baseBuscar').hidden = false; $('#paso2').hidden = true;
   renderBase(); renderResultado(); window.scrollTo({top:0, behavior:'smooth'});
