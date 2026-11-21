@@ -319,16 +319,18 @@ function armarMensaje(dif){
   const p = planDe(S.plan), c = cuota(dif, p);
   const nomBase = S.base.nombre.replace(/^iPhone /, ''), nomUp = S.up.nombre;
   const lineas = [
-    `Te paso una opción para que lo pienses 👇`,
+    `¡Hola! 👋 Te armé una propuesta especial:`,
     ``,
-    `En vez del ${nomBase}, te podés llevar el *${nomUp}*${S.up.det ? ' (' + S.up.det + ')' : ''}.`,
+    `En lugar del ${nomBase}, llevate el *${nomUp}*${S.up.det ? ' (' + S.up.det + ')' : ''} 🔥`,
     ``,
-    `✅ Hoy pagás lo mismo que ibas a pagar: *${usd(S.base.usd)}* de contado`,
-    `✅ La diferencia la pagás en *${p.n} cuotas de ${usd(c)}* (≈ ${ars(c * S.dolar)} por mes)`,
-    `✅ Solo con tu DNI`,
+    `💵 Hoy abonás lo mismo que tenías pensado: *${usd(S.base.usd)}* de contado`,
+    `📆 La diferencia, en *${p.n} cuotas de ${usd(c)}* (≈ ${ars(c * S.dolar)} por mes)`,
+    `🪪 Solo con tu DNI, sin tarjeta de crédito (sujeto a aprobación)`,
+    `🗓️ La primera cuota la pagás recién el mes que viene`,
+    `📲 Las cuotas se abonan por transferencia, sin necesidad de venir a la oficina`,
   ];
   if (CONFIG.GARANTIA) lineas.push(`✅ ${CONFIG.GARANTIA}`);
-  lineas.push(``, `¿Te lo reservo?`);
+  lineas.push(``, `Por muy poco por mes das un salto de equipo 🚀`, `Las unidades son limitadas, ¿te lo reservo? 😉`);
   $('#msg').value = lineas.join('\n');
 }
 $('#planes').addEventListener('click', e => {
