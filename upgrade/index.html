@@ -113,10 +113,11 @@ textarea{font:inherit;font-size:14px;line-height:1.5;width:100%;min-height:190px
     <div id="upBuscar">
       <div class="seg" id="upSeg">
         <button data-m="stock" aria-selected="true">Sugeridos</button>
+        <button data-m="todos" aria-selected="false">Todo el stock</button>
         <button data-m="manual" aria-selected="false">Precio a mano</button>
       </div>
       <div data-panel="stock">
-        <input id="upQ" placeholder="Filtrar sugeridos…" autocomplete="off">
+        <input id="upQ" placeholder="Buscar: 14 pro, 15 256…" autocomplete="off">
         <div class="lista" id="upLista"></div>
       </div>
       <div data-panel="manual" hidden>
@@ -206,6 +207,7 @@ async function cargar(){
   if (!S.dolar) S.dolar = CONFIG.DOLAR_RESPALDO;
   $('#dolar').innerHTML = `Dólar blue venta: <b>$ ${Math.round(S.dolar).toLocaleString('es-AR')}</b> · ${S.items.length ? S.items.length + ' equipos en stock' : 'sin stock cargado (usá precio a mano)'}`;
   if (!S.items.length) setModo('base', 'manual');
+  else { document.querySelectorAll('.seg button[data-m="manual"]').forEach(b => b.hidden = true); $('#baseSeg').style.display = 'none'; }
   renderBase();
 }
 
@@ -220,7 +222,7 @@ function itemHTML(it, extra){
 function renderBase(){
   if (S.modoBase !== 'stock') return;
   const q = $('#baseQ').value;
-  const l = (q ? filtrar(S.items, q) : S.items).slice().sort((a, b) => precioUSD(a) - precioUSD(b)).slice(0, 40);
+  const l = (q ? filtrar(S.items, q) : S.items).slice().sort((a, b) => precioUSD(a) - precioUSD(b));
   $('#baseLista').innerHTML = l.length ? l.map(it => itemHTML(it)).join('') : '<div class="vacio">No hay equipos con esa búsqueda.</div>';
 }
 $('#baseLista').addEventListener('click', e => {
@@ -257,15 +259,22 @@ function sugeridos(){
   });
   return [...mejor.values()].sort((x, y) => precioUSD(x) - precioUSD(y));
 }
+function todos(){
+  if (!S.base) return [];
+  return S.items.filter(it => precioUSD(it) - S.base.usd > 0 && !(S.base.item && it === S.base.item))
+    .sort((x, y) => precioUSD(x) - precioUSD(y));
+}
 function renderUp(){
-  if (S.modoUp !== 'stock') return;
+  if (S.modoUp === 'manual') return;
   const p = planDe(CONFIG.PLAN_DESTACADO);
-  let l = sugeridos();
+  const esTodos = S.modoUp === 'todos';
+  let l = esTodos ? todos() : sugeridos();
   const q = $('#upQ').value; if (q) l = filtrar(l, q);
-  l = l.slice(0, CONFIG.MAX_SUGERIDOS);
+  if (!esTodos) l = l.slice(0, CONFIG.MAX_SUGERIDOS);
   $('#upLista').innerHTML = l.length
-    ? l.map(it => itemHTML(it, `<small>+${p.n} × ${usd(cuota(precioUSD(it) - S.base.usd, p))}</small>`)).join('')
-    : `<div class="vacio">No hay equipos entre USD ${CONFIG.MINIMO_USD} y USD ${CONFIG.TOPE_USD} más caros que el pedido. Probá con precio a mano.</div>`;
+    ? l.map(it => { const dif = precioUSD(it) - S.base.usd; return itemHTML(it, dif > CONFIG.TOPE_USD ? `<small>supera tope</small>` : `<small>+${p.n} × ${usd(cuota(dif, p))}</small>`); }).join('')
+    : esTodos ? '<div class="vacio">No hay equipos más caros que el pedido con esa búsqueda.</div>'
+    : `<div class="vacio">No hay equipos entre USD ${CONFIG.MINIMO_USD} y USD ${CONFIG.TOPE_USD} más caros que el pedido. Mirá en "Todo el stock".</div>`;
 }
 $('#upLista').addEventListener('click', e => {
   const el = e.target.closest('.it'); if (!el) return;
@@ -332,7 +341,8 @@ function setModo(cual, m){
   S[cual === 'base' ? 'modoBase' : 'modoUp'] = m;
   const box = $(cual === 'base' ? '#baseBuscar' : '#upBuscar');
   box.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-selected', b.dataset.m === m));
-  box.querySelectorAll('[data-panel]').forEach(p => p.hidden = p.dataset.panel !== m);
+  const panel = m === 'manual' ? 'manual' : 'stock';
+  box.querySelectorAll('[data-panel]').forEach(p => p.hidden = p.dataset.panel !== panel);
 }
 $('#baseSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ setModo('base', b.dataset.m); renderBase(); } });
 $('#upSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ setModo('up', b.dataset.m); renderUp(); } });
