@@ -523,6 +523,31 @@ footer #foot{border-top:1px solid var(--linea);margin-top:18px}
   .hero-foto{display:flex;height:330px;--tira:16%;--alto:92%}
 }
 </style>
+<style id="pulido-22-11">
+/* 1) Tarjetas: menos aire desperdiciado, nombres de color completos */
+.pc{gap:2px}
+.pc-m{font-size:15px;font-weight:800;letter-spacing:-.1px}
+.pc-g{color:var(--gris)}
+.cpk-t{margin-top:6px;font-size:11.5px}
+.cchs{gap:4px}
+.cch{padding:6px 8px;font-size:11.5px;border-radius:9px}
+.cch span{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.15}
+.cch::after{width:14px;height:14px}
+.pc-antes{padding-top:10px}
+.pc-w{margin-top:10px;border-radius:12px}
+/* 2) Fotos: sin el recuadro blanco alrededor, sobre fondo gris parejo */
+.pc .pc-foto{background:#F2F4F8;padding:10px}
+.pc .pc-foto img{mix-blend-mode:multiply}
+.pc-ft{margin:0 0 10px}
+/* 3) Menos bloques antes del catálogo */
+.budget{margin-top:12px;padding:10px 12px;gap:8px;border-radius:14px}
+.budget label{flex-basis:auto;font-size:13px;margin-right:2px}
+.budget .money{flex:1;min-width:120px}
+.budget .money input{width:100%}
+.budget .seg button{padding:7px 10px;font-size:12.5px}
+.steps{padding:30px 0 10px}
+@media (min-width:720px){.budget{padding:10px 14px}.budget .money{flex:0 1 240px}}
+</style>
 </head>
 <body>
 
@@ -568,16 +593,7 @@ footer #foot{border-top:1px solid var(--linea);margin-top:18px}
   </div>
 </section>
 
-<section class="steps" aria-labelledby="como">
-  <div class="wrap">
-    <h2 id="como">Cómo funciona</h2>
-    <ol>
-      <li class="step"><strong>Elegí tu equipo</strong><span id="s1d">Mirá el stock disponible y el valor de cada cuota.</span></li>
-      <li class="step"><strong>Escribinos por WhatsApp</strong><span>Tocá «Consultar» en el equipo que te interesa.</span></li>
-      <li class="step"><strong id="s3t">Coordinamos y lo retirás</strong><span id="s3d">Agendamos tu cita y retirás tu equipo.</span></li>
-    </ol>
-  </div>
-</section>
+
 
 <div class="nav" id="bar" hidden>
   <div class="wrap">
@@ -591,6 +607,16 @@ footer #foot{border-top:1px solid var(--linea);margin-top:18px}
   <div id="list"></div>
   <div id="state"></div>
 </main>
+<section class="steps" aria-labelledby="como">
+  <div class="wrap">
+    <h2 id="como">Cómo funciona</h2>
+    <ol>
+      <li class="step"><strong>Elegí tu equipo</strong><span id="s1d">Mirá el stock disponible y el valor de cada cuota.</span></li>
+      <li class="step"><strong>Escribinos por WhatsApp</strong><span>Tocá «Consultar» en el equipo que te interesa.</span></li>
+      <li class="step"><strong id="s3t">Coordinamos y lo retirás</strong><span id="s3d">Agendamos tu cita y retirás tu equipo.</span></li>
+    </ol>
+  </div>
+</section>
 
 <section class="blk" aria-labelledby="pqH">
   <div class="wrap">
