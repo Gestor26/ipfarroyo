@@ -648,7 +648,7 @@ const CONFIG = {
   // Los iPhone se separan en una pestaña por condición
   PESTANAS_IPHONE: {'Sellado':'iPhone Nuevo Sellado','Open box':'iPhone Nuevo Open Box','Usado':'iPhone Usados'},
   // Categorías que se muestran en la página (vacío = todas)
-  CATEGORIAS_VISIBLES: ['iPhone','iPad']
+  CATEGORIAS_VISIBLES: ['iPhone','iPad','Xiaomi']
 };
 
 /* ============================================================
@@ -901,7 +901,7 @@ const COND_TITULO = {'Sellado':'Nuevos sellados','Open box':'Open box','Usado':'
 
 function cuotas(precio, it){
   const dol = S.dolar.valor;
-  if (it && it.moneda === 'ARS') return [{ n: 1, lab: 'Precio contado', usd: precio / dol, ars: precio, soloArs: true }];
+  if (it && it.moneda === 'ARS' && S.modo !== 'contado') precio = precio / dol; else if (it && it.moneda === 'ARS') return [{ n: 1, lab: 'Precio contado', usd: precio / dol, ars: precio, soloArs: true }];
   if (S.modo === 'contado') return [{ n: 1, lab: 'Precio contado', usd: precio, ars: precio * dol }];
   if (S.modo === 'tarjeta') return TARJETA.map(p => {
     const ars = Math.ceil(precio * dol * (1 + p.r) / p.n / CONFIG.REDONDEO_PESOS) * CONFIG.REDONDEO_PESOS;
