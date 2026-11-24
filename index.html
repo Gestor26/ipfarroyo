@@ -1159,6 +1159,7 @@ const FOTOS = [
   [/series 10/, 'apple-watch/apple-watch-series-10-aluminum-gps.png'],
   [/series 9.*cel/, 'apple-watch/apple-watch-series-9-gps-cellular.png'],
   [/series 9/, 'apple-watch/apple-watch-series-9-gps.png'],
+  [/macbook neo/, 'tech-specs/macbook-neo-13-inch-a18-pro.png'],
   [/macbook air.*15/, 'macbook-air/macbook-air-15in-m5-colors.png'],
   [/macbook air/, 'macbook-air/macbook-air-13in-m5-colors.png'],
   [/airpods.*(pro 3|3 pro)/, 'airpods/charging-case-for-airpods-pro-3.png'],
@@ -1246,7 +1247,7 @@ function genDe(it){
 }
 const genNum = g => { const n = parseInt(String(g).replace(/\D+/g, ''), 10); return isNaN(n) ? 0 : n; };
 const precioUSD = it => it.moneda === 'ARS' ? it.precio / (S.dolar.valor || 1) : it.precio;
-const COLORES = [['rose gold','#E6C2B4'],['deep blue','#2B3F6B'],['mist','#B9C9D9'],['sage','#A9B79A'],['lavender','#C9B8E3'],['orange','#E2783A'],['cosmic','#E2783A'],['burgundy','#6E2233'],['glacier','#DCE8F0'],
+const COLORES = [['citrus','#DCE27A'],['indigo','#3F4C7A'],['blush','#EFC9C3'],['rose gold','#E6C2B4'],['deep blue','#2B3F6B'],['mist','#B9C9D9'],['sage','#A9B79A'],['lavender','#C9B8E3'],['orange','#E2783A'],['cosmic','#E2783A'],['burgundy','#6E2233'],['glacier','#DCE8F0'],
   ['natural','#C2B9AA'],['desert','#C7A98A'],['titanium black','#3A3A3C'],['black titanium','#3A3A3C'],['white titanium','#EDEBE6'],['blue titanium','#3E4A5C'],['space black','#2E2E30'],
   ['deep purple','#5A4A6B'],['purple','#B8A6D9'],['midnight','#2B3040'],['starlight','#EFE8DA'],['graphite','#55565A'],['sierra','#9BB4CF'],['pacific','#2F4A5C'],['alpine','#4A5E4E'],
   ['gold','#E9D8B4'],['silver','#E3E4E6'],['space gray','#6B6C70'],['gray','#8A8B8F'],['pink','#F2C9CF'],['rose','#E8C3C0'],['red','#C2272D'],['yellow','#F2D96B'],['green','#A9C7A3'],
