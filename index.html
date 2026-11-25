@@ -1104,7 +1104,7 @@ function iconoSec(t){
 }
 /* ===== Fotos de los equipos (imágenes oficiales de Apple) ===== */
 const FOTOS_BASE = 'https://cdsassets.apple.com/live/7WUAS350/images/';
-const FOTOS = [
+const FOTOS = [ [/note 14 pro ?[+]|note 14 pro plus/, 'https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-14-pro-plus-5g.jpg'], [/note 14 pro/, 'https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-note-14-pro-5g.jpg'], [/redmi 15c/, 'https://fdn2.gsmarena.com/vv/bigpic/xiaomi-redmi-15c.jpg'], [/poco x7 pro/, 'https://fdn2.gsmarena.com/vv/bigpic/xiaomi-poco-x7-pro.jpg'], [/xiaomi 15t/, 'https://fdn2.gsmarena.com/vv/bigpic/xiaomi-15t.jpg'], [/xiaomi 14t/, 'https://fdn2.gsmarena.com/vv/bigpic/xiaomi-14t.jpg'], [/s25 ultra/, 'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s25-ultra-sm-s938.jpg'], [/s22 ultra/, 'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s22-ultra-5g.jpg'], [/s23 fe/, 'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s23-fe.jpg'], [/galaxy s23/, 'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s23-5g.jpg'], [/galaxy s22 ?([+]|plus)/, 'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-s22-plus-5g.jpg'], [/galaxy a36/, 'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a36.jpg'], [/galaxy a04 ?e/, 'https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a04e.jpg'],
   [/iphone 18 pro max/, 'iphone/iphone-18-pro-max-colors.png'],
   [/iphone 18 pro/, 'iphone/iphone-18-pro-colors.png'],
   [/iphone 17 ?e\b/, 'iphone/iphone-17e/iphone-17e-colors.png'],
@@ -1174,7 +1174,7 @@ const FOTOS = [
 function fotoDe(it){
   const m = (it.modelo || '').toLowerCase().replace(/\s+/g, ' ');
   const f = FOTOS.find(([re]) => re.test(m));
-  return f ? FOTOS_BASE + f[1] : '';
+  return f ? (/^https?:/.test(f[1]) ? f[1] : FOTOS_BASE + f[1]) : '';
 }
 /* Versión liviana (webp, ~480px) servida por wsrv.nl; si falla, usa la original de Apple */
 function fotoHTML(it, cls, w){
