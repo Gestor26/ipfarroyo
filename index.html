@@ -1038,7 +1038,7 @@ function renderCats(){
   const reales = CONFIG.ORDEN_CATEGORIAS.filter(c => counts[c]).concat(Object.keys(counts).filter(c => !CONFIG.ORDEN_CATEGORIAS.includes(c)));
   S.catsOrden = reales;
   const cats = reales.length > 1 ? [TODOS, ...reales] : reales;
-  if (!S.cat || (S.cat !== TODOS && !counts[S.cat]) || !cats.includes(S.cat)) S.cat = cats[0];
+  if (!S.cat){ const q = norm(new URLSearchParams(location.search).get('cat') || decodeURIComponent(location.hash.slice(1))).replace(/[-_]+/g, ' '); if (q) S.cat = cats.find(c => norm(c) === q) || cats.find(c => norm(c).includes(q)) || null; } if (!S.cat || (S.cat !== TODOS && !counts[S.cat]) || !cats.includes(S.cat)) S.cat = cats[0];
   $('#cats').hidden = cats.length < 2;
   $('#cats').innerHTML = cats.map(c =>
     `<button class="tab" role="tab" aria-selected="${c===S.cat}" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
