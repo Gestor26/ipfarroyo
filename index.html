@@ -1831,7 +1831,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
     FP_TARJETA.forEach(p => { const c = up(usd * dol * (1 + p.r) / p.n, R);
       o.tj.push({k:'tj' + p.n, n:p.n, ico:'tj', l:p.n === 1 ? '1 pago de' : p.n + ' cuotas de', v:p$(c), msg:'Tarjeta de crédito: ' + (p.n === 1 ? '1 pago de ' : p.n + ' cuotas de ') + p$(c)}); });
     FP_PLANES.forEach(p => { const c = usd * p.f / p.n;
-      o.dni.push(arsBase ? {k:'dni' + p.n, n:p.n, ico:'dni', l:p.n + ' cuotas de', v:p$(up(c * dol, R)), ars:up(c * dol, R), msg:'Financiación con DNI: ' + p.n + ' cuotas de ' + p$(up(c * dol, R))} : {k:'dni' + p.n, n:p.n, ico:'dni', l:p.n + ' cuotas de', v:u$(c), ars:up(c * dol, R), sub:'≈ ' + p$(up(c * dol, R)), msg:'Financiación con DNI: ' + p.n + ' cuotas de ' + u$(c) + ' (aprox. ' + p$(up(c * dol, R)) + ' por cuota)'}); });
+      o.dni.push(arsBase || /Samsung|Xiaomi/.test(it.cat) ? {k:'dni' + p.n, n:p.n, ico:'dni', l:p.n + ' cuotas de', v:p$(up(c * dol, R)), ars:up(c * dol, R), msg:'Financiación con DNI: ' + p.n + ' cuotas de ' + p$(up(c * dol, R))} : {k:'dni' + p.n, n:p.n, ico:'dni', l:p.n + ' cuotas de', v:u$(c), ars:up(c * dol, R), sub:'≈ ' + p$(up(c * dol, R)), msg:'Financiación con DNI: ' + p.n + ' cuotas de ' + u$(c) + ' (aprox. ' + p$(up(c * dol, R)) + ' por cuota)'}); });
     return o;
   }
   window.FP_OPCIONES = it => opciones(it);
@@ -1860,7 +1860,7 @@ S.modo = modoDesdeURL(); S.moneda = S.modo === 'tarjeta' ? 'ARS' : 'USD'; aplica
       <div class="fp-sec"><div class="fp-st">Con tarjeta de crédito</div><div class="fp-ss">Cuotas fijas en pesos.</div>
         <div class="fp-rows" role="radiogroup" aria-label="Tarjeta de crédito">${tjVis.map(fila).join('')}</div>
         ${F.mas ? '' : `<button type="button" class="fp-mas" data-fpmas>Ver más cuotas (1, 9, 18 y 24)</button>`}</div>
-      <div class="fp-sec"><div class="fp-st">Con DNI, sin tarjeta</div><div class="fp-ss">Cuotas fijas en ${it.moneda === 'ARS' ? 'pesos' : 'dólares'}. La primera se paga al retirar.</div>
+      <div class="fp-sec"><div class="fp-st">Con DNI, sin tarjeta</div><div class="fp-ss">Cuotas fijas en ${it.moneda === 'ARS' || /Samsung|Xiaomi/.test(it.cat) ? 'pesos' : 'dólares'}. La primera se paga al retirar.</div>
         <div class="fp-rows" role="radiogroup" aria-label="Financiación con DNI">${o.dni.map(fila).join('')}</div></div>
       <div class="fp-nota">Pesos al dólar blue de hoy (${p$(dol)}). Con DNI: sujeto a aprobación.</div>
       <div class="fp-wsp"><div class="el">${el ? 'Elegiste: ' + esc(el.msg) : 'Tocá la forma de pago que te interesa'}</div>
